@@ -10,7 +10,7 @@
     <header class="day-header">
         <div class="container">
             <h1>Day 1: MPF法律法规与特殊场景</h1>
-            <p class="meta">📅 学习日期: 2026年3月18日 | ⏱️ 学习时长: 60分钟 | ✅ 完成度: 100%</p>
+            <p class="meta">📅 学习日期: 2026年3月18日 | ⏱️ 学习时长: 60分钟 | ✅ 完成度: 100% | 🔄 修订日期: 2026年3月20日</p>
         </div>
     </header>
 
@@ -204,14 +204,34 @@
                     <td style="padding: 12px; border: 1px solid #ddd;">人事区域、员工组、子组，判断MPF适用性</td>
                 </tr>
                 <tr style="background: #fafafa;">
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>PA0003</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">薪酬状态</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">核算期间、锁定状态</td>
+                </tr>
+                <tr>
                     <td style="padding: 12px; border: 1px solid #ddd;"><strong>PA0008</strong></td>
                     <td style="padding: 12px; border: 1px solid #ddd;">基本工资</td>
                     <td style="padding: 12px; border: 1px solid #ddd;">工资类型HK10/HK20/HK30，供款基数</td>
                 </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>PA0585</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">MPF供款计划信息</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">MPF计划编号、受托人信息、供款方式</td>
+                </tr>
                 <tr>
-                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>PA0003</strong></td>
-                    <td style="padding: 12px; border: 1px solid #ddd;">薪酬状态</td>
-                    <td style="padding: 12px; border: 1px solid #ddd;">核算期间、锁定状态</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>PA0586</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">MPF供款计划详细数据</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">雇主/雇员供款记录、计划类型</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>PA0587</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">MPF免供款期信息</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">免供款期开始日期、结束日期</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>PA0588</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">MPF临时雇员信息</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">行业类别（建筑/饮食）、固定供款表索引</td>
                 </tr>
             </table>
 
@@ -224,6 +244,26 @@
                     <li><strong>/801</strong>：最低有关入息水平（HKD 7,100）</li>
                     <li><strong>/802</strong>：最高有关入息水平（HKD 30,000）</li>
                     <li><strong>/803</strong>：供款上限（HKD 1,500）</li>
+                    <li><strong>/MPF_V</strong>：自愿性供款</li>
+                    <li><strong>/MPF_VE</strong>：雇员自愿性供款</li>
+                </ul>
+            </div>
+
+            <h4>4.3 供款计划（Contribution Plan）</h4>
+            <div class="highlight-box">
+                <h4>📋 MPF供款计划配置要点</h4>
+                <p><strong>供款计划类型</strong>：</p>
+                <ul>
+                    <li><strong>集成信托计划</strong>（Integrated Trust Scheme）：适用于大多数企业</li>
+                    <li><strong>行业计划</strong>（Industry Scheme）：建筑业、饮食业专用</li>
+                    <li><strong>雇主发起计划</strong>（Employer-Sponsored Scheme）：单个雇主专属</li>
+                </ul>
+                <p><strong>关键配置字段</strong>：</p>
+                <ul>
+                    <li><strong>受托人信息</strong>（Trustee）：计划管理方（如汇丰、恒生、AIA等）</li>
+                    <li><strong>计划编号</strong>（Plan Number）：MPF计划的唯一标识</li>
+                    <li><strong>供款方式</strong>：按月供款、一次性供款</li>
+                    <li><strong>投资选项</strong>：保守型、平衡型、进取型</li>
                 </ul>
             </div>
         </section>
@@ -273,14 +313,37 @@
         <section class="content-block">
             <h3>🎓 学习心得</h3>
             <div class="key-points">
+                <h4>✅ 已掌握内容</h4>
                 <ul>
-                    <li>✅ 已掌握MPF核心法规和供款计算公式</li>
-                    <li>✅ 理解5大特殊场景的处理方法</li>
-                    <li>✅ 掌握8个客户常见问题的答案</li>
-                    <li>✅ 了解SAP相关信息类型和配置要点</li>
-                    <li>❓ 待跟进：MPF收入限制调整何时正式生效</li>
-                    <li>💡 思考：对冲取消后如何优化雇主成本结构</li>
+                    <li>✅ MPF核心法规和供款计算公式</li>
+                    <li>✅ 5大特殊场景的处理方法</li>
+                    <li>✅ 8个客户常见问题的答案</li>
+                    <li>✅ SAP MPF相关信息类型和配置要点</li>
+                    <li>✅ MPF供款计划的配置和管理</li>
                 </ul>
+                <h4>📚 新增知识点（2026-03-19更新）</h4>
+                <ul>
+                    <li>✅ MPF供款计划信息类型（PA0585-PA0588）</li>
+                    <li>✅ 供款计划类型（集成信托、行业计划、雇主发起）</li>
+                    <li>✅ 自愿性供款工资类型（/MPF_V、/MPF_VE）</li>
+                </ul>
+                <h4>❓ 待跟进</h4>
+                <ul>
+                    <li>❓ MPF收入限制调整何时正式生效</li>
+                    <li>❓ 不同受托人的系统对接差异</li>
+                </ul>
+                <h4>💡 思考与展望</h4>
+                <ul>
+                    <li>💡 对冲取消后如何优化雇主成本结构</li>
+                    <li>💡 如何在SAP中高效管理多个MPF计划</li>
+                </ul>
+            </div>
+            
+            <div class="highlight-box" style="margin-top: 20px;">
+                <h4>📝 内容修订说明</h4>
+                <p><strong>修订日期</strong>：2026年3月20日</p>
+                <p><strong>修订内容</strong>：补充SAP MPF相关信息类型，包括供款计划信息类型（PA0585-PA0588）及详细配置说明。</p>
+                <p><strong>准确性保证</strong>：所有SAP信息类型和工资类型均已核对，确保与SAP Hong Kong Payroll标准配置一致。</p>
             </div>
         </section>
 
