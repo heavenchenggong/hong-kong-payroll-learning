@@ -43,10 +43,10 @@
         <section class="week-section">
             <h2>Week 1: 强积金（MPF）深度学习</h2>
             <div class="day-grid">
-                <a href="day01/" class="day-card completed">
+                <a href="day01/" class="day-card">
                     <span class="day-number">Day 1</span>
                     <span class="day-title">MPF法律法规与特殊场景</span>
-                    <span class="day-status">✅ 已完成</span>
+                    <span class="day-status">⏳ 待学习</span>
                 </a>
                 <div class="day-card locked">
                     <span class="day-number">Day 2</span>
@@ -193,5 +193,89 @@
             <p>仅供学习交流使用</p>
         </div>
     </footer>
+
+    <script>
+        // 学习进度管理
+        const STORAGE_KEY = 'hong-kong-payroll-progress';
+        const TOTAL_DAYS = 30;
+        const DAYS = Array.from({length: TOTAL_DAYS}, (_, i) => i + 1);
+        
+        // 学习天数列表
+        const DAY_TITLES = {
+            1: 'MPF法律法规与特殊场景',
+            2: 'MPF信息类型字段详解',
+            3: 'MPF计算规则与Schema',
+            4: 'MPF系统配置实战',
+            5: '薪俸税基础法规',
+            6: '薪俸税计算规则',
+            7: '薪俸税SAP配置',
+            8: '薪俸税报表与申报',
+            9: '雇佣条例概述',
+            10: '工资与工时规定',
+            11: '休假与福利',
+            12: '终止雇佣与遣散费',
+            13: 'ECI法规基础',
+            14: 'ECI计算与申报',
+            15: 'ECI SAP配置',
+            16: 'ECI报表生成',
+            17: '深度案例研究',
+            30: '综合复习与总结'
+        };
+        
+        // 加载学习进度
+        function loadProgress() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            const completedDays = Object.keys(progress).filter(key => progress[key].completed);
+            
+            return {
+                completedDays,
+                completed: completedDays.length,
+                total: TOTAL_DAYS
+            };
+        }
+        
+        // 更新进度条
+        function updateProgressBar(progress) {
+            const percentage = (progress.completed / progress.total * 100).toFixed(2);
+            const progressFill = document.querySelector('.progress-fill');
+            const progressText = document.querySelector('.progress-text');
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = `${progress.completed}/${progress.total} (${percentage}%)`;
+            
+            // 更新统计数字
+            document.querySelector('.progress-stats .stat-item:nth-child(2) .stat-value').textContent = `${progress.completed}天`;
+            document.querySelector('.progress-stats .stat-item:nth-child(3) .stat-value').textContent = `${progress.total - progress.completed}天`;
+        }
+        
+        // 更新Day卡片状态
+        function updateDayCards(progress) {
+            const completedDays = progress.completedDays;
+            
+            completedDays.forEach(dayNum => {
+                const dayCard = document.querySelector(`.day-card[href*="day0${dayNum}/"]`);
+                if (dayCard) {
+                    dayCard.classList.add('completed');
+                    dayCard.querySelector('.day-status').textContent = '✅ 已完成';
+                }
+            });
+            
+            // 如果Day 1完成，解锁Day 2
+            if (completedDays.includes(1)) {
+                const day2Card = document.querySelector('.day-card[href*="day02/"]');
+                if (day2Card && !day2Card.classList.contains('completed')) {
+                    day2Card.classList.remove('locked');
+                    day2Card.querySelector('.day-status').textContent = '📖 可学习';
+                }
+            }
+        }
+        
+        // 页面加载时初始化
+        window.onload = function() {
+            const progress = loadProgress();
+            updateProgressBar(progress);
+            updateDayCards(progress);
+        };
+    </script>
 </body>
 </html>

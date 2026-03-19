@@ -347,6 +347,20 @@
             </div>
         </section>
 
+        <!-- 学习完成按钮 -->
+        <section class="content-block">
+            <div id="completion-section">
+                <h3>✅ 学习确认</h3>
+                <p>如果您已认真学习完本日内容，请点击下方按钮标记为已完成：</p>
+                <button id="mark-complete-btn" class="nav-btn" onclick="markAsComplete()">
+                    🎓 标记为已完成
+                </button>
+                <p id="completion-message" style="margin-top: 15px; display: none;">
+                    <span style="color: #28a745; font-weight: bold;">✓ 已标记为完成！返回首页查看进度更新。</span>
+                </p>
+            </div>
+        </section>
+
         <!-- 导航 -->
         <div class="navigation">
             <a href="../index.html" class="nav-btn">← 返回首页</a>
@@ -360,5 +374,45 @@
             <p>仅供学习交流使用</p>
         </div>
     </footer>
+
+    <script>
+        // 学习进度管理
+        const STORAGE_KEY = 'hong-kong-payroll-progress';
+        
+        // 检查学习状态
+        function checkCompletionStatus() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            if (progress['day01']) {
+                document.getElementById('mark-complete-btn').disabled = true;
+                document.getElementById('mark-complete-btn').textContent = '✓ 已完成';
+                document.getElementById('mark-complete-btn').style.background = '#28a745';
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // 标记为已完成
+        function markAsComplete() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            progress['day01'] = {
+                completed: true,
+                completedAt: new Date().toISOString()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            
+            // 更新UI
+            document.getElementById('mark-complete-btn').disabled = true;
+            document.getElementById('mark-complete-btn').textContent = '✓ 已完成';
+            document.getElementById('mark-complete-btn').style.background = '#28a745';
+            document.getElementById('completion-message').style.display = 'block';
+            
+            // 保存到localStorage，首页会读取
+            console.log('Day 1 已标记为完成');
+        }
+        
+        // 页面加载时检查状态
+        window.onload = function() {
+            checkCompletionStatus();
+        };
+    </script>
 </body>
 </html>
