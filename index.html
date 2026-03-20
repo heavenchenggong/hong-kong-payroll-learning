@@ -48,16 +48,16 @@
                     <span class="day-title">MPF法律法规与特殊场景</span>
                     <span class="day-status">⏳ 待学习</span>
                 </a>
-                <div class="day-card locked">
+                <a href="day02/" class="day-card locked">
                     <span class="day-number">Day 2</span>
                     <span class="day-title">MPF信息类型字段详解</span>
                     <span class="day-status">⏳ 待学习</span>
-                </div>
-                <div class="day-card locked">
+                </a>
+                <a href="day03/" class="day-card locked">
                     <span class="day-number">Day 3</span>
                     <span class="day-title">MPF计算规则与Schema</span>
                     <span class="day-status">⏳ 待学习</span>
-                </div>
+                </a>
                 <div class="day-card locked">
                     <span class="day-number">Day 4</span>
                     <span class="day-title">MPF系统配置实战</span>
@@ -251,7 +251,7 @@
         // 更新Day卡片状态
         function updateDayCards(progress) {
             const completedDays = progress.completedDays;
-            
+
             completedDays.forEach(dayNum => {
                 const dayCard = document.querySelector(`.day-card[href*="day0${dayNum}/"]`);
                 if (dayCard) {
@@ -259,13 +259,22 @@
                     dayCard.querySelector('.day-status').textContent = '✅ 已完成';
                 }
             });
-            
+
             // 如果Day 1完成，解锁Day 2
             if (completedDays.includes(1)) {
                 const day2Card = document.querySelector('.day-card[href*="day02/"]');
                 if (day2Card && !day2Card.classList.contains('completed')) {
                     day2Card.classList.remove('locked');
                     day2Card.querySelector('.day-status').textContent = '📖 可学习';
+                }
+            }
+
+            // 如果Day 2完成，解锁Day 3
+            if (completedDays.includes(2)) {
+                const day3Card = document.querySelector('.day-card[href*="day03/"]');
+                if (day3Card && !day3Card.classList.contains('completed')) {
+                    day3Card.classList.remove('locked');
+                    day3Card.querySelector('.day-status').textContent = '📖 可学习';
                 }
             }
         }
