@@ -10,37 +10,799 @@
     <header class="day-header">
         <div class="container">
             <h1>Day 3: MPF计算规则与Schema</h1>
-            <p class="meta">📅 预计学习时长: 60分钟 | ⏳ 待开发</p>
+            <p class="meta">📅 学习日期: 2026年3月21日 | ⏱️ 学习时长: 60分钟 | ✅ 完成度: 100%</p>
         </div>
     </header>
 
     <main class="container">
+        <!-- 学习目标 -->
         <section class="content-block">
-            <h3>📝 内容开发中</h3>
-            <p>本页面正在开发中，敬请期待...</p>
+            <h3>📋 学习目标</h3>
+            <ul>
+                <li>✅ 掌握MPF供款计算规则（5%供款机制）</li>
+                <li>✅ 了解SAP工资类型（Wage Types）的作用</li>
+                <li>✅ 掌握PCR（Personnel Calculation Rules）规则逻辑</li>
+                <li>✅ 理解Schema流程图和薪酬核算过程</li>
+                <li>✅ 了解特殊场景的计算规则</li>
+            </ul>
+        </section>
+
+        <!-- 一、MPF供款计算规则 -->
+        <section class="content-block">
+            <h3>💰 一、MPF供款计算规则</h3>
+
+            <h4>1.1 基本供款机制</h4>
+            <p><strong>强制性供款原则</strong>：雇主和雇员双方均需供款，每月供款金额相同。</p>
 
             <div class="highlight-box">
-                <h4>📋 预计内容</h4>
+                <h4>📊 供款计算公式</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+供款基数 = 可课税收入（Relevant Income）
+
+雇员供款 = 供款基数 × 5%
+雇主供款 = 供款基数 × 5%
+
+最低供款：HKD 250 / 月
+最高供款：HKD 1,500 / 月
+                </pre>
+            </div>
+
+            <h4>1.2 可课税收入定义</h4>
+            <div class="key-points">
+                <h4>✅ 包含项目</h4>
                 <ul>
-                    <li>MPF供款计算逻辑详解</li>
-                    <li>工资类型（Wage Types）说明</li>
-                    <li>PCR规则详解</li>
-                    <li>Schema流程图</li>
-                    <li>特殊场景计算规则</li>
+                    <li>基本工资（Basic Salary）</li>
+                    <li>加班费（Overtime Pay）</li>
+                    <li>津贴（Allowances，如交通津贴、膳食津贴）</li>
+                    <li>佣金（Commission）</li>
+                    <li>奖金（Bonus，按比例摊分到薪酬期间）</li>
+                </ul>
+            </div>
+
+            <div class="key-points">
+                <h4>❌ 不包含项目</h4>
+                <ul>
+                    <li>遣散费（Severance Payment）</li>
+                    <li>长期服务金（Long Service Payment）</li>
+                    <li>退休金（Pension）</li>
+                    <li>雇主自愿性供款（Employer Voluntary Contribution）</li>
+                </ul>
+            </div>
+
+            <h4>1.3 供款上限示例</h4>
+            <div class="highlight-box">
+                <h4>📊 供款金额计算表</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">月薪 (HKD)</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">供款基数</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">雇员供款</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">雇主供款</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">总供款</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">4,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">5,000（最低）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">250</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">250</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">500</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">10,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">10,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">500</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">500</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">20,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">20,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">30,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">30,000（最高）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1,500</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1,500</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">30,000（封顶）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1,500</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1,500</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3,000</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>1.4 低收入豁免</h4>
+            <div class="highlight-box">
+                <h4>⚠️ 可课税收入 ≤ HKD 7,100 / 月</h4>
+                <p>如果雇员的月收入 ≤ HKD 7,100，可以申请豁免雇员供款：</p>
+                <ul>
+                    <li>雇员供款：HKD 0</li>
+                    <li>雇主供款：仍需供款（收入 × 5%）</li>
+                    <li>申请方式：向受托人提交"雇员强积金供款豁免申请表"</li>
+                </ul>
+                <p><strong>注意</strong>：豁免不是自动的，必须主动申请，且每年需重新申请。</p>
+            </div>
+        </section>
+
+        <!-- 二、工资类型（Wage Types） -->
+        <section class="content-block">
+            <h3>💻 二、工资类型（Wage Types）</h3>
+
+            <h4>2.1 工资类型概述</h4>
+            <p><strong>工资类型（Wage Types）</strong>是SAP薪酬核算系统中用于标识不同薪酬元素的标准代码。每个工资类型对应特定的收入、扣除、或供款项目。</p>
+
+            <div class="highlight-box">
+                <h4>🔑 工资类型命名规则</h4>
+                <ul>
+                    <li><strong>/MPF</strong>：香港MPF相关工资类型的前缀</li>
+                    <li><strong>/MPF_E</strong>：雇主供款（Employer）</li>
+                    <li><strong>/MPF_A</strong>：雇员供款（Associate）</li>
+                    <li><strong>/MPF_V</strong>：自愿性供款（Voluntary）</li>
+                </ul>
+            </div>
+
+            <h4>2.2 MPF相关工资类型</h4>
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <tr style="background: #f0f0f0;">
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">工资类型</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">描述</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">处理类</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">用途</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>/MPF</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">MPF总供款基数</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">M</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">记录供款基数（可课税收入）</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>/MPF_E</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">雇主供款</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">D</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">计算雇主5%供款</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>/MPF_A</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">雇员供款</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">D</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">计算雇员5%供款</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>/MPF_V</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">自愿性供款</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">D</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">记录员工自愿性供款</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>/MPF_WV</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">免供款期豁免</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">M</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">标记免供款期</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>/MPF_CL</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">临时工供款（建造业）</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">D</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">按固定供款表计算</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>/MPF_FD</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">临时工供款（饮食业）</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">D</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">按固定供款表计算</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>/MPF_EX</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">豁免申请</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">M</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">记录低收入豁免申请</td>
+                </tr>
+            </table>
+
+            <h4>2.3 工资类型的处理类（Processing Class）</h4>
+            <div class="highlight-box">
+                <h4>⚙️ 处理类含义</h4>
+                <ul>
+                    <li><strong>M（Modifiable）</strong>：可修改，用于中间计算或标记</li>
+                    <li><strong>D（Deduction）</strong>：扣除项，从工资中扣除（如雇员供款）</li>
+                    <li><strong>A（Addition）</strong>：增加项，增加到工资总额（如奖金）</li>
+                    <li><strong>I（Information）</strong>：信息项，仅用于记录，不参与计算</li>
+                </ul>
+            </div>
+
+            <h4>2.4 工资类型的累积</h4>
+            <div class="key-points">
+                <h4>累积窗口表（Cumulation Table）</h4>
+                <p>工资类型的值在薪酬核算过程中会被累积到不同的窗口表：</p>
+                <ul>
+                    <li><strong>RT表</strong>：结果表（Result Table），存储最终结果</li>
+                    <li><strong>CRT表</strong>：当前结果表（Current Result Table），核算过程中的中间结果</li>
+                    <li><strong>ST表</strong>：统计表（Statistics Table），用于累计统计</li>
                 </ul>
             </div>
         </section>
 
+        <!-- 三、PCR规则详解 -->
+        <section class="content-block">
+            <h3>🔢 三、PCR（Personnel Calculation Rules）规则详解</h3>
+
+            <h4>3.1 PCR概述</h4>
+            <p><strong>PCR</strong>是SAP薪酬核算系统中的"人员计算规则"，用于定义薪酬元素的计算逻辑。每个PCR包含一系列操作指令，用于处理工资类型的累积、扣除、或转换。</p>
+
+            <h4>3.2 PCR命名规范</h4>
+            <div class="highlight-box">
+                <h4>🔑 MPF相关PCR命名</h4>
+                <ul>
+                    <li><strong>HKMPF</strong>：香港MPF计算主规则</li>
+                    <li><strong>HKMP1</strong>：MPF供款基数计算</li>
+                    <li><strong>HKMP2</strong>：雇主供款计算</li>
+                    <li><strong>HKMP3</strong>：雇员供款计算</li>
+                    <li><strong>HKMP4</strong>：临时工供款计算</li>
+                    <li><strong>HKMP5</strong>：免供款期检查</li>
+                </ul>
+            </div>
+
+            <h4>3.3 PCR操作指令示例</h4>
+            <div class="highlight-box">
+                <h4>⚙️ PCR HKMP1：MPF供款基数计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+*
+PCR: HKMP1 - MPF供款基数计算
+用途：累积可课税收入，确定供款基数
+*
+
+*** 计算基本工资
+AMT= 1000   * 获取工资类型1000（基本工资）
+ADDWT  /MPF * 累积到/MPF（供款基数）
+
+*** 计算加班费
+AMT= 1001   * 获取工资类型1001（加班费）
+ADDWT  /MPF * 累积到/MPF
+
+*** 计算津贴
+AMT= 1002   * 获取工资类型1002（交通津贴）
+AMT= 1003   * 获取工资类型1003（膳食津贴）
+ADDWT  /MPF * 累积到/MPF
+
+*** 检查最低供款基数
+AMT= /MPF   * 获取当前供款基数
+AMT? 5000   * 如果小于5,000
+AMT= 5000   * 则设置为5,000
+ELIMI  /MPF * 清空旧值
+ADDWT  /MPF * 设置新值
+
+*** 检查最高供款基数
+AMT= /MPF   * 获取当前供款基数
+AMT> 30000  * 如果大于30,000
+AMT= 30000  * 则设置为30,000
+ELIMI  /MPF * 清空旧值
+ADDWT  /MPF * 设置新值
+
+*** 完成计算
+                </pre>
+            </div>
+
+            <h4>3.4 PCR操作指令说明</h4>
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <tr style="background: #f0f0f0;">
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">指令</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">含义</th>
+                    <th style="padding: 12px; border: 1px solid #ddd; text-align: left;">示例</th>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>AMT=</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">获取工资类型的金额</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">AMT= 1000（获取基本工资）</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>ADDWT</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">添加到指定工资类型</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">ADDWT /MPF（累积到供款基数）</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>ELIMI</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">清除工资类型的值</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">ELIMI /MPF（清空供款基数）</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>AMT?</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">检查金额是否等于</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">AMT? 5000（是否等于5,000）</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>AMT&gt;</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">检查金额是否大于</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">AMT> 30000（是否大于30,000）</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>NUM=</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">获取工资类型的数值（非金额）</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">NUM= /MPF_WV（获取免供款标志）</td>
+                </tr>
+                <tr>
+                    <td style="padding: 12px; border: 1px solid #ddd;"><strong>MULTI</strong></td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">乘以指定系数</td>
+                    <td style="padding: 12px; border: 1px solid #ddd;">MULTI 0.05（乘以5%）</td>
+                </tr>
+            </table>
+
+            <h4>3.5 PCR HKMP2：雇主供款计算</h4>
+            <div class="highlight-box">
+                <h4>⚙️ PCR HKMP2 - 雇主供款计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+*
+PCR: HKMP2 - 雇主供款计算
+用途：计算雇主5%供款
+*
+
+*** 检查免供款期
+NUM= /MPF_WV   * 获取免供款标志
+NUM? 1         * 如果在免供款期
+AMT= 0         * 供款金额为0
+ADDWT  /MPF_E  * 设置雇主供款
+RESET          * 重置计算器
+               * 结束处理（不继续执行）
+
+*** 计算供款基数
+AMT= /MPF      * 获取供款基数
+
+*** 计算5%供款
+MULTI 0.05     * 乘以5%
+
+*** 检查最低供款
+AMT< 250       * 如果小于250
+AMT= 250       * 则设置为250
+
+*** 检查最高供款
+AMT> 1500      * 如果大于1,500
+AMT= 1500      * 则设置为1,500
+
+*** 设置雇主供款
+ADDWT  /MPF_E  * 设置雇主供款金额
+
+*** 完成
+                </pre>
+            </div>
+        </section>
+
+        <!-- 四、Schema流程图 -->
+        <section class="content-block">
+            <h3>🔄 四、Schema流程图</h3>
+
+            <h4>4.1 Schema概述</h4>
+            <p><strong>Schema</strong>是SAP薪酬核算系统中的薪酬计算流程图，定义了薪酬核算的执行顺序和规则调用逻辑。Schema由多个函数和PCR组成，按顺序执行以完成薪酬核算。</p>
+
+            <h4>4.2 香港Payroll Schema结构</h4>
+            <div class="highlight-box">
+                <h4>📊 Schema HK00：香港薪酬核算主流程</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+Schema: HK00 - Hong Kong Payroll
+=================================
+
+1. 初始化阶段（INIT）
+   ├── 时间评估（Time Evaluation）
+   ├── 加载工资数据（Load Wage Data）
+   └── 重置累积表（Reset Tables）
+
+2. 数据收集阶段（DATA）
+   ├── 读取基本信息（PA0001, PA0002）
+   ├── 读取工资信息（PA0008）
+   ├── 读取工作天数（PA2006）
+   └── 读取MPF计划信息（PA0585-PA0588）
+
+3. 税前计算阶段（PRETAX）
+   ├── 计算基本工资（Basic Salary）
+   ├── 计算加班费（Overtime）
+   ├── 计算津贴（Allowances）
+   └── 计算奖金（Bonus）
+
+4. MPF计算阶段（MPF）
+   ├── 调用PCR HKMP1：计算供款基数
+   ├── 调用PCR HKMP5：检查免供款期
+   ├── 调用PCR HKMP2：计算雇主供款
+   ├── 调用PCR HKMP3：计算雇员供款
+   └── 调用PCR HKMP4：临时工供款（如适用）
+
+5. 税前扣除阶段（PREDED）
+   ├── 雇主供款扣除（/MPF_E）
+   ├── 其他税前扣除项
+   └── 计算应税收入
+
+6. 薪俸税计算阶段（TAX）
+   ├── 计算应评税收入
+   ├── 应用税率表
+   └── 计算薪俸税额
+
+7. 税后扣除阶段（POSTDED）
+   ├── 雇员供款扣除（/MPF_A）
+   ├── 强积金供款（/MPF_A）
+   ├── 自愿性供款（/MPF_V）
+   └── 其他税后扣除项
+
+8. 结果汇总阶段（RESULT）
+   ├── 计算实发工资
+   ├── 生成绩效表（Result Table）
+   └── 存储到PA0586（供款记录）
+
+9. 报表生成阶段（REPORT）
+   ├── 生成薪酬单（Payslip）
+   ├── 生成MPF供款表
+   └── 生成薪俸税申报表
+                </pre>
+            </div>
+
+            <h4>4.3 Schema执行顺序示意图</h4>
+            <div class="highlight-box">
+                <h4>🔄 薪酬核算流程图</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+┌─────────────────────────────────────────────────────────────┐
+│                         INIT 初始化阶段                         │
+│  Time Evaluation → Load Data → Reset Tables                  │
+└─────────────────────┬───────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────────────────┐
+│                         DATA 数据收集                          │
+│  PA0001 → PA0008 → PA2006 → PA0585-PA0588                    │
+└─────────────────────┬───────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────────────────┐
+│                       PRETAX 税前计算                          │
+│  Basic Salary → Overtime → Allowances → Bonus               │
+└─────────────────────┬───────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────────────────┐
+│                         MPF 强积金计算                         │
+│  HKMP1 → HKMP5 → HKMP2 → HKMP3 → HKMP4                      │
+└─────────────────────┬───────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────────────────┐
+│                      PREDED 税前扣除                          │
+│  Employer MPF (/MPF_E) → Other Deductions                   │
+└─────────────────────┬───────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────────────────┐
+│                         TAX 薪俸税计算                         │
+│  Assessable Income → Apply Tax Rates → Tax Amount           │
+└─────────────────────┬───────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────────────────┐
+│                      POSTDED 税后扣除                         │
+│  Employee MPF (/MPF_A) → Voluntary (/MPF_V) → Others        │
+└─────────────────────┬───────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────────────────┐
+│                       RESULT 结果汇总                          │
+│  Net Pay → Result Table → PA0586 Update                     │
+└─────────────────────┬───────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────────────────┐
+│                       REPORT 报表生成                          │
+│  Payslip → MPF Contribution Sheet → Tax Declaration          │
+└─────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+
+            <h4>4.4 Schema调试</h4>
+            <div class="key-points">
+                <h4>🔧 Schema调试工具</h4>
+                <ul>
+                    <li><strong>事务代码 PE01</strong>：查看和编辑Schema</li>
+                    <li><strong>事务代码 PE02</strong>：查看和编辑PCR</li>
+                    <li><strong>事务代码 PC00_M99_HK</strong>：运行薪酬核算（模拟模式）</li>
+                    <li><strong>事务代码 PC00_M99_HKD</strong>：调试薪酬核算，显示中间结果</li>
+                    <li><strong>事务代码 SE38</strong>：运行报表程序，查看日志</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 五、特殊场景计算规则 -->
+        <section class="content-block">
+            <h3>🎯 五、特殊场景计算规则</h3>
+
+            <h4>5.1 新员工免供款期</h4>
+            <div class="highlight-box">
+                <h4>⏰ 免供款期计算规则</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+免供款期 = 首个30天 + 首个不完整薪酬周期
+
+示例1：月度薪酬周期
+入职日期：2026-01-15
+首30天：2026-01-15 至 2026-02-14
+首个不完整周期：2026-02-15 至 2026-02-29
+免供款期结束：2026-02-29
+总免供款天数：46天
+
+示例2：周度薪酬周期
+入职日期：2026-01-08（周四）
+首30天：2026-01-08 至 2026-02-07
+首个不完整周期：2026-02-08 至 2026-02-14（周日）
+免供款期结束：2026-02-14
+总免供款天数：37天
+                </pre>
+            </div>
+
+            <h4>5.2 中途入职供款计算</h4>
+            <div class="highlight-box">
+                <h4>📊 中途入职供款计算</h4>
+                <p>如果员工在薪酬周期中途入职，供款基数按比例计算：</p>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+薪酬周期：2026-03-01 至 2026-03-31（31天）
+入职日期：2026-03-15
+工作天数：17天（3月15日至3月31日）
+
+月薪：HKD 20,000
+基本工资（按比例）：HKD 20,000 × (17/31) = HKD 10,967.74
+
+供款基数：HKD 10,967.74
+雇员供款：HKD 10,967.74 × 5% = HKD 548.39
+雇主供款：HKD 10,967.74 × 5% = HKD 548.39
+                </pre>
+            </div>
+
+            <h4>5.3 离职人员供款计算</h4>
+            <div class="highlight-box">
+                <h4>📊 离职人员供款计算</h4>
+                <p>如果员工在薪酬周期中途离职，供款基数按比例计算：</p>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+薪酬周期：2026-03-01 至 2026-03-31（31天）
+最后工作日：2026-03-20
+工作天数：20天（3月1日至3月20日）
+
+月薪：HKD 20,000
+基本工资（按比例）：HKD 20,000 × (20/31) = HKD 12,903.23
+
+供款基数：HKD 12,903.23
+雇员供款：HKD 12,903.23 × 5% = HKD 645.16
+雇主供款：HKD 12,903.23 × 5% = HKD 645.16
+
+注意：遣散费和长期服务金不计入MPF供款基数。
+                </pre>
+            </div>
+
+            <h4>5.4 临时工供款计算</h4>
+            <div class="highlight-box">
+                <h4>📊 临时工固定供款计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+饮食业临时工示例：
+
+日薪：HKD 450
+工作天数：25天
+
+查找固定供款表（索引050）：
+日薪区间：450 - 499 HKD
+雇主供款：按表（通常为HKD 25）
+雇员供款：HKD 25
+
+月度总供款：
+雇主供款：HKD 25 × 25天 = HKD 625
+雇员供款：HKD 25 × 25天 = HKD 625
+总供款：HKD 1,250
+
+注意：临时工供款按固定金额计算，不按5%。
+                </pre>
+            </div>
+
+            <h4>5.5 自愿性供款计算</h4>
+            <div class="highlight-box">
+                <h4>💰 自愿性供款计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+自愿性供款不设上限，可按员工意愿设定：
+
+员工自愿性供款：
+设定金额：HKD 500 / 月
+工资类型：/MPF_V
+处理方式：从工资中扣除（D类）
+
+雇主自愿性供款：
+设定金额：HKD 1,000 / 月
+工资类型：/MPF_VE（雇主自愿性供款）
+处理方式：不直接从员工工资扣除，单独记录
+
+可扣税自愿性供款（TVC）：
+年度上限：HKD 60,000
+税务优惠：可在报税时扣除
+                </pre>
+            </div>
+
+            <h4>5.6 供款日期计算</h4>
+            <div class="key-points">
+                <h4>📅 供款日期规则</h4>
+                <ul>
+                    <li><strong>标准供款日期</strong>：每月10日前</li>
+                    <li><strong>供款期间</strong>：上个月的1日至30日（或31日）</li>
+                    <li><strong>逾期供款</strong>：每逾期1天，罚金为应缴供款的5%（最低HKD 50）</li>
+                    <li><strong>系统自动设置</strong>：SAP自动将CONTRIB_DATE设置为薪酬期间的第10日</li>
+                </ul>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; margin-top: 15px;">
+示例：
+薪酬期间：2026-02-01 至 2026-02-29
+供款日期（CONTRIB_DATE）：2026-03-10
+
+薪酬期间：2026-03-01 至 2026-03-31
+供款日期（CONTRIB_DATE）：2026-04-10
+                </pre>
+            </div>
+        </section>
+
+        <!-- 常见问题 -->
+        <section class="content-block">
+            <h3>⚠️ 六、常见问题及解决方案</h3>
+
+            <div class="faq-item">
+                <h4>Q1: 供款基数计算错误，如何排查？</h4>
+                <p><strong>A:</strong> 检查以下内容：</p>
+                <ul>
+                    <li>确认工资类型是否正确累积到/MPF（通过事务代码PC00_M99_HKD调试）</li>
+                    <li>检查PCR HKMP1的逻辑是否包含所有应计收入项</li>
+                    <li>验证最低/最高供款基数的设置（5,000和30,000）</li>
+                    <li>检查PA0008工资信息中的基本工资是否准确</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h4>Q2: 雇员供款金额为0，是否正常？</h4>
+                <p><strong>A:</strong> 需检查以下情况：</p>
+                <ul>
+                    <li>员工是否在免供款期内（检查PA0587）</li>
+                    <li>员工是否申请了低收入豁免（检查/MPF_EX）</li>
+                    <li>供款基数是否为0（检查工资类型/MPF）</li>
+                    <li>PCR HKMP3是否正常执行（通过调试工具查看）</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h4>Q3: 供款金额超过上限，如何处理？</h4>
+                <p><strong>A:</strong> 检查PCR中的上限设置：</p>
+                <ul>
+                    <li>PCR HKMP2和HKMP3中应包含上限检查逻辑（AMT> 1500）</li>
+                    <li>确认/MPF的供款基数是否超过30,000</li>
+                    <li>如超过上限，系统应自动设置为1,500</li>
+                    <li>如需修改上限，请联系系统管理员修改PCR</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h4>Q4: Schema执行顺序错误，导致计算结果不对，如何修复？</h4>
+                <p><strong>A:</strong> 调试和修复步骤：</p>
+                <ul>
+                    <li>使用事务代码PE01查看Schema HK00的执行顺序</li>
+                    <li>使用事务代码PC00_M99_HKD运行调试模式，查看中间结果</li>
+                    <li>确认MPF计算阶段在税前扣除之前执行</li>
+                    <li>如需调整顺序，在PE01中修改Schema（需开发权限）</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h4>Q5: 如何查看PCR的计算日志？</h4>
+                <p><strong>A:</strong> 使用以下方法：</p>
+                <ul>
+                    <li>事务代码PC00_M99_HKD（薪酬核算调试模式）</li>
+                    <li>勾选"Display Log"选项</li>
+                    <li>执行薪酬核算后，系统会显示每个PCR的执行日志</li>
+                    <li>日志包含：工资类型的累积、计算中间值、最终结果</li>
+                </ul>
+            </div>
+
+            <div class="faq-item">
+                <h4>Q6: 临时工供款按固定金额计算，如何实现？</h4>
+                <p><strong>A:</strong> 通过PCR HKMP4实现：</p>
+                <ul>
+                    <li>读取PA0588的DAILY_WAGE和CONTRIB_TABLE_INDEX</li>
+                    <li>根据CONTRIB_TABLE_INDEX查找固定供款表</li>
+                    <li>将查到的固定供款金额乘以工作天数</li>
+                    <li>设置到/MPF_CL（建造业）或/MPF_FD（饮食业）</li>
+                    <li>固定供款表通过SPRO配置（路径：SPRO → HR → Payroll → HK → MPF）</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习心得 -->
+        <section class="content-block">
+            <h3>🎓 学习心得</h3>
+            <div class="key-points">
+                <h4>✅ 已掌握内容</h4>
+                <ul>
+                    <li>✅ MPF供款计算规则（5%机制，上下限）</li>
+                    <li>✅ 工资类型的含义和用途（/MPF、/MPF_E、/MPF_A等）</li>
+                    <li>✅ PCR操作指令（AMT=、ADDWT、ELIMI等）</li>
+                    <li>✅ Schema流程图和薪酬核算过程</li>
+                    <li>✅ 特殊场景计算规则（免供款期、中途入职、离职等）</li>
+                </ul>
+                <h4>🔑 关键要点</h4>
+                <ul>
+                    <li>🔑 供款基数 = 可课税收入（基本工资 + 加班费 + 津贴 + 佣金）</li>
+                    <li>🔑 最低供款：HKD 250，最高供款：HKD 1,500</li>
+                    <li>🔑 PCR定义计算逻辑，Schema定义执行顺序</li>
+                    <li>🔑 免供款期 = 首个30天 + 首个不完整薪酬周期</li>
+                    <li>🔑 临时工供款按固定金额，不按5%</li>
+                </ul>
+                <h4>❓ 待跟进</h4>
+                <ul>
+                    <li>❓ 获取SAP系统实际PCR和Schema截图，验证逻辑</li>
+                    <li>❓ 测试不同场景下的薪酬核算结果</li>
+                </ul>
+                <h4>💡 思考与展望</h4>
+                <ul>
+                    <li>💡 如何在SAP中自定义PCR，添加特殊的供款规则？</li>
+                    <li>💡 Schema如何与其他国家的Payroll规则集成？</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习完成按钮 -->
+        <section class="content-block">
+            <div id="completion-section">
+                <h3>✅ 学习确认</h3>
+                <p>如果您已认真学习完本日内容，请点击下方按钮标记为已完成：</p>
+                <button id="mark-complete-btn" class="nav-btn" onclick="markAsComplete()">
+                    🎓 标记为已完成
+                </button>
+                <p id="completion-message" style="margin-top: 15px; display: none;">
+                    <span style="color: #28a745; font-weight: bold;">✓ 已标记为完成！返回首页查看进度更新。</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- 导航 -->
         <div class="navigation">
             <a href="../index.html" class="nav-btn">← 返回首页</a>
             <a href="../day02/" class="nav-btn">← Day 2</a>
+            <span class="nav-btn disabled">Day 4 →</span>
         </div>
     </main>
 
     <footer>
         <div class="container">
+            <p>创建时间: 2026年3月21日 | 学习日期: 2026年3月21日</p>
             <p>仅供学习交流使用</p>
         </div>
     </footer>
+
+    <script>
+        // 学习进度管理
+        const STORAGE_KEY = 'hong-kong-payroll-progress';
+        
+        // 检查学习状态
+        function checkCompletionStatus() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            if (progress['day03']) {
+                document.getElementById('mark-complete-btn').disabled = true;
+                document.getElementById('mark-complete-btn').textContent = '✓ 已完成';
+                document.getElementById('mark-complete-btn').style.background = '#28a745';
+                document.getElementById('completion-message').style.display = 'block';
+            }
+        }
+        
+        // 标记为已完成
+        function markAsComplete() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            progress['day03'] = {
+                completed: true,
+                completedAt: new Date().toISOString()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            
+            // 更新UI
+            document.getElementById('mark-complete-btn').disabled = true;
+            document.getElementById('mark-complete-btn').textContent = '✓ 已完成';
+            document.getElementById('mark-complete-btn').style.background = '#28a745';
+            document.getElementById('completion-message').style.display = 'block';
+            
+            // 保存到localStorage，首页会读取
+            console.log('Day 3 已标记为完成');
+        }
+        
+        // 页面加载时检查状态
+        window.onload = function() {
+            checkCompletionStatus();
+        };
+    </script>
 </body>
 </html>
