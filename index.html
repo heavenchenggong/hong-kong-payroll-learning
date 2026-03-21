@@ -19,8 +19,8 @@
         <section class="progress-card">
             <h2>📊 学习进度</h2>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: 10%;">
-                    <span class="progress-text">3/30 (10%)</span>
+                <div class="progress-fill" style="width: 13.33%;">
+                    <span class="progress-text">4/30 (13.33%)</span>
                 </div>
             </div>
             <div class="progress-stats">
@@ -30,11 +30,11 @@
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">已完成</span>
-                    <span class="stat-value">3天</span>
+                    <span class="stat-value">4天</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">待完成</span>
-                    <span class="stat-value">27天</span>
+                    <span class="stat-value">26天</span>
                 </div>
             </div>
         </section>
@@ -58,11 +58,11 @@
                     <span class="day-title">MPF计算规则与Schema</span>
                     <span class="day-status">📖 可学习</span>
                 </a>
-                <div class="day-card locked">
+                <a href="day04/" class="day-card">
                     <span class="day-number">Day 4</span>
                     <span class="day-title">MPF系统配置实战</span>
-                    <span class="day-status">⏳ 待学习</span>
-                </div>
+                    <span class="day-status">📖 可学习</span>
+                </a>
             </div>
         </section>
 
@@ -283,6 +283,17 @@
                 const day4Cards = document.querySelectorAll('.day-card');
                 day4Cards.forEach(card => {
                     if (card.textContent.includes('Day 4') && !card.classList.contains('completed')) {
+                        card.classList.remove('locked');
+                        card.querySelector('.day-status').textContent = '📖 可学习';
+                    }
+                });
+            }
+
+            // 如果Day 4完成，解锁Day 5
+            if (completedDays.includes(4)) {
+                const day5Cards = document.querySelectorAll('.day-card');
+                day5Cards.forEach(card => {
+                    if (card.textContent.includes('Day 5') && !card.classList.contains('completed')) {
                         card.classList.remove('locked');
                         card.querySelector('.day-status').textContent = '📖 可学习';
                     }

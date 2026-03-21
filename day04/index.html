@@ -10,37 +10,619 @@
     <header class="day-header">
         <div class="container">
             <h1>Day 4: MPF系统配置实战</h1>
-            <p class="meta">📅 预计学习时长: 60分钟 | ⏳ 待开发</p>
+            <p class="meta">📅 学习日期: 2026年3月22日 | ⏱️ 学习时长: 90分钟 | ✅ 完成度: 100%</p>
         </div>
     </header>
 
     <main class="container">
+        <!-- 学习目标 -->
         <section class="content-block">
-            <h3>📝 内容开发中</h3>
-            <p>本页面正在开发中，敬请期待...</p>
+            <h3>📋 学习目标</h3>
+            <ul>
+                <li>✅ 掌握SAP Payroll配置的基本步骤</li>
+                <li>✅ 熟悉MPF计划配置的SPRO路径</li>
+                <li>✅ 学会配置MPF相关的工资类型</li>
+                <li>✅ 掌握PCR和Schema的配置方法</li>
+                <li>✅ 了解系统测试与验证流程</li>
+                <li>✅ 掌握常见配置错误的排查与修复</li>
+            </ul>
+        </section>
 
-            <div class="highlight-box">
-                <h4>📋 预计内容</h4>
+        <!-- 一、SAP Payroll配置步骤详解 -->
+        <section class="content-block">
+            <h3>📊 一、SAP Payroll配置步骤详解</h3>
+
+            <h4>1.1 配置前置条件</h4>
+            <div class="key-points">
+                <h4>✅ 前置要求</h4>
                 <ul>
-                    <li>SAP Payroll配置步骤详解</li>
-                    <li>MPF计划配置（SPRO路径）</li>
-                    <li>工资类型配置</li>
-                    <li>PCR和Schema配置</li>
-                    <li>测试与验证</li>
-                    <li>常见配置错误及修复</li>
+                    <li>已完成企业结构配置（Enterprise Structure）</li>
+                    <li>已创建人事范围（Personnel Area）和人事子范围（Personnel Subarea）</li>
+                    <li>已完成员工组（Employee Group）和员工子组（Employee Subgroup）配置</li>
+                    <li>已激活SAP Payroll模块</li>
+                    <li>已创建薪酬核算区域（Payroll Area）</li>
+                </ul>
+            </div>
+
+            <h4>1.2 配置流程概览</h4>
+            <div class="highlight-box">
+                <h4>🔄 配置流程图</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+Step 1: 激活MPF计算功能
+   ↓
+Step 2: 配置MPF供款计划
+   ↓
+Step 3: 配置工资类型（Wage Types）
+   ↓
+Step 4: 配置PCR规则
+   ↓
+Step 5: 更新Schema流程
+   ↓
+Step 6: 测试与验证
+   ↓
+Step 7: 正式上线
+                </pre>
+            </div>
+
+            <h4>1.3 SPRO配置路径</h4>
+            <div class="highlight-box">
+                <h4>🛠️ SPRO主路径</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+SPRO → SAP Reference IMG
+  → Payroll
+    → Payroll: China
+      → Payroll China
+        → MPF Configuration
+          → MPF Plans
+          → Wage Types
+          → PCR Rules
+          → Schemas
+                </pre>
+            </div>
+        </section>
+
+        <!-- 二、MPF计划配置（SPRO路径） -->
+        <section class="content-block">
+            <h3>💼 二、MPF计划配置（SPRO路径）</h3>
+
+            <h4>2.1 创建MPF供款计划</h4>
+            <div class="highlight-box">
+                <h4>📋 配置步骤</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+路径: SPRO → Payroll → Payroll: China → Payroll China
+     → MPF Configuration → MPF Plans → Create MPF Plan
+
+操作步骤:
+1. 点击"New Entries"创建新计划
+2. 输入MPF计划代码（如: MPF_01）
+3. 输入计划描述（如: Standard MPF Plan 5%）
+4. 设置供款比例: 雇员5%, 雇主5%
+5. 设置最低供款额: HKD 250
+6. 设置最高供款额: HKD 1,500
+7. 设置最低可课税收入: HKD 7,100
+8. 设置最高可课税收入: HKD 30,000
+9. 保存配置
+                </pre>
+            </div>
+
+            <h4>2.2 MPF计划字段说明</h4>
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                <tr style="background: #f0f0f0;">
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">字段</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">说明</th>
+                    <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">示例值</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">MPF Plan Code</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">MPF计划代码</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">MPF_01</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 10px; border: 1px solid #ddd;">Description</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">计划描述</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Standard MPF 5%</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Employee Rate</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">雇员供款比例</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">5.00</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 10px; border: 1px solid #ddd;">Employer Rate</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">雇主供款比例</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">5.00</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Min Contribution</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">最低供款额</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">250</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 10px; border: 1px solid #ddd;">Max Contribution</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">最高供款额</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">1500</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">Min Relevant Income</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">最低可课税收入</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">7100</td>
+                </tr>
+                <tr style="background: #fafafa;">
+                    <td style="padding: 10px; border: 1px solid #ddd;">Max Relevant Income</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">最高可课税收入</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">30000</td>
+                </tr>
+            </table>
+
+            <h4>2.3 绑定MPF计划到人事子范围</h4>
+            <div class="highlight-box">
+                <h4>🔗 绑定步骤</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+路径: SPRO → Payroll → Payroll: China → Payroll China
+     → MPF Configuration → MPF Plans → Assign Plan to PSA
+
+操作步骤:
+1. 选择人事子范围（Personnel Subarea）
+2. 点击"Assign"按钮
+3. 从列表中选择MPF计划（如: MPF_01）
+4. 设置生效日期（Valid From）
+5. 保存配置
+
+注意: 每个人事子范围只能绑定一个MPF计划
+                </pre>
+            </div>
+        </section>
+
+        <!-- 三、工资类型配置 -->
+        <section class="content-block">
+            <h3>💰 三、工资类型配置</h3>
+
+            <h4>3.1 创建MPF相关工资类型</h4>
+            <div class="highlight-box">
+                <h4>📋 必需的工资类型</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">工资类型代码</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">描述</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">类型</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">/MPF</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">MPF可课税收入汇总</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">技术性</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">/MPF_EE</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇员MPF供款</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">扣款</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">/MPF_ER</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇主MPF供款</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇主成本</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">MPEX</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">MPF豁免额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">技术性</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>3.2 配置工资类型属性</h4>
+            <div class="highlight-box">
+                <h4>🛠️ 配置路径与步骤</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+路径: SPRO → Payroll → Payroll: China → Payroll China
+     → Wage Types → Create Wage Type
+
+操作步骤:
+1. 输入工资类型代码（如: /MPF）
+2. 输入描述（如: MPF Relevant Income）
+3. 设置工资类型分类（Wage Type Class）
+   - 技术性类型: Technical
+   - 扣款类型: Deduction
+   - 雇主成本: Employer Cost
+4. 设置计算类型（Calculation Type）
+   - 汇总: Add
+   - 扣减: Subtract
+   - 比例: Percentage
+5. 设置允许输入权限（Authorization）
+6. 设置工资类型组（Wage Type Group）
+7. 保存配置
+                </pre>
+            </div>
+
+            <h4>3.3 配置工资类型估值规则</h4>
+            <div class="highlight-box">
+                <h4>🔢 估值规则配置</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border: 1px solid #ddd; border-radius: 5px; overflow-x: auto;">
+路径: SPRO → Payroll → Payroll: China → Payroll China
+     → Wage Types → Valuation Rules
+
+示例: /MPF_EE (雇员MPF供款)
+  - 规则类型: PCR (Personnel Calculation Rule)
+  - PCR代码: XMPF (自定义MPF计算规则)
+  - 计算方式: 供款基数 × 5%
+  - 最低限额检查: 是
+  - 最高限额检查: 是
+
+示例: /MPF_ER (雇主MPF供款)
+  - 规则类型: PCR
+  - PCR代码: XMPF (共享计算规则)
+  - 计算方式: 供款基数 × 5%
+  - 最低限额检查: 是
+  - 最高限额检查: 是
+                </pre>
+            </div>
+        </section>
+
+        <!-- 四、PCR和Schema配置 -->
+        <section class="content-block">
+            <h3>⚙️ 四、PCR和Schema配置</h3>
+
+            <h4>4.1 创建MPF计算PCR规则</h4>
+            <div class="highlight-box">
+                <h4>📋 PCR规则代码示例</h4>
+                <pre style="background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto;">
+PCR代码: XMPF (MPF Contribution Calculation)
+
+* XMPF - Calculate MPF Contribution
+*
+* 输入: /MPF (可课税收入)
+* 输出: /MPF_EE (雇员供款), /MPF_ER (雇主供款)
+
+* 检查是否有可课税收入
+AMT /MPF
+? ZERO => SKIP (无收入则跳过)
+
+* 检查收入是否达到最低门槛
+AMT /MPF
+&LT 7100 => SET MINS (设置最低供款)
+
+* 计算供款基数（取值范围: 7,100 - 30,000）
+AMT /MPF
+&LT 7100 => MIN 7100
+&GT 30000 => MAX 30000
+
+* 计算雇员供款（5%）
+* 乘法系数: 0.05
+MULTI ANA 0.05
+ADDWT /MPF_EE
+
+* 计算雇主供款（5%）
+MULTI ANA 0.05
+ADDWT /MPF_ER
+
+* 检查最低供款限制（250 HKD）
+AMT /MPF_EE
+&LT 250 => AMT=250
+
+* 检查最高供款限制（1,500 HKD）
+AMT /MPF_EE
+&GT 1500 => AMT=1500
+
+* 同步调整雇主供款
+AMT /MPF_EE
+AMT /MPF_ER
+
+* 结束
+                </pre>
+            </div>
+
+            <h4>4.2 PCR规则配置步骤</h4>
+            <div class="highlight-box">
+                <h4>🛠️ SPRO配置路径</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+路径: SPRO → Payroll → Payroll: China → Payroll China
+     → Personnel Calculation Rules → Create PCR
+
+操作步骤:
+1. 输入PCR代码（如: XMPF）
+2. 输入PCR描述（如: MPF Contribution Calculation）
+3. 选择PCR分类（如: Deduction Calculation）
+4. 编写PCR规则代码（见上例）
+5. 语法检查（Validate Syntax）
+6. 激活规则（Activate）
+7. 保存配置
+
+注意: PCR规则编写需要遵循SAP ABAP语法
+                </pre>
+            </div>
+
+            <h4>4.3 更新Schema流程</h4>
+            <div class="highlight-box">
+                <h4>🔄 Schema配置步骤</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+路径: SPRO → Payroll → Payroll: China → Payroll China
+     → Schemas → Edit Schema
+
+操作步骤:
+1. 选择薪酬Schema（如: HK00）
+2. 定位到扣款计算部分
+3. 插入PCR调用: PUN XMPF
+4. 确保PCR在正确位置执行
+   - 通常在工资类型汇总后
+   - 在净工资计算前
+5. 保存Schema
+6. 激活Schema
+
+示例Schema片段:
+  * Payroll Schema - Hong Kong
+  *
+  INPU   * 输入工资类型
+  ADDWT  * 汇总可课税收入
+  *
+  PUN XMPF * 调用MPF计算PCR
+  *
+  NET    * 计算净工资
+                </pre>
+            </div>
+        </section>
+
+        <!-- 五、测试与验证 -->
+        <section class="content-block">
+            <h3>✅ 五、测试与验证</h3>
+
+            <h4>5.1 单元测试</h4>
+            <div class="key-points">
+                <h4>📋 测试场景</h4>
+                <ul>
+                    <li><strong>场景1: 最低收入</strong> - 月薪5,000 HKD，应供款250 HKD</li>
+                    <li><strong>场景2: 标准收入</strong> - 月薪10,000 HKD，应供款500 HKD</li>
+                    <li><strong>场景3: 达到上限</strong> - 月薪30,000 HKD，应供款1,500 HKD</li>
+                    <li><strong>场景4: 超过上限</strong> - 月薪50,000 HKD，应供款1,500 HKD</li>
+                    <li><strong>场景5: 边界值</strong> - 月薪7,099 HKD vs 7,100 HKD</li>
+                </ul>
+            </div>
+
+            <h4>5.2 集成测试</h4>
+            <div class="highlight-box">
+                <h4>🔄 测试流程</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+1. 创建测试员工（T-Code: PA30）
+   - 设置员工子范围（绑定MPF计划）
+   - 设置基本工资
+
+2. 执行模拟薪酬核算（T-Code: PC00_Mxx_CALC）
+   - 选择薪酬期间
+   - 选择测试员工
+   - 执行模拟运行
+
+3. 检查结果（T-Code: PC_PAYRESULT）
+   - 查看/MPF_EE（雇员供款）
+   - 查看/MPF_ER（雇主供款）
+   - 验证净工资计算
+
+4. 生成报表（T-Code: H99CWKR0）
+   - MPF供款汇总报表
+   - 验证数据准确性
+                </pre>
+            </div>
+
+            <h4>5.3 验证检查清单</h4>
+            <div class="highlight-box">
+                <h4>✅ 验证清单</h4>
+                <ul>
+                    <li>☑️ 所有工资类型已创建并激活</li>
+                    <li>☑️ PCR规则语法正确且已激活</li>
+                    <li>☑️ Schema已更新并包含MPF计算步骤</li>
+                    <li>☑️ 最低供款限制生效（250 HKD）</li>
+                    <li>☑️ 最高供款限制生效（1,500 HKD）</li>
+                    <li>☑️ 可课税收入范围正确（7,100 - 30,000 HKD）</li>
+                    <li>☑️ 雇员和雇主供款金额相等</li>
+                    <li>☑️ 净工资计算正确</li>
+                    <li>☑️ 报表数据准确</li>
+                    <li>☑️ 无系统错误日志</li>
                 </ul>
             </div>
         </section>
 
+        <!-- 六、常见配置错误及修复 -->
+        <section class="content-block">
+            <h3>🔧 六、常见配置错误及修复</h3>
+
+            <h4>6.1 错误1: 供款金额计算错误</h4>
+            <div class="highlight-box" style="border-left: 4px solid #ff6b6b;">
+                <h4>❌ 症状</h4>
+                <ul>
+                    <li>供款金额不符合5%规则</li>
+                    <li>最低/最高限制未生效</li>
+                </ul>
+
+                <h4>✅ 可能原因</h4>
+                <ul>
+                    <li>PCR规则中的系数错误（应为0.05）</li>
+                    <li>最低/最高检查逻辑缺失</li>
+                    <li>工资类型估值规则配置错误</li>
+                </ul>
+
+                <h4>🔧 解决方案</h4>
+                <ul>
+                    <li>检查PCR规则XMPF中的乘法系数</li>
+                    <li>验证最低/最高检查逻辑是否存在</li>
+                    <li>使用T-Code: PE04检查PCR规则</li>
+                    <li>重新测试薪酬核算</li>
+                </ul>
+            </div>
+
+            <h4>6.2 错误2: 工资类型未计算</h4>
+            <div class="highlight-box" style="border-left: 4px solid #ffa500;">
+                <h4>❌ 症状</h4>
+                <ul>
+                    <li>/MPF_EE和/MPF_ER金额为0</li>
+                    <li>净工资计算错误</li>
+                </ul>
+
+                <h4>✅ 可能原因</h4>
+                <ul>
+                    <li>Schema中未调用PCR规则</li>
+                    <li>PCR规则未激活</li>
+                    <li>工资类型未正确绑定</li>
+                </ul>
+
+                <h4>🔧 解决方案</h4>
+                <ul>
+                    <li>检查Schema中是否有PUN XMPF调用</li>
+                    <li>使用T-Code: PE01检查Schema配置</li>
+                    <li>确认PCR规则状态为Active</li>
+                    <li>验证工资类型在PCR中被正确引用</li>
+                </ul>
+            </div>
+
+            <h4>6.3 错误3: 最低门槛未生效</h4>
+            <div class="highlight-box" style="border-left: 4px solid #ffa500;">
+                <h4>❌ 症状</h4>
+                <ul>
+                    <li>月薪低于7,100 HKD时仍计算供款</li>
+                    <li>供款金额低于250 HKD</li>
+                </ul>
+
+                <h4>✅ 可能原因</h4>
+                <ul>
+                    <li>MPF计划配置中最低可课税收入未设置</li>
+                    <li>PCR规则中缺少最低收入检查</li>
+                    <li>最低供款检查逻辑缺失</li>
+                </ul>
+
+                <h4>🔧 解决方案</h4>
+                <ul>
+                    <li>更新MPF计划配置：Min Relevant Income = 7,100</li>
+                    <li>在PCR规则中添加最低收入检查</li>
+                    <li>添加最低供款检查逻辑（250 HKD）</li>
+                    <li>重新测试边界值场景</li>
+                </ul>
+            </div>
+
+            <h4>6.4 错误4: 人事子范围未绑定MPF计划</h4>
+            <div class="highlight-box" style="border-left: 4px solid #ff6b6b;">
+                <h4>❌ 症状</h4>
+                <ul>
+                    <li>特定员工的MPF供款为0</li>
+                    <li>错误日志提示MPF计划未找到</li>
+                </ul>
+
+                <h4>✅ 可能原因</h4>
+                <ul>
+                    <li>员工所属人事子范围未绑定MPF计划</li>
+                    <li>MPF计划绑定日期晚于员工入职日期</li>
+                    <li>人事子范围配置错误</li>
+                </ul>
+
+                <h4>🔧 解决方案</h4>
+                <ul>
+                    <li>检查员工的人事子范围（T-Code: PA20）</li>
+                    <li>确认人事子范围已绑定MPF计划</li>
+                    <li>调整MPF计划生效日期</li>
+                    <li>如需要，更新员工人事子范围</li>
+                </ul>
+            </div>
+
+            <h4>6.5 调试技巧</h4>
+            <div class="key-points">
+                <h4>🛠️ 调试工具</h4>
+                <ul>
+                    <li><strong>T-Code: PE04</strong> - 查看PCR规则执行过程</li>
+                    <li><strong>T-Code: PE01</strong> - 查看Schema执行流程</li>
+                    <li><strong>T-Code: PC_PAYRESULT</strong> - 查看薪酬计算结果</li>
+                    <li><strong>T-Code: H99CWKR0</strong> - 生成MPF供款报表</li>
+                    <li><strong>T-Code: SLG1</strong> - 查看应用日志</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 实战练习 -->
+        <section class="content-block">
+            <h3>🎯 实战练习</h3>
+
+            <div class="highlight-box">
+                <h4>📝 练习任务</h4>
+                <p><strong>任务1: 创建测试员工并验证MPF计算</strong></p>
+                <ul>
+                    <li>创建一个月薪12,000 HKD的测试员工</li>
+                    <li>执行模拟薪酬核算</li>
+                    <li>验证雇员和雇主供款是否均为600 HKD</li>
+                    <li>截图保存结果</li>
+                </ul>
+
+                <p><strong>任务2: 边界值测试</strong></p>
+                <ul>
+                    <li>测试月薪6,999 HKD的员工（应供款250 HKD）</li>
+                    <li>测试月薪7,100 HKD的员工（应供款355 HKD）</li>
+                    <li>测试月薪30,000 HKD的员工（应供款1,500 HKD）</li>
+                    <li>测试月薪50,000 HKD的员工（应供款1,500 HKD）</li>
+                </ul>
+
+                <p><strong>任务3: 生成MPF供款报表</strong></p>
+                <ul>
+                    <li>为多个测试员工执行薪酬核算</li>
+                    <li>生成MPF供款汇总报表</li>
+                    <li>核对报表数据与计算结果</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ 注意事项</h4>
+                <ul>
+                    <li>在生产环境配置前，务必先在测试环境完成所有测试</li>
+                    <li>配置修改后需要重新薪酬核算才能生效</li>
+                    <li>建议备份原始配置后再进行修改</li>
+                    <li>记录所有配置变更，便于追溯和回滚</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习总结 -->
+        <section class="content-block">
+            <h3>📚 学习总结</h3>
+
+            <div class="key-points">
+                <h4>✅ 今日收获</h4>
+                <ul>
+                    <li>掌握了SAP Payroll配置的完整流程</li>
+                    <li>学会了MPF计划配置和绑定</li>
+                    <li>理解了工资类型的创建和估值规则</li>
+                    <li>掌握了PCR规则的编写和调试</li>
+                    <li>学会了Schema的更新和集成</li>
+                    <li>熟悉了系统测试和验证方法</li>
+                    <li>了解了常见配置错误和解决方案</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🔗 关键知识点</h4>
+                <ul>
+                    <li>SPRO配置路径: Payroll → Payroll: China → Payroll China</li>
+                    <li>MPF计划配置: 供款比例、最低/最高限额、可课税收入范围</li>
+                    <li>工资类型: /MPF, /MPF_EE, /MPF_ER, MPEX</li>
+                    <li>PCR规则: XMPF（供款计算）</li>
+                    <li>Schema更新: 插入PUN XMPF调用</li>
+                    <li>测试工具: PE04, PE01, PC_PAYRESULT, H99CWKR0</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📋 下一步计划</h4>
+                <p>明天将学习<strong>Week 2: 薪俸税深度学习</strong>，包括：</p>
+                <ul>
+                    <li>Day 5: 香港薪俸税基础知识</li>
+                    <li>Day 6: 薪俸税计算规则</li>
+                    <li>Day 7: SAP薪俸税配置实战</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 导航 -->
         <div class="navigation">
             <a href="../index.html" class="nav-btn">← 返回首页</a>
             <a href="../day03/" class="nav-btn">← Day 3</a>
+            <a href="#" class="nav-btn" style="opacity: 0.5; cursor: not-allowed;">Day 5 →</a>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>仅供学习交流使用</p>
+            <p>仅供学习交流使用 | 最后更新: 2026年3月22日</p>
         </div>
     </footer>
 </body>
