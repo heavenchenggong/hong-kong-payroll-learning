@@ -19,8 +19,8 @@
         <section class="progress-card">
             <h2>📊 学习进度</h2>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: 13.33%;">
-                    <span class="progress-text">4/30 (13.33%)</span>
+                <div class="progress-fill" style="width: 16.67%;">
+                    <span class="progress-text">5/30 (16.67%)</span>
                 </div>
             </div>
             <div class="progress-stats">
@@ -30,11 +30,11 @@
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">已完成</span>
-                    <span class="stat-value">4天</span>
+                    <span class="stat-value">5天</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">待完成</span>
-                    <span class="stat-value">26天</span>
+                    <span class="stat-value">25天</span>
                 </div>
             </div>
         </section>
@@ -70,11 +70,11 @@
         <section class="week-section">
             <h2>Week 2: 薪俸税深度学习</h2>
             <div class="day-grid">
-                <div class="day-card locked">
+                <a href="day05/" class="day-card">
                     <span class="day-number">Day 5</span>
                     <span class="day-title">薪俸税基础法规</span>
-                    <span class="day-status">⏳ 待学习</span>
-                </div>
+                    <span class="day-status">📖 可学习</span>
+                </a>
                 <div class="day-card locked">
                     <span class="day-number">Day 6</span>
                     <span class="day-title">薪俸税计算规则</span>
@@ -253,7 +253,7 @@
             const completedDays = progress.completedDays;
 
             completedDays.forEach(dayNum => {
-                const dayCard = document.querySelector(`.day-card[href*="day0${dayNum}/"]`);
+                const dayCard = document.querySelector(`.day-card[href*="day${dayNum < 10 ? '0' + dayNum : dayNum}/"]`);
                 if (dayCard) {
                     dayCard.classList.add('completed');
                     dayCard.querySelector('.day-status').textContent = '✅ 已完成';
@@ -295,7 +295,36 @@
                 day5Cards.forEach(card => {
                     if (card.textContent.includes('Day 5') && !card.classList.contains('completed')) {
                         card.classList.remove('locked');
+                        card.classList.add('unlocked');
                         card.querySelector('.day-status').textContent = '📖 可学习';
+                        // 将div改为a标签（通过DOM操作）
+                        if (card.tagName === 'DIV') {
+                            const link = document.createElement('a');
+                            link.href = 'day05/';
+                            link.className = card.className;
+                            link.innerHTML = card.innerHTML;
+                            card.parentNode.replaceChild(link, card);
+                        }
+                    }
+                });
+            }
+
+            // 如果Day 5完成，解锁Day 6
+            if (completedDays.includes(5)) {
+                const day6Cards = document.querySelectorAll('.day-card');
+                day6Cards.forEach(card => {
+                    if (card.textContent.includes('Day 6') && !card.classList.contains('completed')) {
+                        card.classList.remove('locked');
+                        card.classList.add('unlocked');
+                        card.querySelector('.day-status').textContent = '📖 可学习';
+                        // 将div改为a标签（通过DOM操作）
+                        if (card.tagName === 'DIV') {
+                            const link = document.createElement('a');
+                            link.href = 'day06/';
+                            link.className = card.className;
+                            link.innerHTML = card.innerHTML;
+                            card.parentNode.replaceChild(link, card);
+                        }
                     }
                 });
             }
