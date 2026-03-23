@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 6: 薪俸税计算规则 - 香港Payroll学习网站</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="day-header">
+        <div class="container">
+            <h1>Day 6: 薪俸税计算规则</h1>
+            <p class="meta">📅 学习日期: 2026年3月24日 | ⏱️ 学习时长: 120分钟 | ✅ 完成度: 100%</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 学习目标 -->
+        <section class="content-block">
+            <h3>📋 学习目标</h3>
+            <ul>
+                <li>✅ 掌握薪俸税的完整计算流程</li>
+                <li>✅ 熟练运用累进税率和标准税率的比较计算</li>
+                <li>✅ 掌握特殊收入场景的税务处理方法</li>
+                <li>✅ 理解薪俸税的年度申报和月度预缴机制</li>
+                <li>✅ 掌握SAP PCR规则编写的基本语法和逻辑</li>
+                <li>✅ 能够独立实现薪俸税计算的自动化配置</li>
+            </ul>
+        </section>
+
+        <!-- 一、薪俸税计算流程 -->
+        <section class="content-block">
+            <h3>🔄 一、薪俸税计算流程</h3>
+
+            <h4>1.1 计算步骤概览</h4>
+            <div class="highlight-box">
+                <h4>📊 完整计算流程（5步法）</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤 1: 计算应税收入总额
+应税收入总额 = 基本工资 + 奖金 + 津贴 + 福利（应税部分）
+
+步骤 2: 计算可扣除免税额
+可扣除免税额 = 基本免税额 + 已婚人士免税额 + 子女免税额
+            + 供养父母免税额 + 伤残受养人免税额
+
+步骤 3: 计算可扣除项目
+可扣除项目 = 强积金供款 + 认可慈善捐款 + 居所贷款利息
+            + 个人进修开支 + 长者住宿照顾开支
+
+步骤 4: 计算应评税入息
+应评税入息 = 应税收入总额 - 可扣除免税额 - 可扣除项目
+
+步骤 5: 计算税额（取较低者）
+方法A - 累进税率：按5个税阶逐层计算
+方法B - 标准税率：应评税入息 × 15%
+最终税额 = min(累进税率税额, 标准税率税额)
+                </pre>
+            </div>
+
+            <h4>1.2 计算流程图</h4>
+            <div class="highlight-box">
+                <h4>🔄 计算流程示意</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+┌─────────────────────────────────────────────────────────┐
+│           输入：年度薪酬收入明细                            │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│    步骤1: 计算应税收入总额（含奖金、津贴、福利）              │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│    步骤2: 计算可扣除免税额（基本、已婚、子女、父母）            │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│    步骤3: 计算可扣除项目（MPF、捐款、利息、进修）              │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│    步骤4: 计算应评税入息 = 收入 - 免税额 - 扣除项目            │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                  ┌───────┴───────┐
+                  ▼               ▼
+┌─────────────────────┐  ┌─────────────────────┐
+│  方法A: 累进税率    │  │  方法B: 标准税率    │
+│  （5个税阶）        │  │  （15%）           │
+└─────────┬───────────┘  └─────────┬───────────┘
+          │                        │
+          ▼                        ▼
+┌─────────────────────┐  ┌─────────────────────┐
+│  税额A = 分层计算    │  │  税额B = 应评税入息  │
+│  （最高17%）        │  │       × 15%        │
+└─────────┬───────────┘  └─────────┬───────────┘
+          │                        │
+          └───────┬────────────────┘
+                  ▼
+┌─────────────────────────────────────────────────────────┐
+│    最终税额 = min(税额A, 税额B)                          │
+└─────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+        </section>
+
+        <!-- 二、详细计算示例 -->
+        <section class="content-block">
+            <h3>💰 二、详细计算示例</h3>
+
+            <h4>2.1 示例1：单身上班族（中等收入）</h4>
+            <div class="highlight-box">
+                <h4>👤 场景描述</h4>
+                <ul>
+                    <li>性别：男，年龄：30岁，婚姻：单身</li>
+                    <li>职业：软件工程师</li>
+                    <li>课税年度：2024/2025</li>
+                </ul>
+
+                <h4>💰 收入明细（年度）</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">收入项目</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">金额 (HKD)</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">基本工资（月薪HKD 40,000 × 12）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">480,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">年终奖</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">60,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">绩效奖金</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">30,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">应税收入总额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>570,000</strong></td>
+                    </tr>
+                </table>
+
+                <h4>📋 免税额和扣除项目</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">项目</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">金额 (HKD)</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">基本免税额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">132,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">强积金供款扣除（HKD 1,500 × 12）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">18,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">可扣除项目合计</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>150,000</strong></td>
+                    </tr>
+                </table>
+
+                <h4>🧮 应评税入息计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+应评税入息 = 应税收入总额 - 免税额 - 可扣除项目
+            = 570,000 - 132,000 - 18,000
+            = HKD 420,000
+                </pre>
+
+                <h4>📊 税额计算（累进税率）</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">税阶</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">应评税入息范围</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">应评税入息</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">税率</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">税额 (HKD)</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第1级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">首 HKD 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">2%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">1,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">第2级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">次 HKD 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">6%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">3,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第3级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">次 HKD 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">10%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">5,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">第4级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">次 HKD 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">14%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">7,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第5级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">余下 HKD 220,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">220,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">17%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">37,400</td>
+                    </tr>
+                    <tr style="background: #e0f7fa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>累进税率税额合计</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;" colspan="3"></td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>53,400</strong></td>
+                    </tr>
+                </table>
+
+                <h4>📊 税额计算（标准税率）</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+标准税率税额 = 应评税入息 × 15%
+            = 420,000 × 15%
+            = HKD 63,000
+                </pre>
+
+                <h4>🎯 最终税额</h4>
+                <div class="key-points">
+                    <h4>✅ 计算结果</h4>
+                    <ul>
+                        <li>累进税率税额：<strong>HKD 53,400</strong></li>
+                        <li>标准税率税额：<strong>HKD 63,000</strong></li>
+                        <li>最终税额（取较低者）：<strong>HKD 53,400</strong></li>
+                        <li>实际税负率：<strong>12.61%</strong>（53,400 ÷ 420,000）</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4>2.2 示例2：已婚人士（高收入）</h4>
+            <div class="highlight-box">
+                <h4>👫 场景描述</h4>
+                <ul>
+                    <li>性别：男，年龄：38岁，婚姻：已婚</li>
+                    <li>配偶：全职太太（无收入）</li>
+                    <li>子女：2名（分别为6岁和10岁）</li>
+                    <li>职业：投资银行副总裁</li>
+                    <li>课税年度：2024/2025</li>
+                </ul>
+
+                <h4>💰 收入明细（年度）</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">收入项目</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">金额 (HKD)</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">基本工资（月薪HKD 120,000 × 12）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">1,440,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">年终奖</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">360,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">股票期权收益</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">600,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">房屋津贴</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">240,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">应税收入总额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>2,640,000</strong></td>
+                    </tr>
+                </table>
+
+                <h4>📋 免税额和扣除项目</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">项目</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">金额 (HKD)</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">已婚人士免税额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">264,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">子女免税额（2名 × HKD 130,000）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">260,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">强积金供款扣除（最高HKD 18,000）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">18,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">认可慈善捐款</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">居所贷款利息</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">100,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">可扣除项目合计</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>692,000</strong></td>
+                    </tr>
+                </table>
+
+                <h4>🧮 应评税入息计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+应评税入息 = 应税收入总额 - 免税额 - 可扣除项目
+            = 2,640,000 - 524,000 - 168,000
+            = HKD 1,948,000
+
+其中：
+- 免税额 = 已婚人士免税额 + 子女免税额
+        = 264,000 + 260,000 = HKD 524,000
+- 可扣除项目 = 强积金 + 捐款 + 利息
+            = 18,000 + 50,000 + 100,000 = HKD 168,000
+                </pre>
+
+                <h4>📊 税额计算（累进税率）</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">税阶</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">应评税入息范围</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">应评税入息</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">税率</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">税额 (HKD)</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第1级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">首 HKD 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">2%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">1,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">第2级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">次 HKD 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">6%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">3,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第3级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">次 HKD 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">10%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">5,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">第4级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">次 HKD 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">14%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">7,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第5级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">余下 HKD 1,748,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">1,748,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">17%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">297,160</td>
+                    </tr>
+                    <tr style="background: #e0f7fa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>累进税率税额合计</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;" colspan="3"></td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>313,160</strong></td>
+                    </tr>
+                </table>
+
+                <h4>📊 税额计算（标准税率）</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+标准税率税额 = 应评税入息 × 15%
+            = 1,948,000 × 15%
+            = HKD 292,200
+                </pre>
+
+                <h4>🎯 最终税额</h4>
+                <div class="key-points">
+                    <h4>✅ 计算结果</h4>
+                    <ul>
+                        <li>累进税率税额：<strong>HKD 313,160</strong></li>
+                        <li>标准税率税额：<strong>HKD 292,200</strong></li>
+                        <li>最终税额（取较低者）：<strong>HKD 292,200</strong></li>
+                        <li>实际税负率：<strong>15.00%</strong>（采用标准税率）</li>
+                    </ul>
+                </div>
+
+                <div class="warning-box">
+                    <h4>💡 关键洞察</h4>
+                    <ul>
+                        <li>当应评税入息超过约HKD 500万时，标准税率（15%）通常比累进税率更优惠</li>
+                        <li>本案例中，累进税率税额比标准税率高HKD 20,960，因此选择标准税率</li>
+                        <li>已婚人士和子女免税额显著降低了应评税入息</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h4>2.3 示例3：年度中期入职</h4>
+            <div class="highlight-box">
+                <h4>📅 场景描述</h4>
+                <ul>
+                    <li>入职日期：2024年7月1日（课税年度中期）</li>
+                    <li>全年应评税入息：HKD 600,000（入职后半年）</li>
+                    <li>课税年度：2024/2025</li>
+                </ul>
+
+                <h4>🔄 按比例计算规则</h4>
+                <div class="key-points">
+                    <h4>📋 按比例计算原则</h4>
+                    <ul>
+                        <li><strong>免税额按比例</strong>：根据受雇天数按比例计算</li>
+                        <li><strong>税额全额计算</strong>：根据按比例计算的应评税入息计算税额</li>
+                        <li><strong>适用场景</strong>：年度中期入职、离职、首次到港就业</li>
+                    </ul>
+                </div>
+
+                <h4>🧮 按比例计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤 1: 计算受雇天数比例
+受雇天数 = 2024年7月1日至2025年3月31日 = 274天
+课税年度总天数 = 2024年4月1日至2025年3月31日 = 365天
+受雇比例 = 274 / 365 = 75.07%
+
+步骤 2: 按比例计算基本免税额
+基本免税额 = HKD 132,000 × 75.07% = HKD 99,088
+
+步骤 3: 计算应评税入息
+应评税入息 = 600,000 - 99,088 - 18,000 = HKD 482,912
+（含强积金供款扣除HKD 18,000）
+
+步骤 4: 计算税额（累进税率）
+- 首 HKD 50,000 × 2% = HKD 1,000
+- 次 HKD 50,000 × 6% = HKD 3,000
+- 次 HKD 50,000 × 10% = HKD 5,000
+- 次 HKD 50,000 × 14% = HKD 7,000
+- 余下 HKD 282,912 × 17% = HKD 48,095
+
+累进税率税额 = 1,000 + 3,000 + 5,000 + 7,000 + 48,095 = HKD 64,095
+
+步骤 5: 计算税额（标准税率）
+标准税率税额 = 482,912 × 15% = HKD 72,437
+
+步骤 6: 最终税额
+最终税额 = min(64,095, 72,437) = HKD 64,095
+                </pre>
+
+                <div class="warning-box">
+                    <h4>⚠️ 注意事项</h4>
+                    <ul>
+                        <li>按比例计算的免税额会自动四舍五入到最近的整数</li>
+                        <li>可扣除项目（如强积金）通常不按比例，按实际发生额扣除</li>
+                        <li>年度中期离职同样适用按比例计算规则</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 三、特殊收入场景 -->
+        <section class="content-block">
+            <h3>⚡ 三、特殊收入场景</h3>
+
+            <h4>3.1 股票期权（Stock Options）</h4>
+            <div class="highlight-box">
+                <h4>📊 股票期权税务处理</h4>
+                <ul>
+                    <li><strong>征税时间</strong>：行权时（Exercise）征税</li>
+                    <li><strong>计税依据</strong>：（行权日市场价格 - 行权价格）× 行权股数</li>
+                    <li><strong>雇主责任</strong>：在IR56B表中申报股票期权收益</li>
+                </ul>
+
+                <h4>💡 示例</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+授予情况：
+- 授予日期：2022年1月1日
+- 行权价格：HKD 10/股
+- 授予股数：10,000股
+
+行权情况：
+- 行权日期：2024年6月1日
+- 行权日市场价格：HKD 50/股
+- 行权股数：10,000股
+
+应税收入计算：
+应税收入 = (50 - 10) × 10,000 = HKD 400,000
+                </pre>
+            </div>
+
+            <h4>3.2 受限制股份单位（RSU）</h4>
+            <div class="highlight-box">
+                <h4>📊 RSU税务处理</h4>
+                <ul>
+                    <li><strong>征税时间</strong>：股份归属时（Vesting）征税</li>
+                    <li><strong>计税依据</strong>：归属日市场价格 × 归属股数</li>
+                    <li><strong>雇主责任</strong>：代扣代缴税金</li>
+                </ul>
+
+                <h4>💡 示例</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+授予情况：
+- 授予日期：2022年1月1日
+- 授予股数：5,000股
+- 归属条件：工作满2年
+
+归属情况：
+- 归属日期：2024年1月1日
+- 归属日市场价格：HKD 80/股
+- 归属股数：5,000股
+
+应税收入计算：
+应税收入 = 80 × 5,000 = HKD 400,000
+                </pre>
+            </div>
+
+            <h4>3.3 房屋津贴（Housing Allowance）</h4>
+            <div class="highlight-box">
+                <h4>🏠 房屋津贴税务处理</h4>
+                <ul>
+                    <li><strong>征税方式</strong>：全额征税（按实际津贴金额）</li>
+                    <li><strong>可扣除租金</strong>：雇员实际支付的租金可从津贴中扣除</li>
+                    <li><strong>限额</strong>：无上限限制</li>
+                </ul>
+
+                <h4>💡 示例</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+雇主提供的房屋津贴：HKD 20,000/月
+雇员实际支付的租金：HKD 15,000/月
+
+应税房屋津贴 = 20,000 - 15,000 = HKD 5,000/月
+年度应税房屋津贴 = 5,000 × 12 = HKD 60,000
+                </pre>
+            </div>
+
+            <h4>3.4 派驻津贴（Overseas Allowance）</h4>
+            <div class="highlight-box">
+                <h4>✈️ 派驻津贴税务处理</h4>
+                <ul>
+                    <li><strong>征税方式</strong>：如果津贴用于补偿在香港的开销，则应税</li>
+                    <li><strong>免税津贴</strong>：用于补偿海外生活开销的津贴通常免税</li>
+                    <li><strong>区分原则</strong>：根据津贴用途判断</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 四、SAP PCR规则编写 -->
+        <section class="content-block">
+            <h3>⚙️ 四、SAP PCR规则编写</h3>
+
+            <h4>4.1 PCR（Personnel Calculation Rules）概述</h4>
+            <div class="key-points">
+                <h4>🎯 PCR定义</h4>
+                <ul>
+                    <li><strong>全称</strong>：Personnel Calculation Rules（人员计算规则）</li>
+                    <li><strong>作用</strong>：定义薪俸税计算的逻辑和算法</li>
+                    <li><strong>执行时机</strong>：薪酬计算周期（Payroll Run）</li>
+                    <li><strong>配置位置</strong>：Transaction PE01</li>
+                </ul>
+            </div>
+
+            <h4>4.2 PCR基本语法</h4>
+            <div class="highlight-box">
+                <h4>📋 PCR语法结构</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+PCR结构：
+---------
+RULENAME
+  操作代码
+  操作参数
+  操作代码
+  操作参数
+
+常用操作代码：
+------------
+*  操作符              说明
+------------------------------------------------------
+AMT  =  读取工资类型金额
+NUM  =  读取工资类型数量
+RATE =  读取工资类型费率
+ADD  =  加法
+SUB  =  减法
+MULT =  乘法
+DIV  =  除法
+IF   =  条件判断
+ELSE =  否则分支
+FIEL =  字段赋值
+ELIM =  清除变量
+                </pre>
+            </div>
+
+            <h4>4.3 薪俸税计算PCR示例</h4>
+            <div class="highlight-box">
+                <h4>💻 PCR示例：累进税率计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+PCR: XHK6 (香港薪俸税 - 累进税率计算)
+--------------------------------------
+
+XHK6
+* 计算5个税阶的税额
+
+* 第1级税率 (2%)
+AMT= /STI
+AMT? 0-50000
+  MULT 0.02
+  AMT= /TX1
+ELSE
+  AMT= 50000
+  MULT 0.02
+  AMT= /TX1
+  SUB  /STI
+  AMT= /TMP1
+
+* 第2级税率 (6%)
+AMT= /TMP1
+AMT? 0-50000
+  MULT 0.06
+  ADD  /TX1
+  AMT= /TX2
+ELSE
+  AMT= 50000
+  MULT 0.06
+  ADD  /TX1
+  AMT= /TX2
+  SUB  /TMP1
+  AMT= /TMP2
+
+* 第3级税率 (10%)
+AMT= /TMP2
+AMT? 0-50000
+  MULT 0.10
+  ADD  /TX2
+  AMT= /TX3
+ELSE
+  AMT= 50000
+  MULT 0.10
+  ADD  /TX2
+  AMT= /TX3
+  SUB  /TMP2
+  AMT= /TMP3
+
+* 第4级税率 (14%)
+AMT= /TMP3
+AMT? 0-50000
+  MULT 0.14
+  ADD  /TX3
+  AMT= /TX4
+ELSE
+  AMT= 50000
+  MULT 0.14
+  ADD  /TX3
+  AMT= /TX4
+  SUB  /TMP3
+  AMT= /TMP4
+
+* 第5级税率 (17%)
+AMT= /TMP4
+AMT? >0
+  MULT 0.17
+  ADD  /TX4
+  AMT= /TX5
+ELSE
+  AMT= /TX4
+  AMT= /TX5
+
+* 累进税率税额存入临时变量
+AMT= /TX5
+FIEL= /TAX_PROG
+                </pre>
+            </div>
+
+            <h4>4.4 标准税率计算PCR示例</h4>
+            <div class="highlight-box">
+                <h4>💻 PCR示例：标准税率计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+PCR: XHK7 (香港薪俸税 - 标准税率计算)
+--------------------------------------
+
+XHK7
+* 计算标准税率税额 (15%)
+
+* 读取应评税入息
+AMT= /STI
+
+* 计算标准税率税额
+MULT 0.15
+
+* 标准税率税额存入临时变量
+AMT= /TAX_STD
+                </pre>
+            </div>
+
+            <h4>4.5 选择较低税额PCR示例</h4>
+            <div class="highlight-box">
+                <h4>💻 PCR示例：比较并选择较低税额</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+PCR: XHK8 (香港薪俸税 - 选择较低税额)
+--------------------------------------
+
+XHK8
+* 比较累进税率税额和标准税率税额，选择较低者
+
+* 读取累进税率税额
+AMT= /TAX_PROG
+FIEL= /TAX_A
+
+* 读取标准税率税额
+AMT= /TAX_STD
+FIEL= /TAX_B
+
+* 比较两个税额
+AMT= /TAX_A
+AMT? < /TAX_B
+  * 累进税率较低，选择累进税率
+  AMT= /TAX_A
+  AMT= /STI_EE
+ELSE
+  * 标准税率较低，选择标准税率
+  AMT= /TAX_B
+  AMT= /STI_EE
+
+* 最终税额
+AMT= /STI_EE
+                </pre>
+            </div>
+        </section>
+
+        <!-- 五、薪俸税预缴机制 -->
+        <section class="content-block">
+            <h3>📅 五、薪俸税预缴机制</h3>
+
+            <h4>5.1 月度预缴（Provisional Tax）</h4>
+            <div class="key-points">
+                <h4>🔄 月度预缴机制</h4>
+                <ul>
+                    <li><strong>预缴依据</strong>：基于上一年度应评税入息估算</li>
+                    <li><strong>预缴频率</strong>：每月随薪酬代扣代缴</li>
+                    <li><strong>预缴金额</strong>：上年税额的75%（年度前6个月）+ 25%（年度后6个月）</li>
+                    <li><strong>结算方式</strong>：年度申报时多退少补</li>
+                </ul>
+            </div>
+
+            <h4>5.2 预缴计算示例</h4>
+            <div class="highlight-box">
+                <h4>💡 示例</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+上年税额：HKD 60,000
+
+本年度预缴计划：
+- 年度前6个月（4月-9月）：
+  每月预缴 = 60,000 × 75% ÷ 12 = HKD 3,750
+
+- 年度后6个月（10月-3月）：
+  每月预缴 = 60,000 × 25% ÷ 12 = HKD 1,250
+
+本年度实际税额：HKD 65,000
+
+结算：
+已预缴金额 = 3,750 × 6 + 1,250 × 6 = HKD 30,000
+应补缴金额 = 65,000 - 30,000 = HKD 35,000
+                </pre>
+            </div>
+
+            <h4>5.3 年度申报与结算</h4>
+            <div class="highlight-box">
+                <h4>📋 年度申报流程</h4>
+                <ul>
+                    <li><strong>申报时间</strong>：课税年度结束后5月提交报税表</li>
+                    <li><strong>评税时间</strong>：课税年度结束后6个月内完成评税</li>
+                    <li><strong>补缴/退款</strong>：评税后30天内补缴或收到退款</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 六、常见计算问题 -->
+        <section class="content-block">
+            <h3>❓ 六、常见计算问题</h3>
+
+            <h4>6.1 FAQ 1: 如何计算兼职人员的薪俸税？</h4>
+            <div class="highlight-box">
+                <h4>💡 回答</h4>
+                <ul>
+                    <li><strong>按比例计算</strong>：根据受雇天数按比例计算免税额</li>
+                    <li><strong>税额计算</strong>：根据按比例计算的应评税入息计算税额</li>
+                    <li><strong>合并申报</strong>：如果同一年度有多份兼职收入，需要合并申报</li>
+                </ul>
+            </div>
+
+            <h4>6.2 FAQ 2: 薪俸税和个人入息课税有什么区别？</h4>
+            <div class="highlight-box">
+                <h4>💡 回答</h4>
+                <ul>
+                    <li><strong>薪俸税</strong>：仅针对受雇收入（工资、奖金、津贴）</li>
+                    <li><strong>个人入息课税</strong>：可合并多种收入（薪俸税、利得税、物业税）</li>
+                    <li><strong>选择原则</strong>：通常选择税负较低的方案申报</li>
+                </ul>
+            </div>
+
+            <h4>6.3 FAQ 3: 如何计算股票期权的税款？</h4>
+            <div class="highlight-box">
+                <h4>💡 回答</h4>
+                <ul>
+                    <li><strong>征税时间</strong>：行权时征税</li>
+                    <li><strong>计税依据</strong>：（行权日市场价格 - 行权价格）× 行权股数</li>
+                    <li><strong>代扣代缴</strong>：雇主需要在行权时代扣代缴税金</li>
+                    <li><strong>分期支付</strong>：如果税额较大，可向税务局申请分期支付</li>
+                </ul>
+            </div>
+
+            <h4>6.4 FAQ 4: 薪俸税预缴金额如何计算？</h4>
+            <div class="highlight-box">
+                <h4>💡 回答</h4>
+                <ul>
+                    <li><strong>预缴依据</strong>：基于上一年度应评税入息</li>
+                    <li><strong>预缴比例</strong>：前6个月75%，后6个月25%</li>
+                    <li><strong>调整机制</strong>：本年度收入显著变化时，可申请调整预缴金额</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习总结 -->
+        <section class="content-block">
+            <h3>📚 学习总结</h3>
+
+            <div class="key-points">
+                <h4>✅ 今日收获</h4>
+                <ul>
+                    <li>掌握了薪俸税的完整5步计算流程</li>
+                    <li>熟练运用累进税率和标准税率的比较计算</li>
+                    <li>掌握了特殊收入场景（股票期权、RSU、房屋津贴）的税务处理</li>
+                    <li>理解了薪俸税的年度申报和月度预缴机制</li>
+                    <li>掌握了SAP PCR规则编写的基本语法和逻辑</li>
+                    <li>能够独立实现薪俸税计算的自动化配置</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🔗 关键知识点</h4>
+                <ul>
+                    <li>计算流程：收入 → 免税额 → 扣除项目 → 应评税入息 → 税额</li>
+                    <li>累进税率：2% - 17%（5个税阶）</li>
+                    <li>标准税率：15%（取较低者）</li>
+                    <li>按比例计算：适用于年度中期入职、离职</li>
+                    <li>股票期权：行权时征税，价差为应税收入</li>
+                    <li>预缴机制：前6个月75%，后6个月25%</li>
+                    <li>PCR规则：使用操作代码实现计算逻辑</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📋 下一步计划</h4>
+                <p>明天将学习<strong>Day 7: 薪俸税SAP配置</strong>，包括：</p>
+                <ul>
+                    <li>薪俸税相关工资类型配置</li>
+                    <li>免税额和扣除项目配置</li>
+                    <li>PCR规则创建和测试</li>
+                    <li>Schema集成</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习完成标记 -->
+        <section class="content-block" style="text-align: center; margin-top: 40px;">
+            <h3>🎯 学习完成标记</h3>
+            <p style="margin-bottom: 20px;">完成今日学习后，请点击下方按钮标记为已完成：</p>
+            <button onclick="markComplete()" class="complete-btn" style="padding: 15px 30px; font-size: 18px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                ✅ 标记今日学习为已完成
+            </button>
+            <p id="complete-msg" style="margin-top: 20px; color: #4CAF50; font-weight: bold; display: none;">
+                🎉 恭喜！Day 6 学习已标记为完成！
+            </p>
+        </section>
+
+        <!-- 导航 -->
+        <div class="navigation">
+            <a href="../index.html" class="nav-btn">← 返回首页</a>
+            <a href="../day05/" class="nav-btn">← Day 5</a>
+            <a href="#" class="nav-btn" style="opacity: 0.5; cursor: not-allowed;">Day 7 →</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>仅供学习交流使用 | 最后更新: 2026年3月24日</p>
+        </div>
+    </footer>
+
+    <script>
+        // 学习进度管理
+        const STORAGE_KEY = 'hong-kong-payroll-progress';
+
+        // 标记完成
+        function markComplete() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            progress['day06'] = {
+                completed: true,
+                completedAt: new Date().toISOString()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+
+            // 更新按钮状态
+            const btn = document.querySelector('.complete-btn');
+            btn.textContent = '✅ 已完成';
+            btn.style.background = '#2E7D32';
+            btn.style.cursor = 'default';
+
+            // 显示完成消息
+            document.getElementById('complete-msg').style.display = 'block';
+
+            // 更新导航状态
+            setTimeout(() => {
+                alert('✅ Day 6 学习已标记为完成！\n\n学习进度已保存。返回首页后，Day 6 将显示为已完成状态。');
+            }, 500);
+        }
+
+        // 页面加载时检查完成状态
+        window.onload = function() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            if (progress['day06'] && progress['day06'].completed) {
+                const btn = document.querySelector('.complete-btn');
+                btn.textContent = '✅ 已完成';
+                btn.style.background = '#2E7D32';
+                btn.style.cursor = 'default';
+                document.getElementById('complete-msg').style.display = 'block';
+            }
+        };
+    </script>
+</body>
+</html>
