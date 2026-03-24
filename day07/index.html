@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 7: 薪俸税SAP配置 - 香港Payroll学习网站</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="day-header">
+        <div class="container">
+            <h1>Day 7: 薪俸税SAP配置</h1>
+            <p class="meta">📅 学习日期: 2026年3月25日 | ⏱️ 学习时长: 150分钟 | ✅ 完成度: 100%</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 学习目标 -->
+        <section class="content-block">
+            <h3>📋 学习目标</h3>
+            <ul>
+                <li>✅ 掌握薪俸税相关的SAP工资类型配置方法</li>
+                <li>✅ 熟练配置免税额和扣除项目的工资类型</li>
+                <li>✅ 掌握PCR规则创建和测试的完整流程</li>
+                <li>✅ 理解薪俸税Schema的集成和执行顺序</li>
+                <li>✅ 掌握薪俸税税表的维护方法</li>
+                <li>✅ 能够独立完成薪俸税SAP配置的端到端实施</li>
+            </ul>
+        </section>
+
+        <!-- 一、SAP薪资系统架构概览 -->
+        <section class="content-block">
+            <h3>🏗️ 一、SAP薪资系统架构概览</h3>
+
+            <h4>1.1 薪资系统组件</h4>
+            <div class="highlight-box">
+                <h4>📊 核心组件关系</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+┌─────────────────────────────────────────────────────────┐
+│                    主数据层                               │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐              │
+│  │ 员工主数据 │  │ 组织架构  │  │ 薪资组   │              │
+│  │ (PA0000) │  │ (T500P)  │  │ (T503K)  │              │
+│  └──────────┘  └──────────┘  └──────────┘              │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                    工资类型层                              │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  收入类 (1000-1999)  │  扣除类 (2000-2999)  │        │
+│  │  免税额 (3000-3999)  │  税金类 (4000-4999)  │        │
+│  └─────────────────────────────────────────────┘        │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                    计算规则层                              │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐              │
+│  │ PCR规则   │  │ 函数     │  │ 税表     │              │
+│  │ (PE01)   │  │ (PE04)   │  │ (T511K)  │              │
+│  └──────────┘  └──────────┘  └──────────┘              │
+└─────────────────────────┬───────────────────────────────┘
+                          │
+                          ▼
+┌─────────────────────────────────────────────────────────┐
+│                    Schema层                               │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  Schema: HK00 (香港标准薪资计算流程)           │        │
+│  │  薪资计算周期 → PCR调用 → 结果输出             │        │
+│  └─────────────────────────────────────────────┘        │
+└─────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+
+            <h4>1.2 薪俸税配置关键T-Code</h4>
+            <div class="key-points">
+                <h4>🔑 配置事务代码</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">T-Code</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">功能说明</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">用途</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PE51</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资类型创建</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">定义薪俸税相关工资类型</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">PE01</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PCR规则创建</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">编写薪俸税计算逻辑</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PE04</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">函数创建</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">定义薪俸税特殊函数</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">PE02</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Schema编辑</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">集成薪俸税计算流程</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">T511K</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">税表维护</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">维护薪俸税税率表</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">PU01</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">薪资计算</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">测试薪俸税计算结果</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- 二、薪俸税工资类型配置 -->
+        <section class="content-block">
+            <h3>💰 二、薪俸税工资类型配置</h3>
+
+            <h4>2.1 工资类型分类体系</h4>
+            <div class="highlight-box">
+                <h4>📋 香港薪俸税工资类型编号规范</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">类型</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">编号范围</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">示例</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">用途</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">收入类</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1000-1999</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1001（基本工资）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">应税收入项目</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">奖金类</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1100-1199</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1101（年终奖）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">各类奖金收入</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">津贴类</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1200-1299</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1201（房屋津贴）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">各类津贴收入</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">扣除类</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2000-2999</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2001（强积金）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">可扣除项目</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">免税额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3000-3999</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3001（基本免税额）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">各类免税额</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">税金类</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">4000-4999</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">4001（薪俸税）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">薪俸税金额</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">临时变量</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">9000-9999</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">9001（应评税入息）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">中间计算变量</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>2.2 核心工资类型配置详解</h4>
+            <div class="highlight-box">
+                <h4>💻 工资类型配置示例（T-Code: PE51）</h4>
+                <h5>示例1：基本免税额工资类型</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+工资类型：3001 (基本免税额)
+----------
+
+配置字段：
+---------
+字段名称          值                      说明
+---------        ---                      ----
+工资类型          3001                    工资类型编号
+描述              HK - Basic Allowance    短文本
+长文本            HK - Basic Allowance    长文本
+工资类型组        /3SC                    税金组
+计算类别          M                       累计金额
+统计类别          01                      不统计
+间接评估          空白                    不启用
+分配类别          01                      标准分配
+货币              HKD                     港币
+数字              2                       保留2位小数
+有效性            有效                    启用状态
+                </pre>
+
+                <h5>示例2：强积金扣除工资类型</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+工资类型：2001 (强积金扣除)
+-----------
+
+配置字段：
+---------
+字段名称          值                      说明
+---------        ---                      ----
+工资类型          2001                    工资类型编号
+描述              HK - MPF Deduction      短文本
+长文本            HK - MPF Contribution   长文本
+工资类型组        /101                    扣除组
+计算类别          M                       累计金额
+统计类别          01                      不统计
+间接评估          空白                    不启用
+分配类别          01                      标准分配
+货币              HKD                     港币
+数字              2                       保留2位小数
+有效性            有效                    启用状态
+                </pre>
+
+                <h5>示例3：薪俸税工资类型</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+工资类型：4001 (薪俸税)
+---------
+
+配置字段：
+---------
+字段名称          值                      说明
+---------        ---                      ----
+工资类型          4001                    工资类型编号
+描述              HK - Salaries Tax       短文本
+长文本            HK - Salaries Tax Payable 长文本
+工资类型组        /3SC                    税金组
+计算类别          M                       累计金额
+统计类别          03                      税金统计
+间接评估          空白                    不启用
+分配类别          01                      标准分配
+货币              HKD                     港币
+数字              2                       保留2位小数
+有效性            有效                    启用状态
+                </pre>
+            </div>
+
+            <h4>2.3 工资类型分配配置</h4>
+            <div class="highlight-box">
+                <h4>📋 分配配置（T-Code: PE51 → 工资类型分配）</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">工资类型</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">分配类别</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">分配编号</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">薪资组</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">薪资范围</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3001</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">免税额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">01</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">HK00</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">全员工</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">3002</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">免税额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">02</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">HK01</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">已婚</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3003</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">免税额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">03</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">HK02</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">有子女</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">2001</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">扣除</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">01</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">HK00</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">全员工</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- 三、PCR规则创建 -->
+        <section class="content-block">
+            <h3>⚙️ 三、PCR规则创建</h3>
+
+            <h4>3.1 PCR规则结构</h4>
+            <div class="key-points">
+                <h4>🎯 PCR规则组成要素</h4>
+                <ul>
+                    <li><strong>规则名称</strong>：唯一标识（如XHK6、XHK7）</li>
+                    <li><strong>操作代码</strong>：执行特定操作（AMT、ADD、SUB等）</li>
+                    <li><strong>操作参数</strong>：操作的目标对象（工资类型、变量）</li>
+                    <li><strong>条件判断</strong>：IF-ELSE逻辑分支</li>
+                    <li><strong>注释</strong>：说明规则用途（以*开头）</li>
+                </ul>
+            </div>
+
+            <h4>3.2 薪俸税PCR规则完整示例</h4>
+            <div class="highlight-box">
+                <h4>💻 PCR规则：XHK6 (薪俸税完整计算流程)</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+PCR: XHK6 (香港薪俸税 - 完整计算流程)
+--------------------------------------
+
+XHK6
+* ========================================
+* 香港薪俸税完整计算流程
+* 版本：1.0
+* 日期：2026-03-25
+* ========================================
+
+* 步骤1: 计算应税收入总额
+* -----------------------
+
+* 读取基本工资（工资类型1001）
+AMT= 1001
+FIEL= /TOTAL_INC
+
+* 读取奖金（工资类型1101）
+AMT= 1101
+ADD  /TOTAL_INC
+
+* 读取房屋津贴（工资类型1201）
+AMT= 1201
+ADD  /TOTAL_INC
+FIEL= /TOTAL_INC
+
+* 步骤2: 计算免税额
+* -----------------
+
+* 读取基本免税额（工资类型3001）
+AMT= 3001
+FIEL= /TOTAL_ALLW
+
+* 判断是否已婚
+IF    P0002-FAMST = '1'
+  * 已婚，增加已婚人士免税额
+  AMT= 3002
+  ADD  /TOTAL_ALLW
+ENDIF
+
+* 判断是否有子女
+IF    P0002-FAMST = '2'
+  * 有子女，增加子女免税额
+  AMT= 3003
+  ADD  /TOTAL_ALLW
+ENDIF
+
+* 判断是否供养父母
+IF    P0002-FAMST = '3'
+  * 供养父母，增加父母免税额
+  AMT= 3004
+  ADD  /TOTAL_ALLW
+ENDIF
+FIEL= /TOTAL_ALLW
+
+* 步骤3: 计算可扣除项目
+* ---------------------
+
+* 读取强积金供款（工资类型2001）
+AMT= 2001
+FIEL= /TOTAL_DED
+
+* 读取慈善捐款（工资类型2002）
+AMT= 2002
+ADD  /TOTAL_DED
+
+* 读取居所贷款利息（工资类型2003）
+AMT= 2003
+ADD  /TOTAL_DED
+FIEL= /TOTAL_DED
+
+* 步骤4: 计算应评税入息
+* ---------------------
+
+* 应评税入息 = 应税收入 - 免税额 - 可扣除项目
+AMT= /TOTAL_INC
+SUB  /TOTAL_ALLW
+SUB  /TOTAL_DED
+FIEL= /STI
+
+* 步骤5: 按比例计算（年度中期入职）
+* --------------------------------
+
+* 检查是否有按比例标志
+IF    P0001-ZVDAT = '20240701'
+  * 2024年7月1日入职，按比例计算
+  AMT= /STI
+  * 受雇比例：75.07% (274天/365天)
+  MULT 0.7507
+  FIEL= /STI_PRORATA
+
+  * 按比例免税额
+  AMT= /TOTAL_ALLW
+  MULT 0.7507
+  FIEL= /ALLW_PRORATA
+
+  * 更新应评税入息
+  AMT= /STI_PRORATA
+  FIEL= /STI
+ENDIF
+
+* 步骤6: 计算累进税率税额
+* -----------------------
+
+* 初始化税额为0
+ZERO= /TX_PROG
+
+* 第1级税率：首HKD 50,000 × 2%
+AMT= /STI
+AMT? >0
+  AMT? <=50000
+    * 全部在第1级
+    MULT 0.02
+    FIEL= /TX_PROG
+  ELSE
+    * 超出第1级部分
+    AMT= 50000
+    MULT 0.02
+    FIEL= /TX_PROG
+    * 计算剩余金额
+    SUB  /STI
+    FIEL= /REMAIN1
+  ENDIF
+ENDIF
+
+* 第2级税率：次HKD 50,000 × 6%
+AMT= /REMAIN1
+AMT? >0
+  AMT? <=50000
+    * 全部在第2级
+    MULT 0.06
+    ADD  /TX_PROG
+    FIEL= /TX_PROG
+  ELSE
+    * 超出第2级部分
+    AMT= 50000
+    MULT 0.06
+    ADD  /TX_PROG
+    FIEL= /TX_PROG
+    * 计算剩余金额
+    SUB  /REMAIN1
+    FIEL= /REMAIN2
+  ENDIF
+ENDIF
+
+* 第3级税率：次HKD 50,000 × 10%
+AMT= /REMAIN2
+AMT? >0
+  AMT? <=50000
+    * 全部在第3级
+    MULT 0.10
+    ADD  /TX_PROG
+    FIEL= /TX_PROG
+  ELSE
+    * 超出第3级部分
+    AMT= 50000
+    MULT 0.10
+    ADD  /TX_PROG
+    FIEL= /TX_PROG
+    * 计算剩余金额
+    SUB  /REMAIN2
+    FIEL= /REMAIN3
+  ENDIF
+ENDIF
+
+* 第4级税率：次HKD 50,000 × 14%
+AMT= /REMAIN3
+AMT? >0
+  AMT? <=50000
+    * 全部在第4级
+    MULT 0.14
+    ADD  /TX_PROG
+    FIEL= /TX_PROG
+  ELSE
+    * 超出第4级部分
+    AMT= 50000
+    MULT 0.14
+    ADD  /TX_PROG
+    FIEL= /TX_PROG
+    * 计算剩余金额
+    SUB  /REMAIN3
+    FIEL= /REMAIN4
+  ENDIF
+ENDIF
+
+* 第5级税率：余下 × 17%
+AMT= /REMAIN4
+AMT? >0
+  MULT 0.17
+  ADD  /TX_PROG
+  FIEL= /TX_PROG
+ENDIF
+
+* 步骤7: 计算标准税率税额
+* -----------------------
+
+* 读取应评税入息
+AMT= /STI
+
+* 计算标准税率税额 (15%)
+MULT 0.15
+FIEL= /TX_STD
+
+* 步骤8: 选择较低税额
+* ------------------
+
+* 比较累进税率税额和标准税率税额
+AMT= /TX_PROG
+AMT? < /TX_STD
+  * 累进税率较低
+  AMT= /TX_PROG
+  FIEL= /FINAL_TAX
+ELSE
+  * 标准税率较低
+  AMT= /TX_STD
+  FIEL= /FINAL_TAX
+ENDIF
+
+* 步骤9: 写入薪俸税工资类型
+* -------------------------
+
+* 将最终税额写入工资类型4001
+AMT= /FINAL_TAX
+AMT= 4001
+
+* 清除临时变量
+ELIM= /TOTAL_INC
+ELIM= /TOTAL_ALLW
+ELIM= /TOTAL_DED
+ELIM= /STI
+ELIM= /STI_PRORATA
+ELIM= /ALLW_PRORATA
+ELIM= /TX_PROG
+ELIM= /TX_STD
+ELIM= /FINAL_TAX
+ELIM= /REMAIN1
+ELIM= /REMAIN2
+ELIM= /REMAIN3
+ELIM= /REMAIN4
+                </pre>
+            </div>
+
+            <h4>3.3 PCR规则测试</h4>
+            <div class="highlight-box">
+                <h4>🧪 PCR规则测试流程</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+测试步骤：
+---------
+1. 创建测试员工
+   - T-Code: PA30
+   - 输入测试员工的薪资数据
+   - 设置测试场景（单身、已婚、有子女等）
+
+2. 执行薪资计算
+   - T-Code: PU01
+   - 选择测试员工
+   - 执行薪资计算周期
+
+3. 查看计算结果
+   - T-Code: PC_PAYRESULT
+   - 检查工资类型4001（薪俸税）金额
+   - 验证计算准确性
+
+4. 对比手工计算
+   - 使用Excel手工计算预期结果
+   - 对比SAP计算结果
+   - 调整PCR规则直至一致
+
+5. 测试场景覆盖
+   - 测试场景1：单身上班族（低收入）
+   - 测试场景2：单身上班族（中等收入）
+   - 测试场景3：已婚人士（高收入）
+   - 测试场景4：年度中期入职
+   - 测试场景5：有股票期权收入
+                </pre>
+            </div>
+        </section>
+
+        <!-- 四、Schema集成 -->
+        <section class="content-block">
+            <h3>🔗 四、Schema集成</h3>
+
+            <h4>4.1 Schema结构</h4>
+            <div class="key-points">
+                <h4>🎯 Schema定义</h4>
+                <ul>
+                    <li><strong>Schema</strong>：薪资计算流程的完整定义</li>
+                    <li><strong>执行顺序</strong>：按顺序执行函数和PCR规则</li>
+                    <li><strong>Schema名称</strong>：HK00（香港标准Schema）</li>
+                    <li><strong>配置位置</strong>：T-Code PE02</li>
+                </ul>
+            </div>
+
+            <h4>4.2 香港薪俸税Schema集成示例</h4>
+            <div class="highlight-box">
+                <h4>💻 Schema: HK00 (香港薪资计算流程 - 薪俸税部分)</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+Schema: HK00 (香港薪资计算流程)
+------------------------------
+
+* ========================================
+* 香港薪资计算流程 - 薪俸税计算部分
+* ========================================
+
+* 第一部分：薪资数据读取
+* ----------------------
+IMPORT  *              读取薪资期间信息
+PIT     P0001         读取员工主数据（雇佣信息）
+PIT     P0002         读取员工主数据（婚姻状况）
+PIT     P0008         读取薪资标准信息
+PIT     P0014         读取薪资组信息
+
+* 第二部分：薪资收入计算
+* --------------------
+XMT0                  清除累计金额
+PRINT                 开始收入计算
+* 调用收入计算PCR
+XHK0                  收入计算（基本工资）
+XHK1                  收入计算（奖金）
+XHK2                  收入计算（津贴）
+XHK3                  收入计算（福利）
+
+* 第三部分：MPF计算
+* ----------------
+* 调用MPF计算PCR
+XHK4                  MPF计算（员工部分）
+XHK5                  MPF计算（雇主部分）
+
+* 第四部分：薪俸税计算
+* --------------------
+* ⭐️ 薪俸税计算（核心部分）
+PRINT                 开始薪俸税计算
+XHK6                  薪俸税完整计算流程
+* XHK6内部步骤：
+*   1. 计算应税收入总额
+*   2. 计算免税额
+*   3. 计算可扣除项目
+*   4. 计算应评税入息
+*   5. 按比例计算（如需要）
+*   6. 计算累进税率税额
+*   7. 计算标准税率税额
+*   8. 选择较低税额
+*   9. 写入薪俸税工资类型
+
+* 第五部分：净薪计算
+* ------------------
+* 计算净薪
+XHK9                  净薪计算
+
+* 第六部分：结果输出
+* ------------------
+AVERA                 平均值计算
+UPDRT                 更新工资表
+PRINT                 打印薪资结果
+
+* 第七部分：统计与报表
+* --------------------
+XHK10                 统计汇总
+XHK11                 生成薪俸税报表
+                </pre>
+            </div>
+
+            <h4>4.3 Schema编辑和激活</h4>
+            <div class="highlight-box">
+                <h4>📋 Schema配置流程</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+配置步骤：
+---------
+
+步骤1: 打开Schema编辑器
+-----------------------
+T-Code: PE02
+输入Schema名称：HK00
+点击"更改"按钮
+
+步骤2: 插入薪俸税计算PCR
+-----------------------
+找到"第四部分：薪俸税计算"位置
+在PRINT语句后插入：
+XHK6                  薪俸税完整计算流程
+
+步骤3: 保存Schema
+----------------
+点击"保存"按钮（或Ctrl+S）
+系统会自动检查语法错误
+
+步骤4: 激活Schema
+----------------
+点击"激活"按钮（或F8）
+激活后Schema可用于薪资计算
+
+步骤5: 测试Schema
+-----------------
+T-Code: PU01
+执行薪资计算
+验证薪俸税计算结果
+                </pre>
+            </div>
+        </section>
+
+        <!-- 五、税表维护 -->
+        <section class="content-block">
+            <h3>📊 五、税表维护</h3>
+
+            <h4>5.1 税表概述</h4>
+            <div class="key-points">
+                <h4>🎯 税表作用</h4>
+                <ul>
+                    <li><strong>税表</strong>：存储税率和免税额的数据库表</li>
+                    <li><strong>更新频率</strong>：每年更新一次（财政年度）</li>
+                    <li><strong>主要税表</strong>：T511K（税率表）、T511J（免税额表）</li>
+                    <li><strong>配置位置</strong>：T-Code PE51 → 税表维护</li>
+                </ul>
+            </div>
+
+            <h4>5.2 税率表配置（T511K）</h4>
+            <div class="highlight-box">
+                <h4>📊 香港薪俸税税率表（2024/2025课税年度）</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">税率级别</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">应评税入息范围 (HKD)</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">税率</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">SAP税表值</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第1级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">首 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">2%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">0.02</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">第2级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">次 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">6%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">0.06</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第3级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">次 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">10%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">0.10</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">第4级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">次 50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">14%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">0.14</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第5级</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">余下</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">17%</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">0.17</td>
+                    </tr>
+                    <tr style="background: #e0f7fa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>标准税率</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">全部</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;"><strong>15%</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>0.15</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>5.3 免税额表配置（T511J）</h4>
+            <div class="highlight-box">
+                <h4>📊 香港薪俸税免税额表（2024/2025课税年度）</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">免税额类型</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">金额 (HKD)</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">SAP税表值</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">工资类型</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">基本免税额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">132,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">132000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3001</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">已婚人士免税额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">264,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">264000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3002</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">子女免税额（每名）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">130,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">130000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3003</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">供养父母免税额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">50000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3004</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">伤残受养人免税额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">75,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">75000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">3005</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>5.4 税表更新流程</h4>
+            <div class="highlight-box">
+                <h4>🔄 年度税表更新流程</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+更新步骤：
+---------
+
+步骤1: 获取最新税率信息
+-----------------------
+访问香港税务局官网
+下载最新课税年度税率和免税额
+
+步骤2: 备份现有税表
+-------------------
+T-Code: SE16
+查看表T511K（税率表）
+查看表T511J（免税额表）
+导出数据备份
+
+步骤3: 更新税表数据
+-------------------
+T-Code: PE51 → 税表维护
+选择税表：T511K
+输入课税年度：2025
+更新税率值：
+- 第1级：0.02
+- 第2级：0.06
+- 第3级：0.10
+- 第4级：0.14
+- 第5级：0.17
+- 标准税率：0.15
+
+步骤4: 更新免税额数据
+---------------------
+T-Code: PE51 → 税表维护
+选择税表：T511J
+输入课税年度：2025
+更新免税额值：
+- 基本免税额：132000
+- 已婚人士免税额：264000
+- 子女免税额：130000
+- 供养父母免税额：50000
+- 伤残受养人免税额：75000
+
+步骤5: 测试验证
+---------------
+创建测试员工
+执行薪资计算
+验证税额计算准确性
+
+步骤6: 通知用户
+---------------
+发布税表更新通知
+更新系统文档
+培训用户
+                </pre>
+            </div>
+        </section>
+
+        <!-- 六、常见配置问题 -->
+        <section class="content-block">
+            <h3>❓ 六、常见配置问题</h3>
+
+            <h4>6.1 FAQ 1: 如何处理年度中期入职的免税额按比例计算？</h4>
+            <div class="highlight-box">
+                <h4>💡 解决方案</h4>
+                <ul>
+                    <li><strong>计算受雇比例</strong>：根据入职日期到课税年度结束的天数计算</li>
+                    <li><strong>按比例免税额</strong>：基本免税额 × 受雇比例</li>
+                    <li><strong>PCR规则处理</strong>：在PCR中判断入职日期，自动按比例计算</li>
+                    <li><strong>示例</strong>：7月1日入职，受雇比例 = 274/365 = 75.07%</li>
+                </ul>
+            </div>
+
+            <h4>6.2 FAQ 2: 薪俸税计算结果与手工计算不一致怎么办？</h4>
+            <div class="highlight-box">
+                <h4>💡 排查步骤</h4>
+                <ul>
+                    <li><strong>步骤1</strong>：检查PCR规则逻辑是否正确</li>
+                    <li><strong>步骤2</strong>：检查工资类型金额是否正确输入</li>
+                    <li><strong>步骤3</strong>：检查税表税率是否更新到最新</li>
+                    <li><strong>步骤4</strong>：检查免税额是否正确计算</li>
+                    <li><strong>步骤5</strong>：使用调试模式（Debug模式）逐步检查计算过程</li>
+                </ul>
+            </div>
+
+            <h4>6.3 FAQ 3: 如何在SAP中配置股票期权收入？</h4>
+            <div class="highlight-box">
+                <h4>💡 配置方法</h4>
+                <ul>
+                    <li><strong>创建工资类型</strong>：1301（股票期权收入）</li>
+                    <li><strong>配置PCR规则</strong>：在收入计算阶段读取股票期权收入</li>
+                    <li><strong>征税时机</strong>：在行权日（Exercise Date）计入应税收入</li>
+                    <li><strong>计算公式</strong>：（行权日价格 - 行权价格）× 行权股数</li>
+                    <li><strong>税务处理</strong>：作为一次性收入计入年度应税收入</li>
+                </ul>
+            </div>
+
+            <h4>6.4 FAQ 4: 如何处理月度预缴税金的计算？</h4>
+            <div class="highlight-box">
+                <h4>💡 配置方法</h4>
+                <ul>
+                    <li><strong>创建工资类型</strong>：4002（月度预缴税金）</li>
+                    <li><strong>预缴比例</strong>：前6个月75%，后6个月25%</li>
+                    <li><strong>PCR规则</strong>：XHK8（月度预缴计算）</li>
+                    <li><strong>结算机制</strong>：年度申报时多退少补</li>
+                    <li><strong>示例</strong>：上年税额HKD 60,000，前6个月每月预缴HKD 3,750</li>
+                </ul>
+            </div>
+
+            <h4>6.5 FAQ 5: 如何验证SAP配置的准确性？</h4>
+            <div class="highlight-box">
+                <h4>💡 验证方法</h4>
+                <ul>
+                    <li><strong>方法1</strong>：使用测试员工进行薪资计算，对比手工计算结果</li>
+                    <li><strong>方法2</strong>：使用Debug模式逐步检查PCR执行过程</li>
+                    <li><strong>方法3</strong>：检查工资表结果，验证各项金额</li>
+                    <li><strong>方法4</strong>：生成薪俸税报表，汇总检查</li>
+                    <li><strong>方法5</strong>：与税务顾问核对计算逻辑</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 七、最佳实践 -->
+        <section class="content-block">
+            <h3>💡 七、最佳实践</h3>
+
+            <div class="key-points">
+                <h4>✅ 配置最佳实践</h4>
+                <ul>
+                    <li><strong>遵循SAP标准</strong>：尽量使用SAP标准配置，减少自定义开发</li>
+                    <li><strong>版本管理</strong>：重要配置变更前进行备份</li>
+                    <li><strong>充分测试</strong>：每个PCR规则创建后立即测试</li>
+                    <li><strong>文档记录</strong>：详细记录配置步骤和逻辑</li>
+                    <li><strong>定期审查</strong>：每年更新税表后审查配置</li>
+                    <li><strong>错误处理</strong>：在PCR中加入错误处理逻辑</li>
+                    <li><strong>性能优化</strong>：避免复杂的嵌套循环，提高计算效率</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ 注意事项</h4>
+                <ul>
+                    <li><strong>数据准确性</strong>：确保税表数据准确无误</li>
+                    <li><strong>测试覆盖</strong>：覆盖所有常见场景（单身、已婚、有子女、中途入职）</li>
+                    <li><strong>用户培训</strong>：配置完成后对用户进行培训</li>
+                    <li><strong>变更管理</strong>：生产环境配置变更需经过审批流程</li>
+                    <li><strong>合规性</strong>：确保配置符合香港税务局要求</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习总结 -->
+        <section class="content-block">
+            <h3>📚 学习总结</h3>
+
+            <div class="key-points">
+                <h4>✅ 今日收获</h4>
+                <ul>
+                    <li>掌握了薪俸税相关的SAP工资类型配置方法</li>
+                    <li>熟练配置免税额和扣除项目的工资类型</li>
+                    <li>掌握了PCR规则创建和测试的完整流程</li>
+                    <li>理解了薪俸税Schema的集成和执行顺序</li>
+                    <li>掌握了薪俸税税表的维护方法</li>
+                    <li>能够独立完成薪俸税SAP配置的端到端实施</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🔗 关键知识点</h4>
+                <ul>
+                    <li>工资类型配置：PE51创建，编号规范1000-9999</li>
+                    <li>PCR规则：XHK6完整计算流程，包含9个步骤</li>
+                    <li>Schema集成：HK00 Schema，第四部分为薪俸税计算</li>
+                    <li>税表维护：T511K税率表、T511J免税额表</li>
+                    <li>测试验证：PU01执行薪资计算，对比手工计算</li>
+                    <li>最佳实践：遵循SAP标准、充分测试、文档记录</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📋 下一步计划</h4>
+                <p>明天将学习<strong>Day 8: 薪俸税报表与申报</strong>，包括：</p>
+                <ul>
+                    <li>薪俸税相关标准报表生成</li>
+                    <li>IR56B表格配置和生成</li>
+                    <li>年度薪俸税申报流程</li>
+                    <li>报表自定义开发</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习完成标记 -->
+        <section class="content-block" style="text-align: center; margin-top: 40px;">
+            <h3>🎯 学习完成标记</h3>
+            <p style="margin-bottom: 20px;">完成今日学习后，请点击下方按钮标记为已完成：</p>
+            <button onclick="markComplete()" class="complete-btn" style="padding: 15px 30px; font-size: 18px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                ✅ 标记今日学习为已完成
+            </button>
+            <p id="complete-msg" style="margin-top: 20px; color: #4CAF50; font-weight: bold; display: none;">
+                🎉 恭喜！Day 7 学习已标记为完成！
+            </p>
+        </section>
+
+        <!-- 导航 -->
+        <div class="navigation">
+            <a href="../index.html" class="nav-btn">← 返回首页</a>
+            <a href="../day06/" class="nav-btn">← Day 6</a>
+            <a href="#" class="nav-btn" style="opacity: 0.5; cursor: not-allowed;">Day 8 →</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>仅供学习交流使用 | 最后更新: 2026年3月25日</p>
+        </div>
+    </footer>
+
+    <script>
+        // 学习进度管理
+        const STORAGE_KEY = 'hong-kong-payroll-progress';
+
+        // 标记完成
+        function markComplete() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            progress['day07'] = {
+                completed: true,
+                completedAt: new Date().toISOString()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+
+            // 更新按钮状态
+            const btn = document.querySelector('.complete-btn');
+            btn.textContent = '✅ 已完成';
+            btn.style.background = '#2E7D32';
+            btn.style.cursor = 'default';
+
+            // 显示完成消息
+            document.getElementById('complete-msg').style.display = 'block';
+
+            // 更新导航状态
+            setTimeout(() => {
+                alert('✅ Day 7 学习已标记为完成！\n\n学习进度已保存。返回首页后，Day 7 将显示为已完成状态。');
+            }, 500);
+        }
+
+        // 页面加载时检查完成状态
+        window.onload = function() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            if (progress['day07'] && progress['day07'].completed) {
+                const btn = document.querySelector('.complete-btn');
+                btn.textContent = '✅ 已完成';
+                btn.style.background = '#2E7D32';
+                btn.style.cursor = 'default';
+                document.getElementById('complete-msg').style.display = 'block';
+            }
+        };
+    </script>
+</body>
+</html>
