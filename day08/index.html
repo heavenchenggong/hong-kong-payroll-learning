@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 8: 薪俸税报表与申报 - 香港Payroll学习网站</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="day-header">
+        <div class="container">
+            <h1>Day 8: 薪俸税报表与申报</h1>
+            <p class="meta">📅 学习日期: 2026年3月26日 | ⏱️ 学习时长: 120分钟 | ✅ 完成度: 100%</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 学习目标 -->
+        <section class="content-block">
+            <h3>📋 学习目标</h3>
+            <ul>
+                <li>✅ 掌握SAP标准薪俸税报表的生成和使用方法</li>
+                <li>✅ 熟练配置IR56B表格和相关工资类型</li>
+                <li>✅ 掌握年度薪俸税申报的完整流程</li>
+                <li>✅ 理解香港税务局对薪俸税申报的要求和时限</li>
+                <li>✅ 掌握报表自定义开发的基本方法</li>
+                <li>✅ 能够独立完成薪俸税报表生成和申报工作</li>
+            </ul>
+        </section>
+
+        <!-- 一、SAP报表系统概览 -->
+        <section class="content-block">
+            <h3>📊 一、SAP报表系统概览</h3>
+
+            <h4>1.1 SAP HCM报表组件</h4>
+            <div class="highlight-box">
+                <h4>📊 薪资报表体系架构</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+┌─────────────────────────────────────────────────────────┐
+│                    SAP HCM 报表系统                        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  1. 标准报表 (Standard Reports)              │        │
+│  │     - SAP提供的预配置报表                      │        │
+│  │     - 常用T-Codes: PC00_Mxx_xxx              │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  2. 特殊程序 (Special Programs)              │        │
+│  │     - 香港本地化报表程序                      │        │
+│  │     - 程序名: RPHxxxxx                        │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  3. InfoSet查询                              │        │
+│  │     - 基于逻辑数据库的灵活查询                 │        │
+│  │     - T-Code: SQ01, SQ02, SQ03               │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  4. SAP Query/Ad Hoc Query                  │        │
+│  │     - 用户自定义快速查询                       │        │
+│  │     - T-Code: SQ01                           │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  5. SAP Smart Forms                          │        │
+│  │     - 自定义表单开发                          │        │
+│  │     - T-Code: SMARTFORMS                     │        │
+│  └─────────────────────────────────────────────┘        │
+└─────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+
+            <h4>1.2 薪俸税相关T-Code</h4>
+            <div class="key-points">
+                <h4>🔑 薪俸税报表T-Code汇总</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">T-Code</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">功能说明</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">用途</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PC00_Mxx_xx01</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">薪资结算表</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">生成月度薪资汇总报表</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">PC00_Mxx_xx02</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">税金明细表</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">显示税金计算明细</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PC00_Mxx_xx03</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资单</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">生成员工工资单</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">PC00_Mxx_HK01</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">香港薪俸税汇总</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">薪俸税汇总报表</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PC00_Mxx_HK02</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">IR56B表格</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">生成雇主填报表格</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">PC00_Mxx_HK03</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">IR56B雇主副本</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">生成雇主保留副本</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PC00_Mxx_HK04</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">年度税金汇总</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">年度税金汇总报表</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">SE38</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">ABAP程序执行</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">执行特殊报表程序</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- 二、薪俸税标准报表 -->
+        <section class="content-block">
+            <h3>📑 二、薪俸税标准报表</h3>
+
+            <h4>2.1 薪俸税汇总报表</h4>
+            <div class="highlight-box">
+                <h4>📊 报表：PC00_Mxx_HK01（薪俸税汇总）</h4>
+                <h5>报表用途</h5>
+                <ul>
+                    <li>汇总显示所有员工的薪俸税计算结果</li>
+                    <li>提供按部门、薪资组的统计视图</li>
+                    <li>支持按月份、季度、年度汇总</li>
+                    <li>用于管理层审查和财务对账</li>
+                </ul>
+
+                <h5>执行步骤</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 输入T-Code
+----------------
+T-Code: PC00_Mxx_HK01
+其中 Mxx = 薪资计算周期（例如M01=1月，M12=12月）
+
+步骤2: 选择薪资期间
+------------------
+输入薪资期间：03/2026（2026年3月）
+选择计算结果：当前结果
+
+步骤3: 选择报表选项
+------------------
+选择输出格式：列表/ALV网格
+选择排序方式：按员工编号/按部门
+选择汇总级别：详细/汇总
+
+步骤4: 选择选择条件
+------------------
+个人范围：选择特定员工或全体员工
+组织架构：选择特定部门或全公司
+薪资组：选择特定薪资组或全部
+
+步骤5: 执行报表
+--------------
+点击"执行"按钮（F8）
+系统生成薪俸税汇总报表
+
+步骤6: 分析报表数据
+------------------
+检查薪俸税总金额
+检查各部门税金分布
+识别异常数据（税额过高或过低）
+                </pre>
+
+                <h5>报表字段说明</h5>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">字段</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">说明</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Pernr</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">员工编号</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">Name</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">员工姓名</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">OrgUnit</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">所属部门</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">GrossIncome</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">总收入（应税）</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">Allowance</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">免税额</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">Deduction</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">可扣除项目</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">NetAssessable</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">应评税入息</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">TaxAmount</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">薪俸税金额</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">TaxRate</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">适用税率</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>2.2 年度薪俸税汇总报表</h4>
+            <div class="highlight-box">
+                <h4>📊 报表：PC00_Mxx_HK04（年度税金汇总）</h4>
+                <h5>报表用途</h5>
+                <ul>
+                    <li>汇总全年各月的薪俸税数据</li>
+                    <li>显示预缴税金和实际税金的差异</li>
+                    <li>用于年度税务对账和结算</li>
+                    <li>支持生成年终税务申报数据</li>
+                </ul>
+
+                <h5>执行步骤</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 输入T-Code
+----------------
+T-Code: PC00_Mxx_HK04
+
+步骤2: 选择年度范围
+------------------
+输入课税年度：2024/2025
+选择计算结果：当前结果
+
+步骤3: 选择汇总选项
+------------------
+选择输出格式：列表/汇总
+选择分组方式：按员工/按部门/按薪资组
+
+步骤4: 执行报表
+--------------
+点击"执行"按钮（F8）
+系统生成年度税金汇总报表
+
+步骤5: 分析报表数据
+------------------
+检查全年税金总额
+检查预缴税金总额
+识别多缴或少缴情况
+                </pre>
+
+                <h5>报表示例数据</h5>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">月份</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">总税金 (HKD)</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">预缴税金 (HKD)</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: right;">差异 (HKD)</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">4月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">120,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">120,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">0</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">5月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">125,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">125,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">0</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">6月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">130,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">130,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">0</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">7月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">135,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">135,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">0</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">8月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">140,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">140,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">0</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">9月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">145,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">145,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">0</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">10月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">150,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">-100,000</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">11月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">155,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">-105,000</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">12月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">160,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">50,000</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;">-110,000</td>
+                    </tr>
+                    <tr style="background: #e0f7fa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;"><strong>全年合计</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>1,260,000</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>945,000</strong></td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: right;"><strong>-315,000</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>2.3 税金明细报表</h4>
+            <div class="highlight-box">
+                <h4>📊 报表：PC00_Mxx_xx02（税金明细）</h4>
+                <h5>报表用途</h5>
+                <ul>
+                    <li>显示单个员工的税金计算详细过程</li>
+                    <li>显示每个工资类型的金额</li>
+                    <li>显示免税额和扣除项目的明细</li>
+                    <li>用于税务查询和问题排查</li>
+                </ul>
+
+                <h5>执行步骤</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 输入T-Code
+----------------
+T-Code: PC00_Mxx_xx02
+
+步骤2: 选择员工
+--------------
+输入员工编号：00012345
+或使用选择按钮查找员工
+
+步骤3: 选择薪资期间
+------------------
+输入薪资期间：03/2026
+
+步骤4: 执行报表
+--------------
+点击"执行"按钮（F8）
+系统显示税金计算明细
+
+步骤5: 查看详细数据
+------------------
+检查各项收入金额
+检查免税额计算
+检查扣除项目
+检查税金计算过程
+                </pre>
+            </div>
+        </section>
+
+        <!-- 三、IR56B表格配置 -->
+        <section class="content-block">
+            <h3>📄 三、IR56B表格配置</h3>
+
+            <h4>3.1 IR56B表格概述</h4>
+            <div class="key-points">
+                <h4>🎯 IR56B是什么？</h4>
+                <ul>
+                    <li><strong>全称</strong>：Employer's Return of Remuneration and Pensions（雇主填报薪酬及退休金申报表）</li>
+                    <li><strong>申报主体</strong>：雇主（Employer）</li>
+                    <li><strong>申报内容</strong>：每位雇员的薪酬、津贴、福利、税金等</li>
+                    <li><strong>申报时间</strong>：每年4月1日至5月2日</li>
+                    <li><strong>申报方式</strong>：纸质表格或电子申报（eTAX）</li>
+                    <li><strong>法律依据</strong>：香港税务局第112章《税务条例》</li>
+                </ul>
+            </div>
+
+            <h4>3.2 IR56B表格结构</h4>
+            <div class="highlight-box">
+                <h4>📋 IR56B表格主要字段</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">字段</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">说明</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">SAP工资类型</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">员工姓名</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">英文姓名</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">P0002-VORNA, P0002-NACHN</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">身份证号码</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">香港身份证号码</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">P0002-PERID</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">性别</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">男/女</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">P0002-GESCH</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">婚姻状况</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">单身/已婚等</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">P0002-FAMST</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">出生日期</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">年/月/日</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">P0002-GBDAT</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">受雇日期</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">入职日期</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">P0001-ZVDAT</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">离职日期</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">离职日期（如适用）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">P0001-ZVEND</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">职位</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工作职位</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">P0001-PLANS</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">基本工资</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">月基本工资</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1001</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">奖金</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">年终奖、绩效奖等</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1101</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">房屋津贴</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">房屋租金补贴</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1201</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">其他津贴</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">交通、膳食等津贴</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1202</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">强积金供款</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">强积金扣除</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2001</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">其他扣除</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">其他可扣除项目</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2002</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">应评税入息</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">年度应评税入息总额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">9001</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">薪俸税</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">年度薪俸税总额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">4001</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>3.3 IR56B表格生成</h4>
+            <div class="highlight-box">
+                <h4>💻 IR56B表格生成流程</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 输入T-Code
+----------------
+T-Code: PC00_Mxx_HK02
+（IR56B表格生成程序）
+
+步骤2: 选择课税年度
+------------------
+输入课税年度：2024/2025
+选择计算结果：当前结果
+
+步骤3: 选择申报类型
+------------------
+选择申报表格：IR56B
+选择生成范围：全部员工/特定员工
+
+步骤4: 输入雇主信息
+------------------
+雇主名称：ABC Company Limited
+雇主地址：香港中环皇后大道中88号
+雇主登记号：12345678-000
+
+步骤5: 选择输出格式
+------------------
+输出格式：PDF/Excel/打印
+语言：英文/中文
+
+步骤6: 执行程序
+--------------
+点击"执行"按钮（F8）
+系统生成IR56B表格
+
+步骤7: 检查表格内容
+------------------
+检查员工信息是否完整
+检查薪酬数据是否准确
+检查税金计算是否正确
+检查总额是否匹配
+
+步骤8: 保存和打印
+----------------
+保存电子版（保留7年）
+打印纸质版（如需要）
+准备申报资料
+                </pre>
+            </div>
+
+            <h4>3.4 IR56B雇主副本生成</h4>
+            <div class="highlight-box">
+                <h4>💻 IR56B雇主副本（PC00_Mxx_HK03）</h4>
+                <h5>用途</h5>
+                <ul>
+                    <li>生成雇主保留的IR56B副本</li>
+                    <li>与税务局收到的IR56B表格内容一致</li>
+                    <li>用于内部记录和审计</li>
+                    <li>必须保存至少7年</li>
+                </ul>
+
+                <h5>执行步骤</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 输入T-Code
+----------------
+T-Code: PC00_Mxx_HK03
+
+步骤2: 选择课税年度
+------------------
+输入课税年度：2024/2025
+
+步骤3: 执行程序
+--------------
+点击"执行"按钮（F8）
+系统生成雇主副本
+
+步骤4: 保存备份
+--------------
+保存电子版（PDF格式）
+打印纸质版（如需要）
+存档保存（7年）
+                </pre>
+            </div>
+
+            <h4>3.5 IR56B数据校验</h4>
+            <div class="highlight-box">
+                <h4>✅ IR56B数据校验清单</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">校验项目</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">校验内容</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">通过</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">员工信息完整性</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">姓名、身份证号、出生日期等必填项</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">身份证号码格式</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">符合香港身份证格式（X123456(A)）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">薪酬数据准确性</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资、奖金、津贴等金额准确</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">税金计算准确性</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">应评税入息和薪俸税金额正确</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">总额一致性</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">员工总额与报表总额一致</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">货币单位</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">所有金额单位为港币（HKD）</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">年度完整性</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">包含整个课税年度的数据</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">离职员工处理</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">离职员工数据包含在申报表中</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇主信息完整性</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇主名称、地址、登记号等完整</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">数据备份</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">电子版和纸质版已备份保存</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- 四、年度薪俸税申报流程 -->
+        <section class="content-block">
+            <h3>📝 四、年度薪俸税申报流程</h3>
+
+            <h4>4.1 申报时间线</h4>
+            <div class="highlight-box">
+                <h4>📅 2024/2025课税年度申报时间表</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">时间</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">事项</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">说明</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2024年4月1日</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">课税年度开始</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2024/2025课税年度开始</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">2025年1月-2月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">数据准备</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">整理年度薪酬数据</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2025年3月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">数据校验</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">校验数据准确性和完整性</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">2025年4月1日</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">申报开始</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">税务局开始接收IR56B表格</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2025年5月2日</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">申报截止</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇主提交IR56B表格的截止日期</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">2025年5月-7月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">税务局审核</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">税务局审核申报数据</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">2025年7月-8月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">评税通知书</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">税务局发出评税通知书</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">2025年8月-9月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">缴纳税款</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇员缴纳税款</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>4.2 申报流程详解</h4>
+            <div class="highlight-box">
+                <h4>🔄 年度薪俸税申报完整流程</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+阶段1: 数据准备（1月-2月）
+-------------------------
+
+步骤1: 导出年度薪资数据
+---------------------
+执行报表：PC00_Mxx_HK04（年度税金汇总）
+导出范围：2024年4月-2025年3月
+导出格式：Excel
+
+步骤2: 清洗和整理数据
+-------------------
+检查数据完整性
+删除重复记录
+修正错误数据
+填补缺失数据
+
+步骤3: 生成辅助报表
+-------------------
+生成部门汇总报表
+生成薪资组汇总报表
+生成异常数据报表
+
+阶段2: 数据校验（3月）
+--------------------
+
+步骤4: 数据一致性检查
+-------------------
+对比SAP数据与财务数据
+对比年度总额与月度汇总
+对比实际税金与预缴税金
+
+步骤5: 异常数据排查
+-------------------
+识别税额异常的员工
+核实离职员工数据
+核实中途入职员工数据
+
+步骤6: 生成IR56B表格草稿
+----------------------
+执行程序：PC00_Mxx_HK02
+生成草稿表格
+内部审核
+
+阶段3: 申报提交（4月1日-5月2日）
+-------------------------------
+
+步骤7: 最终校验
+--------------
+再次检查IR56B表格
+获取管理层审批
+签署申报表
+
+步骤8: 提交IR56B表格
+--------------------
+方式1：电子申报（eTAX）
+  - 登录税务局eTAX系统
+  - 上传IR56B数据文件
+  - 确认提交
+
+方式2：纸质申报
+  - 打印IR56B表格
+  - 签署和盖章
+  - 邮寄或亲自递交
+
+步骤9: 保存申报副本
+------------------
+保存电子版PDF
+打印雇主副本（PC00_Mxx_HK03）
+存档保存7年
+
+阶段4: 申报后处理（5月-8月）
+---------------------------
+
+步骤10: 税务局审核
+----------------
+等待税务局审核
+准备提供补充资料
+回应税务局查询
+
+步骤11: 评税通知书处理
+--------------------
+接收评税通知书
+通知员工税金金额
+协助员工理解税单
+
+步骤12: 税款缴纳支持
+----------------
+提供缴税指引
+协助员工处理异议
+更新SAP记录
+                </pre>
+            </div>
+
+            <h4>4.3 eTAX电子申报</h4>
+            <div class="highlight-box">
+                <h4>💻 eTAX电子申报步骤</h4>
+                <h5>eTAX是什么？</h5>
+                <ul>
+                    <li>香港税务局的电子申报系统</li>
+                    <li>支持在线提交IR56B表格</li>
+                    <li>支持批量导入数据</li>
+                    <li>支持实时查看申报状态</li>
+                </ul>
+
+                <h5>eTAX注册</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 访问eTAX网站
+----------------
+网址：https://www.etax.gov.hk
+选择"eTAX Service"
+
+步骤2: 申请eTAX账户
+------------------
+点击"注册"按钮
+填写申请表格
+上传公司证明文件
+
+步骤3: 获取激活码
+----------------
+税务局审核申请
+邮寄激活码到注册地址
+
+步骤4: 激活账户
+--------------
+登录eTAX
+输入激活码
+设置密码
+完成注册
+                </pre>
+
+                <h5>eTAX提交IR56B</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 登录eTAX
+--------------
+输入用户名和密码
+通过双重认证
+
+步骤2: 选择"雇主申报"
+--------------------
+选择"IR56B表格"
+选择课税年度：2024/2025
+
+步骤3: 上传数据文件
+------------------
+从SAP导出CSV文件
+选择文件上传
+系统验证数据格式
+
+步骤4: 检查上传数据
+------------------
+系统显示员工列表
+检查数据完整性
+修正错误数据
+
+步骤5: 确认提交
+--------------
+点击"提交"按钮
+系统确认接收
+生成申报参考号
+
+步骤6: 保存确认书
+----------------
+下载申报确认书
+保存电子版
+打印纸质版
+                </pre>
+            </div>
+
+            <h4>4.4 常见申报问题</h4>
+            <div class="highlight-box">
+                <h4>❓ 常见问题处理</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">问题</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">原因</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">解决方案</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">身份证号码格式错误</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">SAP存储格式与税务局要求不一致</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">使用转换程序格式化身份证号</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">离职员工数据缺失</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">离职员工未在年度数据中包含</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">检查离职日期范围，手动补充</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">税金总额不一致</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">月度预缴税金与年度税金不匹配</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">检查年度汇总报表，调整预缴比例</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">中途入职员工按比例计算错误</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PCR规则中的按比例计算逻辑错误</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">修正PCR规则，重新计算</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">eTAX上传失败</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">数据格式不符合eTAX要求</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">使用税务局提供的模板格式化数据</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- 五、报表自定义开发 -->
+        <section class="content-block">
+            <h3>🔧 五、报表自定义开发</h3>
+
+            <h4>5.1 报表开发需求</h4>
+            <div class="key-points">
+                <h4>🎯 何时需要自定义报表？</h4>
+                <ul>
+                    <li><strong>标准报表不满足需求</strong>：SAP标准报表缺少某些字段或功能</li>
+                    <li><strong>格式要求特殊</strong>：需要特定的报表格式（如政府部门要求的格式）</li>
+                    <li><strong>数据需要特殊处理</strong>：需要复杂的数据转换或计算</li>
+                    <li><strong>性能要求</strong>：标准报表运行太慢，需要优化</li>
+                    <li><strong>自动化需求</strong>：需要定期自动生成和发送报表</li>
+                </ul>
+            </div>
+
+            <h4>5.2 SAP Query开发</h4>
+            <div class="highlight-box">
+                <h4>💻 SAP Query开发流程</h4>
+                <h5>SAP Query是什么？</h5>
+                <ul>
+                    <li>SAP提供的快速报表开发工具</li>
+                    <li>无需ABAP编程，通过配置生成报表</li>
+                    <li>支持多种输出格式（列表、ALV、Excel）</li>
+                </ul>
+
+                <h5>开发步骤</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 创建InfoSet
+-----------------
+T-Code: SQ02
+输入InfoSet名称：ZHK_TAX_QUERY
+创建InfoSet
+
+步骤2: 选择逻辑数据库
+--------------------
+选择逻辑数据库：PNPCE（薪资人员数据）
+或选择直接读取表：PCL1, PCL2（薪资集群表）
+
+步骤3: 添加数据字段
+------------------
+从逻辑数据库选择字段：
+  - P0001（雇佣信息）
+  - P0002（个人信息）
+  - P0008（薪资标准）
+  - PCL1-RT（工资结果）
+  - PCL1-CRT（当前结果）
+
+步骤4: 添加额外字段
+------------------
+添加计算字段：
+  - 应评税入息（总和）
+  - 薪俸税（总和）
+  - 税率（百分比）
+
+步骤5: 定义选择条件
+-------------------
+定义选择屏幕：
+  - 薪资期间（必填）
+  - 员工编号（可选）
+  - 部门（可选）
+  - 薪资组（可选）
+
+步骤6: 定义输出格式
+-------------------
+选择输出字段
+设置排序字段
+设置小计字段
+
+步骤7: 保存和生成
+-----------------
+保存InfoSet
+生成查询
+
+步骤8: 创建用户组
+-----------------
+T-Code: SQ03
+创建用户组：ZHK_TAX_USERS
+分配用户
+
+步骤9: 创建查询
+---------------
+T-Code: SQ01
+输入查询名称：ZHK_TAX_QUERY
+选择InfoSet：ZHK_TAX_QUERY
+分配用户组：ZHK_TAX_USERS
+
+步骤10: 测试查询
+--------------
+执行查询
+检查结果
+调整字段或条件
+
+步骤11: 分配事务代码
+--------------------
+T-Code: SE93
+创建T-Code：ZHK_TAX_QUERY
+分配查询：ZHK_TAX_QUERY
+
+步骤12: 发布给用户
+-----------------
+通知用户新T-Code
+提供使用指南
+                </pre>
+            </div>
+
+            <h4>5.3 ABAP程序开发</h4>
+            <div class="highlight-box">
+                <h4>💻 ABAP报表开发流程</h4>
+                <h5>何时需要ABAP开发？</h5>
+                <ul>
+                    <li>SAP Query无法满足复杂需求</li>
+                    <li>需要特殊的业务逻辑</li>
+                    <li>需要高性能处理大数据</li>
+                    <li>需要与外部系统集成</li>
+                </ul>
+
+                <h5>开发步骤</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 需求分析
+--------------
+明确报表需求
+确定数据源
+确定输出格式
+确定性能要求
+
+步骤2: 设计数据结构
+------------------
+定义输出表结构（结构体）
+定义内部表
+定义工作区
+
+步骤3: 编写程序
+--------------
+T-Code: SE38
+
+程序示例框架：
+--------------
+REPORT zhk_tax_rpt.
+
+* 数据声明
+TYPES: BEGIN OF ty_output,
+         pernr      TYPE pernr_d,
+         name       TYPE pad_pname,
+         org_unit   TYPE orgeh,
+         gross_inc  TYPE betrg,
+         allowance  TYPE betrg,
+         deduction  TYPE betrg,
+         sti        TYPE betrg,
+         tax_amount TYPE betrg,
+       END OF ty_output.
+
+DATA: gt_output TYPE TABLE OF ty_output,
+      gs_output TYPE ty_output.
+
+* 选择屏幕
+SELECTION-SCREEN BEGIN OF BLOCK blk1.
+PARAMETERS: p_pabrj TYPE pabrj,
+            p_pabrp TYPE pabrp.
+SELECT-OPTIONS: s_pernr FOR gs_output-pernr.
+SELECTION-SCREEN END OF BLOCK blk1.
+
+* 主程序
+START-OF-SELECTION.
+  PERFORM get_data.
+  PERFORM process_data.
+  PERFORM output_data.
+
+* 获取数据
+FORM get_data.
+  " 从薪资集群表读取数据
+  GET pernr.
+  " 读取工资结果
+  " 读取员工主数据
+ENDFORM.
+
+* 处理数据
+FORM process_data.
+  " 计算应评税入息
+  " 计算薪俸税
+ENDFORM.
+
+* 输出数据
+FORM output_data.
+  " 使用ALV输出
+  CALL FUNCTION 'REUSE_ALV_GRID_DISPLAY'
+    EXPORTING
+      i_structure_name = 'TY_OUTPUT'
+    TABLES
+      t_outtab          = gt_output.
+ENDFORM.
+
+步骤4: 测试程序
+--------------
+创建测试数据
+执行程序
+检查输出
+调试错误
+
+步骤5: 性能优化
+--------------
+优化SQL查询
+优化内部表操作
+添加索引
+使用批量处理
+
+步骤6: 创建事务代码
+--------------------
+T-Code: SE93
+创建T-Code：ZHKTAXRPT
+分配程序：zhk_tax_rpt
+
+步骤7: 文档和培训
+----------------
+编写程序文档
+编写用户手册
+培训用户
+                </pre>
+            </div>
+
+            <h4>5.4 Smart Forms开发</h4>
+            <div class="highlight-box">
+                <h4>💻 Smart Forms开发流程</h4>
+                <h5>Smart Forms是什么？</h5>
+                <ul>
+                    <li>SAP的表单和报表设计工具</li>
+                    <li>用于生成格式化的输出（如工资单、税务表格）</li>
+                    <li>支持图形化设计，所见即所得</li>
+                    <li>支持多种输出格式（PDF、打印、传真）</li>
+                </ul>
+
+                <h5>开发步骤</h5>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 创建Smart Form
+--------------------
+T-Code: SMARTFORMS
+输入表单名称：ZHK_IR56B
+点击"创建"按钮
+
+步骤2: 设计表单布局
+------------------
+定义页面格式
+定义主窗口
+定义页眉页脚
+
+步骤3: 添加数据接口
+------------------
+定义表单接口：
+  - 导入参数：员工编号
+  - 表格参数：员工数据
+
+步骤4: 设计表单内容
+------------------
+添加文本元素
+添加表格
+添加图形元素
+添加条形码
+
+步骤5: 添加业务逻辑
+------------------
+添加循环语句
+添加条件语句
+添加计算公式
+
+步骤6: 测试表单
+--------------
+激活表单
+创建测试程序
+调用表单
+检查输出
+
+步骤7: 集成到程序
+----------------
+在ABAP程序中调用Smart Form
+使用函数模块：SSF_FUNCTION_MODULE_NAME
+使用函数模块：/1BCDWB/SF000000XX
+
+步骤8: 生成PDF
+--------------
+设置输出设备：PDF
+生成PDF文件
+保存和打印
+                </pre>
+            </div>
+
+            <h4>5.5 报表开发最佳实践</h4>
+            <div class="key-points">
+                <h4>✅ 开发最佳实践</h4>
+                <ul>
+                    <li><strong>需求优先</strong>：充分理解用户需求，避免返工</li>
+                    <li><strong>复用标准</strong>：尽量复用SAP标准功能和代码</li>
+                    <li><strong>性能优化</strong>：使用正确的数据访问方法，优化SQL</li>
+                    <li><strong>错误处理</strong>：添加完善的错误处理逻辑</li>
+                    <li><strong>用户友好</strong>：设计清晰的用户界面和提示信息</li>
+                    <li><strong>文档完整</strong>：提供完整的程序文档和用户手册</li>
+                    <li><strong>测试充分</strong>：在各种场景下充分测试</li>
+                    <li><strong>版本管理</strong>：使用传输请求管理程序版本</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 六、常见问题 -->
+        <section class="content-block">
+            <h3>❓ 六、常见问题</h3>
+
+            <h4>6.1 FAQ 1: IR56B表格提交后能否修改？</h4>
+            <div class="highlight-box">
+                <h4>💡 解决方案</h4>
+                <ul>
+                    <li><strong>税务局审核前</strong>：可以提交修正表格（IR56B Amendment）</li>
+                    <li><strong>税务局审核后</strong>：需要书面说明原因，申请修改</li>
+                    <li><strong>最佳实践</strong>：提交前仔细校验，避免错误</li>
+                    <li><strong>错误类型</strong>：数据错误、计算错误、遗漏员工等</li>
+                </ul>
+            </div>
+
+            <h4>6.2 FAQ 2: 如何处理中途入职员工的按比例计算？</h4>
+            <div class="highlight-box">
+                <h4>💡 解决方案</h4>
+                <ul>
+                    <li><strong>计算方法</strong>：应评税入息 = (实际收入 ÷ 受雇天数) × 365</li>
+                    <li><strong>免税额按比例</strong>：基本免税额 × (受雇天数 ÷ 365)</li>
+                    <li><strong>PCR规则</strong>：XHK6中包含按比例计算逻辑</li>
+                    <li><strong>验证方法</strong>：对比SAP计算结果与手工计算</li>
+                </ul>
+            </div>
+
+            <h4>6.3 FAQ 3: 如何处理离职员工的申报？</h4>
+            <div class="highlight-box">
+                <h4>💡 解决方案</h4>
+                <ul>
+                    <li><strong>包含原则</strong>：离职员工也必须包含在IR56B表格中</li>
+                    <li><strong>离职日期</strong>：在表格中注明离职日期</li>
+                    <li><strong>收入计算</strong>：从4月1日到离职日期的收入</li>
+                    <li><strong>特别情况</strong>：离职后又重新入职的员工，按同一员工处理</li>
+                </ul>
+            </div>
+
+            <h4>6.4 FAQ 4: 如何处理年度内工资类型变更？</h4>
+            <div class="highlight-box">
+                <h4>💡 解决方案</h4>
+                <ul>
+                    <li><strong>累计原则</strong>：年度内所有工资类型变更都累计计算</li>
+                    <li><strong>历史数据</strong>：SAP自动跟踪工资类型的历史记录</li>
+                    <li><strong>报表处理</strong>：年度汇总报表自动计算各期间的总和</li>
+                    <li><strong>手工验证</strong>：对比月度报表和年度报表，确保一致</li>
+                </ul>
+            </div>
+
+            <h4>6.5 FAQ 5: eTAX上传失败怎么办？</h4>
+            <div class="highlight-box">
+                <h4>💡 排查步骤</h4>
+                <ul>
+                    <li><strong>步骤1</strong>：检查文件格式是否符合税务局要求</li>
+                    <li><strong>步骤2</strong>：检查字段名称和顺序是否正确</li>
+                    <li><strong>步骤3</strong>：检查身份证号码格式</li>
+                    <li><strong>步骤4</strong>：检查日期格式</li>
+                    <li><strong>步骤5</strong>：使用税务局提供的验证工具检查文件</li>
+                    <li><strong>步骤6</strong>：联系税务局技术支持</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 七、最佳实践 -->
+        <section class="content-block">
+            <h3>💡 七、最佳实践</h3>
+
+            <div class="key-points">
+                <h4>✅ 申报最佳实践</h4>
+                <ul>
+                    <li><strong>提前准备</strong>：至少提前2个月开始准备年度申报数据</li>
+                    <li><strong>双重校验</strong>：数据提交前至少两次校验</li>
+                    <li><strong>备份保存</strong>：所有申报数据必须保存7年以上</li>
+                    <li><strong>电子优先</strong>：优先使用eTAX电子申报，更快捷可靠</li>
+                    <li><strong>跟踪状态</strong>：提交后定期跟踪申报状态</li>
+                    <li><strong>培训用户</strong>：定期培训用户，减少操作错误</li>
+                </ul>
+            </div>
+
+            <div class="warning-box">
+                <h4>⚠️ 注意事项</h4>
+                <ul>
+                    <li><strong>准时申报</strong>：严格遵守税务局的申报截止日期</li>
+                    <li><strong>数据准确</strong>：确保所有数据真实、准确、完整</li>
+                    <li><strong>保存记录</strong>：保存所有申报记录和确认书</li>
+                    <li><strong>合规要求</strong>：确保申报符合香港税务局的规定</li>
+                    <li><strong>及时响应</strong>：及时回应税务局的查询和要求</li>
+                </ul>
+            </div>
+
+            <div class="key-points">
+                <h4>✅ 报表开发最佳实践</h4>
+                <ul>
+                    <li><strong>需求分析</strong>：充分理解用户需求，避免返工</li>
+                    <li><strong>设计先行</strong>：先设计，后编码</li>
+                    <li><strong>性能优先</strong>：从设计阶段就考虑性能问题</li>
+                    <li><strong>测试充分</strong>：在各种场景下充分测试</li>
+                    <li><strong>文档完整</strong>：提供完整的程序文档和用户手册</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习总结 -->
+        <section class="content-block">
+            <h3>📚 学习总结</h3>
+
+            <div class="key-points">
+                <h4>✅ 今日收获</h4>
+                <ul>
+                    <li>掌握了SAP标准薪俸税报表的生成和使用方法</li>
+                    <li>熟练配置IR56B表格和相关工资类型</li>
+                    <li>掌握了年度薪俸税申报的完整流程</li>
+                    <li>理解了香港税务局对薪俸税申报的要求和时限</li>
+                    <li>掌握了报表自定义开发的基本方法</li>
+                    <li>能够独立完成薪俸税报表生成和申报工作</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🔗 关键知识点</h4>
+                <ul>
+                    <li>标准报表：PC00_Mxx_HK01（薪俸税汇总）、PC00_Mxx_HK02（IR56B）</li>
+                    <li>IR56B表格：包含员工基本信息、薪酬数据、税金数据</li>
+                    <li>申报时间：每年4月1日至5月2日</li>
+                    <li>eTAX系统：税务局电子申报系统，支持在线提交</li>
+                    <li>SAP Query：快速报表开发工具，无需ABAP编程</li>
+                    <li>Smart Forms：表单设计工具，用于生成格式化输出</li>
+                    <li>数据校验：提交前至少两次校验，确保数据准确</li>
+                    <li>保存要求：所有申报数据必须保存7年以上</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📋 下一步计划</h4>
+                <p>明天将学习<strong>Day 9: 雇佣条例概述</strong>，包括：</p>
+                <ul>
+                    <li>香港雇佣条例的核心内容</li>
+                    <li>工资支付规定</li>
+                    <li>工时规定</li>
+                    <li>休息日和假期规定</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习完成标记 -->
+        <section class="content-block" style="text-align: center; margin-top: 40px;">
+            <h3>🎯 学习完成标记</h3>
+            <p style="margin-bottom: 20px;">完成今日学习后，请点击下方按钮标记为已完成：</p>
+            <button onclick="markComplete()" class="complete-btn" style="padding: 15px 30px; font-size: 18px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                ✅ 标记今日学习为已完成
+            </button>
+            <p id="complete-msg" style="margin-top: 20px; color: #4CAF50; font-weight: bold; display: none;">
+                🎉 恭喜！Day 8 学习已标记为完成！
+            </p>
+        </section>
+
+        <!-- 导航 -->
+        <div class="navigation">
+            <a href="../index.html" class="nav-btn">← 返回首页</a>
+            <a href="../day07/" class="nav-btn">← Day 7</a>
+            <a href="#" class="nav-btn" style="opacity: 0.5; cursor: not-allowed;">Day 9 →</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>仅供学习交流使用 | 最后更新: 2026年3月26日</p>
+        </div>
+    </footer>
+
+    <script>
+        // 学习进度管理
+        const STORAGE_KEY = 'hong-kong-payroll-progress';
+
+        // 标记完成
+        function markComplete() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            progress['day08'] = {
+                completed: true,
+                completedAt: new Date().toISOString()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+
+            // 更新按钮状态
+            const btn = document.querySelector('.complete-btn');
+            btn.textContent = '✅ 已完成';
+            btn.style.background = '#2E7D32';
+            btn.style.cursor = 'default';
+
+            // 显示完成消息
+            document.getElementById('complete-msg').style.display = 'block';
+
+            // 更新导航状态
+            setTimeout(() => {
+                alert('✅ Day 8 学习已标记为完成！\n\n学习进度已保存。返回首页后，Day 8 将显示为已完成状态。');
+            }, 500);
+        }
+
+        // 页面加载时检查完成状态
+        window.onload = function() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            if (progress['day08'] && progress['day08'].completed) {
+                const btn = document.querySelector('.complete-btn');
+                btn.textContent = '✅ 已完成';
+                btn.style.background = '#2E7D32';
+                btn.style.cursor = 'default';
+                document.getElementById('complete-msg').style.display = 'block';
+            }
+        };
+    </script>
+</body>
+</html>

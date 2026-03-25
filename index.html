@@ -19,8 +19,8 @@
         <section class="progress-card">
             <h2>📊 学习进度</h2>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: 20%;">
-                    <span class="progress-text">6/30 (20.00%)</span>
+                <div class="progress-fill" style="width: 26.67%;">
+                    <span class="progress-text">8/30 (26.67%)</span>
                 </div>
             </div>
             <div class="progress-stats">
@@ -30,11 +30,11 @@
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">已完成</span>
-                    <span class="stat-value">6天</span>
+                    <span class="stat-value">8天</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">待完成</span>
-                    <span class="stat-value">24天</span>
+                    <span class="stat-value">22天</span>
                 </div>
             </div>
         </section>
@@ -80,16 +80,16 @@
                     <span class="day-title">薪俸税计算规则</span>
                     <span class="day-status">📖 可学习</span>
                 </a>
-                <div class="day-card locked">
+                <a href="day07/" class="day-card">
                     <span class="day-number">Day 7</span>
                     <span class="day-title">薪俸税SAP配置</span>
-                    <span class="day-status">⏳ 待学习</span>
-                </div>
-                <div class="day-card locked">
+                    <span class="day-status">📖 可学习</span>
+                </a>
+                <a href="day08/" class="day-card">
                     <span class="day-number">Day 8</span>
                     <span class="day-title">薪俸税报表与申报</span>
-                    <span class="day-status">⏳ 待学习</span>
-                </div>
+                    <span class="day-status">📖 可学习</span>
+                </a>
             </div>
         </section>
 
@@ -339,6 +339,26 @@
                         if (card.tagName === 'DIV') {
                             const link = document.createElement('a');
                             link.href = 'day07/';
+                            link.className = card.className;
+                            link.innerHTML = card.innerHTML;
+                            card.parentNode.replaceChild(link, card);
+                        }
+                    }
+                });
+            }
+
+            // 如果Day 7完成，解锁Day 8
+            if (completedDays.includes(7)) {
+                const day8Cards = document.querySelectorAll('.day-card');
+                day8Cards.forEach(card => {
+                    if (card.textContent.includes('Day 8') && !card.classList.contains('completed')) {
+                        card.classList.remove('locked');
+                        card.classList.add('unlocked');
+                        card.querySelector('.day-status').textContent = '📖 可学习';
+                        // 将div改为a标签（通过DOM操作）
+                        if (card.tagName === 'DIV') {
+                            const link = document.createElement('a');
+                            link.href = 'day08/';
                             link.className = card.className;
                             link.innerHTML = card.innerHTML;
                             card.parentNode.replaceChild(link, card);
