@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 9: 雇佣条例概述 - 香港Payroll学习网站</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <header class="day-header">
+        <div class="container">
+            <h1>Day 9: 雇佣条例概述</h1>
+            <p class="meta">📅 学习日期: 2026年3月27日 | ⏱️ 学习时长: 90分钟 | ✅ 完成度: 100%</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 学习目标 -->
+        <section class="content-block">
+            <h3>📋 学习目标</h3>
+            <ul>
+                <li>✅ 理解香港《雇佣条例》的法律地位和适用范围</li>
+                <li>✅ 掌握工资支付的基本要求和规定</li>
+                <li>✅ 熟悉工时规定和加班处理</li>
+                <li>✅ 了解休息日、有薪年假、法定假期的规定</li>
+                <li>✅ 理解疾病津贴和产假相关规定</li>
+                <li>✅ 掌握雇佣条例在SAP系统中的配置要点</li>
+                <li>✅ 能够识别和规避常见的合规风险</li>
+            </ul>
+        </section>
+
+        <!-- 一、香港雇佣条例概览 -->
+        <section class="content-block">
+            <h3>📖 一、香港雇佣条例概览</h3>
+
+            <h4>1.1 雇佣条例简介</h4>
+            <div class="highlight-box">
+                <h4>📚 《雇佣条例》概述</h4>
+                <ul>
+                    <li><strong>全称</strong>：《雇佣条例》（Cap. 57）</li>
+                    <li><strong>立法机关</strong>：香港立法会</li>
+                    <li><strong>执行机关</strong>：香港劳工处</li>
+                    <li><strong>适用范围</strong>：除公务员、家政服务人员等特殊行业外的所有雇员</li>
+                    <li><strong>法律性质</strong>：香港雇佣关系的核心法律框架</li>
+                    <li><strong>最新修订</strong>：持续更新，以适应社会发展和劳工权益保护需求</li>
+                </ul>
+            </div>
+
+            <h4>1.2 雇佣条例的核心内容</h4>
+            <div class="highlight-box">
+                <h4>📋 核心内容框架</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+┌─────────────────────────────────────────────────────────┐
+│                  香港《雇佣条例》核心内容                  │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  1. 工资支付 (Payment of Wages)              │        │
+│  │     - 工资计算、支付方式、支付频率            │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  2. 工时规定 (Hours of Work)                 │        │
+│  │     - 正常工时、休息日、休息时间              │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  3. 休息日和假日 (Rest Days & Holidays)      │        │
+│  │     - 休息日、法定假期、有薪年假              │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  4. 疾病津贴 (Sickness Allowance)            │        │
+│  │     - 病假申请、津贴计算、医疗证明            │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  5. 产假 (Maternity Leave)                   │        │
+│  │     - 产假天数、津贴计算、产前检查            │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  6. 遣散费 (Severance Payment)               │        │
+│  │     - 遣散条件、计算方法、上限规定            │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  7. 长期服务金 (Long Service Payment)        │        │
+│  │     - 服务年限、计算方法、上限规定            │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  8. 雇佣合约 (Employment Contract)           │        │
+│  │     - 合约内容、终止通知、遣散费              │        │
+│  └─────────────────────────────────────────────┘        │
+│  ┌─────────────────────────────────────────────┐        │
+│  │  9. 保障与终止 (Protection & Termination)    │        │
+│  │     - 试用期、终止通知、不合理的解雇          │        │
+│  └─────────────────────────────────────────────┘        │
+└─────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+
+            <h4>1.3 适用范围</h4>
+            <div class="key-points">
+                <h4>🎯 适用的雇员</h4>
+                <ul>
+                    <li>除以下情况外的所有雇员：</li>
+                    <li>❌ 公务员（适用《公务员事务规例》）</li>
+                    <li>❌ 家政服务人员（适用特定规定）</li>
+                    <li>❌ 海员（适用《海员雇佣条例》）</li>
+                    <li>❌ 学徒（适用《学徒制度条例》）</li>
+                    <li>❌ 家庭成员受雇于家庭业务</li>
+                    <li>❌ 不涉及金钱报酬的义工</li>
+                </ul>
+            </div>
+
+            <h4>1.4 重要概念定义</h4>
+            <div class="highlight-box">
+                <h4>📖 关键术语定义</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">术语</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">定义</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇员 (Employee)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">与雇主签订雇佣合约，为雇主工作并收取工资的人</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇主 (Employer)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇用雇员并支付工资的个人或组织</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资 (Wages)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇主因雇员工作而支付的所有报酬（包括基本工资、津贴、奖金等）</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">试用期 (Probationary Period)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇佣合约中规定的初期考核期，通常不超过2个月</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">连续性合约 (Continuous Contract)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">每周工作18小时以上，连续工作满4周的雇佣关系</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">月入 (Monthly Earned)</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">在工资期内的所有收入总和</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- 二、工资支付规定 -->
+        <section class="content-block">
+            <h3>💰 二、工资支付规定</h3>
+
+            <h4>2.1 工资定义</h4>
+            <div class="highlight-box">
+                <h4>💵 什么是工资？</h4>
+                <ul>
+                    <li><strong>广义工资</strong>：雇主因雇员工作而支付的所有报酬</li>
+                    <li><strong>包括项目</strong>：</li>
+                    <li>✅ 基本工资</li>
+                    <li>✅ 津贴和补贴（如房屋津贴、交通津贴）</li>
+                    <li>✅ 奖金和佣金</li>
+                    <li>✅ 加班费</li>
+                    <li>✅ 有薪假期的薪资</li>
+                    <li><strong>不包括项目</strong>：</li>
+                    <li>❌ 雇主提供的福利（如医疗保险、退休金）</li>
+                    <li>❌ 遣散费</li>
+                    <li>❌ 长期服务金</li>
+                </ul>
+            </div>
+
+            <h4>2.2 支付期限</h4>
+            <div class="highlight-box">
+                <h4>⏰ 工资支付期限</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">工资期</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">支付期限</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">示例</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">日薪制</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资期结束后7天内</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">每日工作，每日发薪或隔周发薪</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">周薪制</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资期结束后7天内</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">每周一至周五工作，下周五前发薪</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">半月薪制</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资期结束后7天内</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">每月15日和最后一天发薪</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">月薪制</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资期结束后7天内</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">每月最后一天发薪</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>2.3 工资支付方式</h4>
+            <div class="key-points">
+                <h4>💳 支付方式</h4>
+                <ul>
+                    <li><strong>现金</strong>：直接支付现金</li>
+                    <li><strong>支票</strong>：支付支票，雇员自行兑现</li>
+                    <li><strong>银行转账</strong>：直接存入雇员银行账户</li>
+                    <li><strong>要求</strong>：雇主必须为雇员提供工资单</li>
+                </ul>
+            </div>
+
+            <h4>2.4 工资单要求</h4>
+            <div class="highlight-box">
+                <h4>📄 工资单必须包含的项目</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">项目</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">说明</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资期</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资所属的期间</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资总额</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资期内的总收入</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">扣除项目</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">各项扣除的明细和金额</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">实发工资</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">扣除后的实际金额</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">发薪日期</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资发放日期</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>2.5 迟发工资的处理</h4>
+            <div class="warning-box">
+                <h4>⚠️ 迟发工资后果</h4>
+                <ul>
+                    <li><strong>迟发7天或以上</strong>：雇员可向劳工处投诉</li>
+                    <li><strong>雇主责任</strong>：必须支付迟发工资利息</li>
+                    <li><strong>法律后果</strong>：可能面临罚款和监禁</li>
+                    <li><strong>补偿计算</strong>：迟发工资 × 5% × 迟发天数（上限为工资的30%）</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 三、工时规定 -->
+        <section class="content-block">
+            <h3>⏰ 三、工时规定</h3>
+
+            <h4>3.1 正常工时</h4>
+            <div class="highlight-box">
+                <h4>📅 工时规定</h4>
+                <ul>
+                    <li><strong>每日工时</strong>：没有法定上限，但一般不超过8-10小时</li>
+                    <li><strong>每周工时</strong>：没有法定上限，但一般不超过48小时</li>
+                    <li><strong>连续工作时间</strong>：工作每6小时必须给予不少于30分钟的休息时间</li>
+                    <li><strong>休息日</strong>：每7天至少1个休息日</li>
+                </ul>
+            </div>
+
+            <h4>3.2 休息时间</h4>
+            <div class="highlight-box">
+                <h4>☕ 休息时间规定</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">工作时间</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">休息时间要求</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">连续工作不超过6小时</td>
+                        <td style="padding: 10px; border: 1px solid #ddd">无需强制休息时间</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">连续工作超过6小时</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">必须给予不少于30分钟的休息时间</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">连续工作超过12小时</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">必须给予不少于60分钟的休息时间</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>3.3 加班处理</h4>
+            <div class="key-points">
+                <h4>🔧 加班相关规定</h4>
+                <ul>
+                    <li><strong>法律要求</strong>：雇佣条例没有强制规定加班费</li>
+                    <li><strong>合同约定</strong>：加班费通常在雇佣合约中约定</li>
+                    <li><strong>常见做法</strong>：</li>
+                    <li>📌 工作时数的1.5倍或2倍</li>
+                    <li>📌 休息日工作的加班费</li>
+                    <li>📌 法定假期工作的加班费</li>
+                    <li><strong>SAP配置</strong>：使用工资类型记录加班工时和加班费</li>
+                </ul>
+            </div>
+
+            <h4>3.4 加班费SAP配置</h4>
+            <div class="highlight-box">
+                <h4>💻 SAP加班费配置要点</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 创建加班工资类型
+---------------------
+工资类型：1005（加班工时）
+工资类型：1006（加班费 - 工作日）
+工资类型：1007（加班费 - 休息日）
+工资类型：1008（加班费 - 法定假期）
+
+步骤2: 设置加班倍数
+------------------
+工作日加班：1.5倍或2倍
+休息日加班：2倍
+法定假期加班：3倍
+
+步骤3: 配置PCR规则
+------------------
+XHK7: 加班费计算规则
+  - 识别加班工时（/801）
+  - 应用加班倍数
+  - 计算加班费
+
+步骤4: 配置时间评估
+------------------
+时间类型：0301（工作日加班）
+时间类型：0302（休息日加班）
+时间类型：0303（法定假期加班）
+
+步骤5: 测试加班费计算
+--------------------
+输入加班工时
+验证加班费金额
+检查税金计算
+                </pre>
+            </div>
+        </section>
+
+        <!-- 四、休息日和假期规定 -->
+        <section class="content-block">
+            <h3>🏖️ 四、休息日和假期规定</h3>
+
+            <h4>4.1 休息日</h4>
+            <div class="highlight-box">
+                <h4>📅 休息日规定</h4>
+                <ul>
+                    <li><strong>频率</strong>：每7天至少1个休息日</li>
+                    <li><strong>连续工作</strong>：最多连续工作6天</li>
+                    <li><strong>休息日安排</strong>：雇主可指定休息日，需提前通知</li>
+                    <li><strong>休息日工作</strong>：需另安排补偿休息日</li>
+                </ul>
+            </div>
+
+            <h4>4.2 法定假期</h4>
+            <div class="highlight-box">
+                <h4>🎉 法定假期（14天）</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">假期</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">日期</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">元旦</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">1月1日</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">农历年初一</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">农历正月初一</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">农历年初二</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">农历正月初二</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">农历年初三</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">农历正月初三</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">清明节</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">清明节</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">劳动节</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">5月1日</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">佛诞</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">农历四月初八</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">端午节</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">农历五月初五</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">香港回归纪念日</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">7月1日</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">中秋节翌日</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">农历八月十六</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">国庆节</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">10月1日</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">重阳节</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">农历九月初九</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">圣诞节</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">12月25日</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">节礼日</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">12月26日（或第一个工作日）</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>4.3 法定假期的薪资</h4>
+            <div class="key-points">
+                <h4>💰 法定假期薪资规定</h4>
+                <ul>
+                    <li><strong>有薪假期</strong>：雇员在法定假期享有带薪假期</li>
+                    <li><strong>假期工作</strong>：如需在法定假期工作，必须另安排替代休息日</li>
+                    <li><strong>薪资计算</strong>：替代休息日的薪资 × 工作时数</li>
+                    <li><strong>SAP配置</strong>：使用工资类型记录法定假期和替代休息日</li>
+                </ul>
+            </div>
+
+            <h4>4.4 有薪年假</h4>
+            <div class="highlight-box">
+                <h4>🏖️ 有薪年假规定</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">服务年限</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">有薪年假天数</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">满1年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">7天</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">满2年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">7天</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">满3年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">8天</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">满4年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">9天</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">满5年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">10天</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">满6年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">11天</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">满7年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">12天</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">满8年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">13天</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">满9年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">14天</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">满10年或以上</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">14天</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>4.5 有薪年假的计算</h4>
+            <div class="highlight-box">
+                <h4>💵 年假薪资计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+年假薪资 = 日薪 × 年假天数
+
+日薪计算方法：
+--------------
+方法1：按工作日计算
+日薪 = 月薪 ÷ 12 ÷ 工作日数（通常22天）
+
+方法2：按工资期计算
+日薪 = 工资期内总收入 ÷ 工作天数
+
+示例：
+------
+月薪：HKD 30,000
+年假：10天
+工作日数：22天
+
+日薪 = 30,000 ÷ 12 ÷ 22 = HKD 113.64
+年假薪资 = 113.64 × 10 = HKD 1,136.36
+                </pre>
+            </div>
+        </section>
+
+        <!-- 五、疾病津贴 -->
+        <section class="content-block">
+            <h3>🏥 五、疾病津贴</h3>
+
+            <h4>5.1 疾病津贴资格</h4>
+            <div class="key-points">
+                <h4>📋 领取疾病津贴的条件</h4>
+                <ul>
+                    <li><strong>连续性合约</strong>：雇员必须受雇于连续性合约</li>
+                    <li><strong>累积病假</strong>：已累积不少于4天的病假</li>
+                    <li><strong>医疗证明</strong>：必须提供注册医生或注册中医的医疗证明</li>
+                    <li><strong>病假天数</strong>：每次病假连续不少于4天</li>
+                </ul>
+            </div>
+
+            <h4>5.2 疾病津贴计算</h4>
+            <div class="highlight-box">
+                <h4>💵 疾病津贴计算公式</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+疾病津贴 = 日薪 × 病假天数 × 2/3
+
+日薪计算：
+---------
+日薪 = 工资期内总收入 ÷ 工作天数
+
+示例：
+------
+月入：HKD 30,000
+工资期：30天
+工作天数：22天
+
+日薪 = 30,000 ÷ 22 = HKD 1,363.64
+病假天数：5天
+
+疾病津贴 = 1,363.64 × 5 × 2/3 = HKD 4,545.45
+
+上限：
+-----
+每月上限：2/3 × 月入
+                </pre>
+            </div>
+
+            <h4>5.3 累积病假</h4>
+            <div class="highlight-box">
+                <h4>📅 累积病假规定</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">服务年限</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">累积病假上限</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第1年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">不超过2天</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">第2年</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">按月累积，上限为120天</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">第3年或以上</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">120天</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>5.4 SAP疾病津贴配置</h4>
+            <div class="highlight-box">
+                <h4>💻 SAP疾病津贴配置要点</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 创建病假工资类型
+---------------------
+工资类型：1301（病假天数）
+工资类型：1302（疾病津贴）
+
+步骤2: 配置PCR规则
+------------------
+XHK8: 疾病津贴计算规则
+  - 识别病假天数（/803）
+  - 计算日薪（ASMD）
+  - 计算疾病津贴（× 2/3）
+  - 应用上限限制
+
+步骤3: 配置时间评估
+------------------
+时间类型：0501（累积病假）
+时间类型：0502（病假天数）
+
+步骤4: 配置累积规则
+------------------
+按月累积病假天数
+检查累积上限
+检查年度上限
+
+步骤5: 测试疾病津贴计算
+--------------------
+输入病假天数
+验证疾病津贴金额
+检查上限限制
+                </pre>
+            </div>
+        </section>
+
+        <!-- 六、产假 -->
+        <section class="content-block">
+            <h3>👶 六、产假</h3>
+
+            <h4>6.1 产假天数</h4>
+            <div class="highlight-box">
+                <h4>📅 产假规定</h4>
+                <ul>
+                    <li><strong>基本产假</strong>：14周（98天）</li>
+                    <li><strong>早产或多胞胎</strong>：额外增加14天</li>
+                    <li><strong>产前检查</strong>：产假前可享有多达4天的产前检查假</li>
+                    <li><strong>流产假</strong>：根据怀孕周数，享有2-6周的流产假</li>
+                </ul>
+            </div>
+
+            <h4>6.2 产假津贴</h4>
+            <div class="highlight-box">
+                <h4>💵 产假津贴计算</h4>
+                <ul>
+                    <li><strong>津贴金额</strong>：产假期间的平均日薪 × 产假天数</li>
+                    <li><strong>上限</strong>：每月上限为 HKD 36,822</li>
+                    <li><strong>计算方法</strong>：</li>
+                    <li>📌 平均日薪 = 产假前12个月的总收入 ÷ 12 ÷ 30</li>
+                    <li>📌 产假津贴 = 平均日薪 × 产假天数</li>
+                </ul>
+            </div>
+
+            <h4>6.3 产假申请条件</h4>
+            <div class="key-points">
+                <h4>📋 产假申请条件</h4>
+                <ul>
+                    <li><strong>连续性合约</strong>：雇员必须受雇于连续性合约</li>
+                    <li><strong>通知要求</strong>：至少提前4周通知雇主</li>
+                    <li><strong>医疗证明</strong>：提供注册医生的预产期证明</li>
+                    <li><strong>工作年限</strong>：没有最低服务年限要求</li>
+                </ul>
+            </div>
+
+            <h4>6.4 SAP产假配置</h4>
+            <div class="highlight-box">
+                <h4>💻 SAP产假配置要点</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 创建产假工资类型
+---------------------
+工资类型：1401（产假天数）
+工资类型：1402（产假津贴）
+
+步骤2: 配置PCR规则
+------------------
+XHK9: 产假津贴计算规则
+  - 识别产假天数（/804）
+  - 计算平均日薪（基于过去12个月）
+  - 计算产假津贴
+  - 应用上限限制（每月HKD 36,822）
+
+步骤3: 配置时间评估
+------------------
+时间类型：0601（产假天数）
+时间类型：0602（产前检查天数）
+
+步骤4: 配置津贴计算
+------------------
+识别产假前12个月收入
+计算平均日薪
+计算产假津贴总额
+
+步骤5: 测试产假津贴计算
+--------------------
+输入产假天数
+验证产假津贴金额
+检查上限限制
+                </pre>
+            </div>
+        </section>
+
+        <!-- 七、遣散费和长期服务金 -->
+        <section class="content-block">
+            <h3>💼 七、遣散费和长期服务金</h3>
+
+            <h4>7.1 遣散费</h4>
+            <div class="highlight-box">
+                <h4>💵 遣散费条件</h4>
+                <ul>
+                    <li><strong>适用情况</strong>：雇主因裁员而解雇雇员</li>
+                    <li><strong>服务年限</strong>：连续服务满24个月</li>
+                    <li><strong>解雇原因</strong>：雇主因经营原因裁员</li>
+                </ul>
+
+                <h4>📊 遣散费计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+遣散费 = 月薪 × 服务年限 × 2/3
+
+说明：
+-----
+- 服务年限按月计算，不足1个月按1个月计算
+- 月薪上限：HKD 22,500（2024年标准）
+- 月薪超过上限部分不计入计算
+
+示例：
+------
+月薪：HKD 20,000
+服务年限：3年6个月（42个月）
+
+遣散费 = 20,000 × 42 × 2/3 = HKD 560,000
+                </pre>
+            </div>
+
+            <h4>7.2 长期服务金</h4>
+            <div class="highlight-box">
+                <h4>🎖️ 长期服务金条件</h4>
+                <ul>
+                    <li><strong>服务年限</strong>：连续服务满5年</li>
+                    <li><strong>终止原因</strong>：
+                    <li>📌 雇员自愿退休</li>
+                    <li>📌 因健康原因退休</li>
+                    <li>📌 因雇主原因解除合约（非裁员）</li>
+                </ul>
+
+                <h4>📊 长期服务金计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+长期服务金 = 月薪 × 服务年限 × 2/3
+
+说明：
+-----
+- 服务年限按月计算，不足1个月按1个月计算
+- 月薪上限：HKD 22,500（2024年标准）
+- 月薪超过上限部分不计入计算
+
+示例：
+------
+月薪：HKD 18,000
+服务年限：7年（84个月）
+
+长期服务金 = 18,000 × 84 × 2/3 = HKD 1,008,000
+                </pre>
+            </div>
+
+            <h4>7.3 SAP遣散费配置</h4>
+            <div class="highlight-box">
+                <h4>💻 SAP遣散费配置要点</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+步骤1: 创建遣散费工资类型
+-----------------------
+工资类型：1501（服务年限）
+工资类型：1502（遣散费）
+工资类型：1503（长期服务金）
+
+步骤2: 配置PCR规则
+------------------
+XHK10: 遣散费计算规则
+  - 识别服务年限（基于雇佣日期）
+  - 识别终止原因
+  - 计算遣散费（月薪 × 服务年限 × 2/3）
+  - 应用上限限制（月薪上限：HKD 22,500）
+
+步骤3: 配置终止原因
+------------------
+雇佣动作：14（遣散）
+雇佣动作：15（长期服务）
+
+步骤4: 测试遣散费计算
+--------------------
+输入服务年限
+输入终止原因
+验证遣散费金额
+检查上限限制
+                </pre>
+            </div>
+        </section>
+
+        <!-- 八、雇佣合约和终止 -->
+        <section class="content-block">
+            <h3>📝 八、雇佣合约和终止</h3>
+
+            <h4>8.1 雇佣合约内容</h4>
+            <div class="highlight-box">
+                <h4>📄 雇佣合约必须包含的项目</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">项目</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">说明</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇员姓名</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇员的中文和英文姓名</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇主名称</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇主的公司名称和地址</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">职位</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇员的工作职位</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资金额和支付方式</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工时</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">正常工作时间和休息时间</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">休息日</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">每周休息日的安排</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">有薪年假</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">年假天数和安排</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">合约期限</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">雇佣期限（固定或无固定期限）</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">终止通知</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">终止合约的通知期限</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>8.2 试用期</h4>
+            <div class="key-points">
+                <h4>⏳ 试用期规定</h4>
+                <ul>
+                    <li><strong>试用期长度</strong>：通常不超过2个月</li>
+                    <li><strong>终止通知</strong>：
+                    <li>📌 第1个月：无需通知即可终止</li>
+                    <li>📌 第2个月：需提前7天通知</li>
+                    <li><strong>正式员工</strong>：需提前1个月通知（或支付代通知金）</li>
+                </ul>
+            </div>
+
+            <h4>8.3 终止通知期</h4>
+            <div class="highlight-box">
+                <h4>⏰ 终止通知期规定</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">服务年限</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">通知期</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">不满1个月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">无需通知</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">满1个月但不满24个月</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">提前1个月</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">满24个月或以上</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">按比例递增，最多不超过2个月</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>8.4 代通知金</h4>
+            <div class="highlight-box">
+                <h4>💵 代通知金计算</h4>
+                <pre style="background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto;">
+代通知金 = 月薪
+
+说明：
+-----
+- 如未提前通知或通知期不足，需支付代通知金
+- 代通知金金额 = 月薪（12个月内的平均月薪）
+
+示例：
+------
+月薪：HKD 30,000
+通知期不足：10天（应提前30天）
+
+代通知金 = HKD 30,000
+                </pre>
+            </div>
+        </section>
+
+        <!-- 九、SAP系统配置要点 -->
+        <section class="content-block">
+            <h3>💻 九、SAP系统配置要点</h3>
+
+            <h4>9.1 雇佣条例配置检查清单</h4>
+            <div class="highlight-box">
+                <h4>✅ 配置检查清单</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">配置项目</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">检查内容</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: center;">通过</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资类型配置</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资类型完整，包括加班、病假、产假等</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">时间评估配置</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">时间类型正确，包括加班、病假、产假</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PCR规则配置</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PCR规则正确，计算准确</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">累积规则配置</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">病假、年假累积正确</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">上限限制配置</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">遣散费、长期服务金上限正确</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">法定假期配置</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">14天法定假期配置完整</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">年假配置</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">年假天数根据服务年限递增</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资单配置</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资单包含所有必需项目</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">□</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h4>9.2 关键T-Code</h4>
+            <div class="highlight-box">
+                <h4>🔑 雇佣条例相关T-Code</h4>
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <tr style="background: #f0f0f0;">
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">T-Code</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">功能</th>
+                        <th style="padding: 10px; border: 1px solid #ddd; text-align: left;">用途</th>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PA20</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">显示员工主数据</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">查看员工雇佣信息</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">PA30</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">维护员工主数据</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">更新员工雇佣信息</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PT60</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">时间评估</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">评估员工工作时间</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">PC00_Mxx_CALC</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">薪资计算</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">计算员工薪资</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; border: 1px solid #ddd;">PC00_Mxx_xx03</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">工资单</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">生成员工工资单</td>
+                    </tr>
+                    <tr style="background: #fafafa;">
+                        <td style="padding: 10px; border: 1px solid #ddd;">PE51</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">维护工资单格式</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">设计工资单布局</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- 十、常见问题 -->
+        <section class="content-block">
+            <h3>❓ 十、常见问题</h3>
+
+            <h4>10.1 FAQ 1: 法定假期适逢休息日怎么办？</h4>
+            <div class="highlight-box">
+                <h4>💡 解决方案</h4>
+                <ul>
+                    <li><strong>原则</strong>：法定假期适逢休息日，需另安排替代休息日</li>
+                    <li><strong>安排</strong>：雇员在法定假期后60天内享有替代休息日</li>
+                    <li><strong>薪资</strong>：替代休息日享有带薪假期</li>
+                </ul>
+            </div>
+
+            <h4>10.2 FAQ 2: 病假超过累积上限怎么办？</h4>
+            <div class="highlight-box">
+                <h4>💡 解决方案</h4>
+                <ul>
+                    <li><strong>超出部分</strong>：病假天数超过累积上限，超出部分无疾病津贴</li>
+                    <li><strong>处理</strong>：雇员可申请无薪病假</li>
+                    <li><strong>记录</strong>：在SAP中记录为无薪病假</li>
+                </ul>
+            </div>
+
+            <h4>10.3 FAQ 3: 年假未休完怎么办？</h4>
+            <div class="highlight-box">
+                <h4>💡 解决方案</h4>
+                <ul>
+                    <li><strong>雇主要求</strong>：如雇主要求雇员工作，需支付年假薪资</li>
+                    <li><strong>雇员选择</strong>：雇员可选择不休年假，获得年假薪资</li>
+                    <li><strong>计算</strong>：年假薪资 = 日薪 × 未休年假天数</li>
+                </ul>
+            </div>
+
+            <h4>10.4 FAQ 4: 试用期终止是否需要通知？</h4>
+            <div class="highlight-box">
+                <h4>💡 解决方案</h4>
+                <ul>
+                    <li><strong>第1个月</strong>：无需通知即可终止</li>
+                    <li><strong>第2个月</strong>：需提前7天通知</li>
+                    <li><strong>代通知金</strong>：如未提前通知，需支付代通知金（7天薪资）</li>
+                </ul>
+            </div>
+
+            <h4>10.5 FAQ 5: 遣散费和长期服务金能否同时领取？</h4>
+            <div class="highlight-box">
+                <h4>💡 解决方案</h4>
+                <ul>
+                    <li><strong>不能同时领取</strong>：遣散费和长期服务金只能领取其中一种</li>
+                    <li><strong>选择原则</strong>：通常选择金额较高的一种</li>
+                    <li><strong>计算对比</strong>：比较两种补偿金的金额，选择较高的</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习总结 -->
+        <section class="content-block">
+            <h3>📚 学习总结</h3>
+
+            <div class="key-points">
+                <h4>✅ 今日收获</h4>
+                <ul>
+                    <li>理解了香港《雇佣条例》的法律地位和适用范围</li>
+                    <li>掌握了工资支付的基本要求和规定</li>
+                    <li>熟悉了工时规定和加班处理</li>
+                    <li>了解了休息日、有薪年假、法定假期的规定</li>
+                    <li>理解了疾病津贴和产假相关规定</li>
+                    <li>掌握了雇佣条例在SAP系统中的配置要点</li>
+                    <li>能够识别和规避常见的合规风险</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4>🔗 关键知识点</h4>
+                <ul>
+                    <li>《雇佣条例》：香港雇佣关系的核心法律框架</li>
+                    <li>工资支付：工资期结束后7天内支付</li>
+                    <li>工时规定：工作每6小时必须休息30分钟</li>
+                    <li>休息日：每7天至少1个休息日</li>
+                    <li>法定假期：14天，包括元旦、春节、国庆等</li>
+                    <li>有薪年假：满1年7天，随服务年限递增，上限14天</li>
+                    <li>疾病津贴：日薪 × 2/3，每月上限2/3月入</li>
+                    <li>产假：14周，产假津贴上限每月HKD 36,822</li>
+                    <li>遣散费：月薪 × 服务年限 × 2/3</li>
+                    <li>长期服务金：月薪 × 服务年限 × 2/3</li>
+                </ul>
+            </div>
+
+            <div class="highlight-box">
+                <h4>📋 下一步计划</h4>
+                <p>明天将学习<strong>Day 10: 雇佣条例实践应用</strong>，包括：</p>
+                <ul>
+                    <li>实际案例分析</li>
+                    <li>常见争议处理</li>
+                    <li>劳工处投诉流程</li>
+                    <li>最佳实践建议</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习完成标记 -->
+        <section class="content-block" style="text-align: center; margin-top: 40px;">
+            <h3>🎯 学习完成标记</h3>
+            <p style="margin-bottom: 20px;">完成今日学习后，请点击下方按钮标记为已完成：</p>
+            <button onclick="markComplete()" class="complete-btn" style="padding: 15px 30px; font-size: 18px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s;">
+                ✅ 标记今日学习为已完成
+            </button>
+            <p id="complete-msg" style="margin-top: 20px; color: #4CAF50; font-weight: bold; display: none;">
+                🎉 恭喜！Day 9 学习已标记为完成！
+            </p>
+        </section>
+
+        <!-- 导航 -->
+        <div class="navigation">
+            <a href="../index.html" class="nav-btn">← 返回首页</a>
+            <a href="../day08/" class="nav-btn">← Day 8</a>
+            <a href="#" class="nav-btn" style="opacity: 0.5; cursor: not-allowed;">Day 10 →</a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>仅供学习交流使用 | 最后更新: 2026年3月27日</p>
+        </div>
+    </footer>
+
+    <script>
+        // 学习进度管理
+        const STORAGE_KEY = 'hong-kong-payroll-progress';
+
+        // 标记完成
+        function markComplete() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            progress['day09'] = {
+                completed: true,
+                completedAt: new Date().toISOString()
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+
+            // 更新按钮状态
+            const btn = document.querySelector('.complete-btn');
+            btn.textContent = '✅ 已完成';
+            btn.style.background = '#2E7D32';
+            btn.style.cursor = 'default';
+
+            // 显示完成消息
+            document.getElementById('complete-msg').style.display = 'block';
+
+            // 更新导航状态
+            setTimeout(() => {
+                alert('✅ Day 9 学习已标记为完成！\n\n学习进度已保存。返回首页后，Day 9 将显示为已完成状态。');
+            }, 500);
+        }
+
+        // 页面加载时检查完成状态
+        window.onload = function() {
+            const progress = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            if (progress['day09'] && progress['day09'].completed) {
+                const btn = document.querySelector('.complete-btn');
+                btn.textContent = '✅ 已完成';
+                btn.style.background = '#2E7D32';
+                btn.style.cursor = 'default';
+                document.getElementById('complete-msg').style.display = 'block';
+            }
+        };
+    </script>
+</body>
+</html>
