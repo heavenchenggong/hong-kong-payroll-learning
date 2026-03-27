@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 10 - 雇佣条例实践应用 | 香港Payroll深度学习</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .case-study {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .case-study h3 {
+            color: #007bff;
+            margin-top: 0;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            margin: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #007bff;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: #007bff;
+            border-radius: 50%;
+            border: 3px solid white;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .step-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .step-number {
+            background: #007bff;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Day 10: 雇佣条例实践应用</h1>
+            <p class="subtitle">案例分析 • 争议处理 • 劳工处投诉流程</p>
+            <div class="meta">
+                <span>📅 学习日期: 2026-03-27</span>
+                <span>⏱️ 预计时长: 60分钟</span>
+                <span>📊 完成度: 100%</span>
+            </div>
+        </header>
+
+        <nav class="toc">
+            <h2>📋 学习大纲</h2>
+            <ol>
+                <li><a href="#section1">案例分析（5个真实场景）</a></li>
+                <li><a href="#section2">争议处理流程</a></li>
+                <li><a href="#section3">劳工处投诉与调解</a></li>
+                <li><a href="#section4">薪酬争议常见问题</a></li>
+                <li><a href="#section5">SAP系统中的争议处理</a></li>
+                <li><a href="#section6">预防措施与最佳实践</a></li>
+                <li><a href="#section7">学习心得与总结</a></li>
+            </ol>
+        </nav>
+
+        <section id="section1" class="section">
+            <h2>1. 案例分析（5个真实场景）</h2>
+
+            <div class="case-study">
+                <h3>案例1: 试用期员工离职争议</h3>
+                <p><strong>背景：</strong> 员工入职3个月后（试用期），雇主以"试用期不合格"为由解雇，未给予通知期。</p>
+                <p><strong>争议焦点：</strong> 试用期内是否需要通知期？</p>
+                <p><strong>法律依据：</strong></p>
+                <ul>
+                    <li>雇佣条例第7条：连续性雇佣合约必须在终止时给予通知期</li>
+                    <li>试用期并非豁免通知期的理由</li>
+                    <li>连续雇佣≥7天，最低通知期为7天</li>
+                </ul>
+                <p><strong>正确处理：</strong></p>
+                <ul>
+                    <li>即使试用期，也要给予7天通知期或代通知金</li>
+                    <li>代通知金 = 按通知期应得的工资</li>
+                    <li>如员工在职未满7天，终止前必须通知</li>
+                </ul>
+            </div>
+
+            <div class="case-study">
+                <h3>案例2: 工资计算错误争议</h3>
+                <p><strong>背景：</strong> 月薪HKD 20,000员工，本月工作22天，请假2天，实际发放工资HKD 16,000。</p>
+                <p><strong>争议焦点：</strong> 员工认为应按HKD 18,181.82计算（20,000 ÷ 22 × 20）。</p>
+                <p><strong>法律依据：</strong></p>
+                <ul>
+                    <li>雇佣条例第32条：工资定义包括基本工资及所有固定津贴</li>
+                    <li>计算方法无明确规定，但必须公平合理</li>
+                    <li>雇主制定的计算规则需在合约中明确</li>
+                </ul>
+                <p><strong>常见计算方法：</strong></p>
+                <table>
+                    <tr>
+                        <th>计算方法</th>
+                        <th>公式</th>
+                        <th>员工得款</th>
+                    </tr>
+                    <tr>
+                        <td>按日历月</td>
+                        <td>20,000 ÷ 30 × 28</td>
+                        <td>HKD 18,666.67</td>
+                    </tr>
+                    <tr>
+                        <td>按工作日</td>
+                        <td>20,000 ÷ 22 × 20</td>
+                        <td>HKD 18,181.82</td>
+                    </tr>
+                    <tr>
+                        <td>固定扣除</td>
+                        <td>20,000 - (20,000 ÷ 22 × 2)</td>
+                        <td>HKD 16,000（错误）</td>
+                    </tr>
+                </table>
+                <p><strong>正确处理：</strong></p>
+                <ul>
+                    <li>在雇佣合约中明确工资计算方法</li>
+                    <li>保持计算方法的一致性</li>
+                    <li>如有争议，劳工处倾向采用日历月方法</li>
+                </ul>
+            </div>
+
+            <div class="case-study">
+                <h3>案例3: 休息日工作争议</h3>
+                <p><strong>背景：</strong> 雇主要求员工在休息日工作，承诺给予"调休"而非加班费。</p>
+                <p><strong>争议焦点：</strong> 休息日工作是否必须支付加班费？</p>
+                <p><strong>法律依据：</strong></p>
+                <ul>
+                    <li>雇佣条例第39条：连续性雇员每7天至少享有1个休息日</li>
+                    <li>休息日工作：雇员可选择（1）补假（同日历月内）或（2）加班费</li>
+                    <li>加班费计算：每小时工资×工作时数×1.5（或按合约约定，不低于1.5倍）</li>
+                </ul>
+                <p><strong>正确处理：</strong></p>
+                <ul>
+                    <li>必须书面记录雇员的选择（补假或加班费）</li>
+                    <li>如选择补假，必须在同月内安排</li>
+                    <li>如无法安排补假，必须支付加班费</li>
+                    <li>SAP配置：使用时间评估规则（PCR）处理休息日工作</li>
+                </ul>
+            </div>
+
+            <div class="case-study">
+                <h3>案例4: 疾病津贴争议</h3>
+                <p><strong>背景：</strong> 员工入职8个月，连续病假4天，申请疾病津贴被拒绝（理由：不足4天）。</p>
+                <p><strong>争议焦点：</strong> 疾病津贴的累积天数计算方式。</p>
+                <p><strong>法律依据：</strong></p>
+                <ul>
+                    <li>雇佣条例第32条：连续雇佣满1个月后开始累积疾病津贴资格</li>
+                    <li>雇佣1-2个月：累积最多2天/月</li>
+                    <li>雇佣2-3个月：累积最多4天/月</li>
+                    <li>雇佣3个月以上：累积最多2天/月，最高累积120天</li>
+                </ul>
+                <p><strong>正确计算：</strong></p>
+                <ul>
+                    <li>该员工入职8个月，应累积8×2=16天疾病津贴资格</li>
+                    <li>连续病假4天 < 已累积资格（16天）</li>
+                    <li>必须支付疾病津贴（按正常工资的80%）</li>
+                    <li>SAP配置：PA0007记录病假时间，SAP自动计算疾病津贴</li>
+                </ul>
+            </div>
+
+            <div class="case-study">
+                <h3>案例5: 长期服务金争议</h3>
+                <p><strong>背景：</strong> 员工在公司工作5年，因裁员被解雇，要求计算长期服务金。</p>
+                <p><strong>争议焦点：</strong> 基本工资是否包含津贴和奖金？</p>
+                <p><strong>法律依据：</strong></p>
+                <ul>
+                    <li>雇佣条例第31B条：长期服务金 = 月薪 × 服务年资 × 2/3</li>
+                    <li>"月薪"定义：基本工资 + 固定津贴</li>
+                    <li>不包括：年终奖、佣金、绩效奖金（非固定部分）</li>
+                </ul>
+                <p><strong>计算示例：</strong></p>
+                <ul>
+                    <li>基本工资：HKD 15,000</li>
+                    <li>房屋津贴（固定）：HKD 3,000</li>
+                    <li>交通津贴（实报实销）：不计入</li>
+                    <li>年终奖（按表现）：不计入</li>
+                    <li>月薪总额 = HKD 15,000 + 3,000 = HKD 18,000</li>
+                    <li>服务年资：5年</li>
+                    <li>长期服务金 = 18,000 × 5 × 2/3 = HKD 60,000</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="section2" class="section">
+            <h2>2. 争议处理流程</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Step 1: 内部沟通</h3>
+                    <p><strong>目的：</strong> 首先尝试在内部解决争议，避免升级</p>
+                    <ul>
+                        <li>HR部门与员工面对面沟通</li>
+                        <li>听取员工诉求，核实事实</li>
+                        <li>解释相关法律法规和公司政策</li>
+                        <li>寻求双方都能接受的解决方案</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Step 2: 书面记录</h3>
+                    <p><strong>目的：</strong> 保留证据，防止后续争议</p>
+                    <ul>
+                        <li>记录沟通日期、时间、参与人员</li>
+                        <li>记录争议焦点和双方立场</li>
+                        <li>记录解决方案和时间表</li>
+                        <li>双方签字确认</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Step 3: 薪酬系统核查</h3>
+                    <p><strong>目的：</strong> 确认系统计算是否正确</p>
+                    <ul>
+                        <li>检查SAP薪酬核算结果</li>
+                        <li>核对相关配置（工资类型、PCR、Schema）</li>
+                        <li>检查时间评估数据（PA0007）</li>
+                        <li>如有错误，重新核算并调整</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Step 4: 外部咨询</h3>
+                    <p><strong>目的：</strong> 获取专业意见</p>
+                    <ul>
+                        <li>咨询劳工处：查询热线 2717 1771</li>
+                        <li>咨询律师：如争议金额较大</li>
+                        <li>查阅雇佣条例和判例</li>
+                        <li>参考行业惯例</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h3>Step 5: 调解或仲裁</h3>
+                    <p><strong>目的：</strong> 通过第三方解决争议</p>
+                    <ul>
+                        <li>劳工处调解服务（免费）</li>
+                        <li>小额薪酬索偿仲裁处（索偿额≤HKD 75,000）</li>
+                        <li>劳资审裁处（索偿额>HKD 75,000）</li>
+                        <li>区域法院/高等法院（重大争议）</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="section3" class="section">
+            <h2>3. 劳工处投诉与调解</h2>
+
+            <h3>3.1 劳工处服务概览</h3>
+            <p>香港劳工处提供以下服务：</p>
+            <ul>
+                <li><strong>咨询：</strong> 提供雇佣条例解答（免费）</li>
+                <li><strong>调解：</strong> 协助雇主与雇员达成和解（免费）</li>
+                <li><strong>执法：</strong> 调查违法行为，发出检控书</li>
+                <li><strong>保障：</strong> 处理破产欠薪索赔</li>
+            </ul>
+
+            <h3>3.2 投诉流程</h3>
+            <div class="process-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>提交投诉</h4>
+                    <p>通过电话、网站或亲临分区办事处提交投诉</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>初步评估</h4>
+                    <p>劳工处评估是否受理（是否符合管辖范围）</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>收集证据</h4>
+                    <p>双方提交证据（合约、工资单、银行记录）</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>调解会议</h4>
+                    <p>劳工处组织双方开会，寻求和解方案</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h4>达成协议</h4>
+                    <p>签署和解协议，双方按协议执行</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">6</div>
+                    <h4>后续跟进</h4>
+                    <p>劳工处跟进协议执行情况</p>
+                </div>
+            </div>
+
+            <h3>3.3 常见投诉类型</h3>
+            <table>
+                <tr>
+                    <th>投诉类型</th>
+                    <th>占比</th>
+                    <th>典型问题</th>
+                </tr>
+                <tr>
+                    <td>工资支付争议</td>
+                    <td>35%</td>
+                    <td>未支付工资、计算错误、未支付加班费</td>
+                </tr>
+                <tr>
+                    <td>终止雇佣争议</td>
+                    <td>25%</td>
+                    <td>未支付代通知金、遣散费、长期服务金</td>
+                </tr>
+                <tr>
+                    <td>休息日/假期争议</td>
+                    <td>15%</td>
+                    <td>强制休息日工作、未支付法定假日工资</td>
+                </tr>
+                <tr>
+                    <td>疾病津贴争议</td>
+                    <td>10%</td>
+                    <td>拒付疾病津贴、累积天数计算错误</td>
+                </tr>
+                <tr>
+                    <td>其他</td>
+                    <td>15%</td>
+                    <td>雇佣合约条款、试用期争议等</td>
+                </tr>
+            </table>
+
+            <h3>3.4 雇主应对策略</h3>
+            <div class="warning">
+                <h4>⚠️ 接到劳工处通知后的应对步骤</h4>
+                <ol>
+                    <li><strong>立即响应：</strong> 在通知期限内回复，避免视为默认承认</li>
+                    <li><strong>准备证据：</strong> 收集所有相关文件（合约、工资单、SAP核算记录）</li>
+                    <li><strong>内部复核：</strong> 再次核实争议点，确认计算是否正确</li>
+                    <li><strong>寻求专业意见：</strong> 必要时咨询律师或人力资源顾问</li>
+                    <li><strong>评估和解方案：</strong> 如确有责任，尽快与员工达成和解</li>
+                    <li><strong>记录沟通：</strong> 所有与劳工处和员工的沟通都要书面记录</li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="section4" class="section">
+            <h2>4. 薪酬争议常见问题</h2>
+
+            <h3>4.1 工资支付问题</h3>
+            <div class="faq">
+                <h4>Q1: 月薪员工如何计算未付工资？</h4>
+                <p><strong>A:</strong> 按日历月计算：月薪 ÷ 30 × 工作天数。劳工处倾向采用此方法。</p>
+            </div>
+
+            <div class="faq">
+                <h4>Q2: 加班费是否必须支付？</h4>
+                <p><strong>A:</strong> 雇佣条例未强制要求支付加班费，但如雇佣合约有规定，必须执行。</p>
+            </div>
+
+            <div class="faq">
+                <h4>Q3: 休息日工作的补偿方式？</h4>
+                <p><strong>A:</strong> 雇员可选择（1）补假（同月内）或（2）加班费（≥1.5倍）。必须书面记录选择。</p>
+            </div>
+
+            <h3>4.2 终止雇佣问题</h3>
+            <div class="faq">
+                <h4>Q4: 代通知金如何计算？</h4>
+                <p><strong>A:</strong> 代通知金 = 按通知期应得的工资（包括固定津贴）。</p>
+            </div>
+
+            <div class="faq">
+                <h4>Q5: 遣散费和长期服务金可以同时领取吗？</h4>
+                <p><strong>A:</strong> 不可以。雇主只需支付两者中较高的一项，但必须符合支付条件。</p>
+            </div>
+
+            <div class="faq">
+                <h4>Q6: 因不合理行为被解雇，员工有权索取什么？</h4>
+                <p><strong>A:</strong> 如被法院裁定为不合理解雇，员工可获得：</p>
+                <ul>
+                    <li>复职或重新聘用命令</li>
+                    <li>或终止雇佣补偿（最高HKD 150,000 + 15%按金）</li>
+                </ul>
+            </div>
+
+            <h3>4.3 疾病津贴问题</h3>
+            <div class="faq">
+                <h4>Q7: 连续病假如何计算？</h4>
+                <p><strong>A:</strong> 连续病假是指连续的病假天数，中间休息日和假日也计入。</p>
+            </div>
+
+            <div class="faq">
+                <h4>Q8: 疾病津贴累积天数如何计算？</h4>
+                <p><strong>A:</strong> 每月累积最多2天，最高120天。入职满1个月后开始累积。</p>
+            </div>
+
+            <h3>4.4 产假问题</h3>
+            <div class="faq">
+                <h4>Q9: 产假津贴如何计算？</h4>
+                <p><strong>A:</strong> 产假津贴 = （基本工资 ÷ 30 × 产假天数）× 80%。</p>
+            </div>
+
+            <div class="faq">
+                <h4>Q10: 流产是否享有产假？</h4>
+                <p><strong>A:</strong> 妊娠满28周后流产，享有14周产假（如雇主同意，可延长至16周）。</p>
+            </div>
+        </section>
+
+        <section id="section5" class="section">
+            <h2>5. SAP系统中的争议处理</h2>
+
+            <h3>5.1 争议数据核查</h3>
+            <p>处理薪酬争议时，需要核查以下SAP数据：</p>
+            <ul>
+                <li><strong>PA0001：</strong> 组织分配（人事区域、员工组、子组）</li>
+                <li><strong>PA0002：</strong> 个人数据（入职日期、终止日期）</li>
+                <li><strong>PA0003：</strong> 薪酬状态（核算期间、锁定状态）</li>
+                <li><strong>PA0007：</strong> 工作时间（休息日、病假、产假记录）</li>
+                <li><strong>PA0008：</strong> 基本工资（工资类型、金额、时间单位）</li>
+                <li><strong>PA0041：</strong> 日期规格（试用期、通知期、雇佣终止日期）</li>
+            </ul>
+
+            <h3>5.2 重新核算流程</h3>
+            <div class="process-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>锁定薪酬核算</h4>
+                    <p>使用事务码 PA03 锁定核算期间</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>更正时间数据</h4>
+                    <p>修正 PA0007 的错误记录</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>重新运行Schema</h4>
+                    <p>使用 PC00_M08_HK 重新核算</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>对比结果</h4>
+                    <p>使用 PC_PAYRESULT 对比新旧结果</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h4>调整支付</h4>
+                    <p>生成调整核算，补发或扣回差额</h4>
+                </div>
+            </div>
+
+            <h3>5.3 关键事务码</h3>
+            <table>
+                <tr>
+                    <th>事务码</th>
+                    <th>功能</th>
+                    <th>用途</th>
+                </tr>
+                <tr>
+                    <td>PA20</td>
+                    <td>显示主数据</td>
+                    <td>查看员工信息类型数据</td>
+                </tr>
+                <tr>
+                    <td>PA30</td>
+                    <td>维护主数据</td>
+                    <td>更正错误数据（如PA0007）</td>
+                </tr>
+                <tr>
+                    <td>PC00_M08_HK</td>
+                    <td>香港薪酬核算</td>
+                    <td>运行薪酬核算</td>
+                </tr>
+                <tr>
+                    <td>PC_PAYRESULT</td>
+                    <td>显示薪酬结果</td>
+                    <td>查看核算结果详情</td>
+                </tr>
+                <tr>
+                    <td>H99CALD</td>
+                    <td>日历评估</td>
+                    <td>查看工作日、休息日、法定假日</td>
+                </tr>
+                <tr>
+                    <td>PA03</td>
+                    <td>薪酬控制</td>
+                    <td>锁定/解锁核算期间</td>
+                </tr>
+            </table>
+
+            <h3>5.4 薪酬争议报告</h3>
+            <p>SAP可生成以下争议相关报告：</p>
+            <ul>
+                <li><strong>HKL0：</strong> 薪酬核算清单（用于核对每项工资类型）</li>
+                <li><strong>HKL1：</strong> 税务报表（用于核对薪俸税计算）</li>
+                <li><strong>HKL5：</strong> 福利统计（用于核对MPF供款）</li>
+                <li><strong>HKRCPT：</strong> 工资单明细（用于向员工解释计算细节）</li>
+            </ul>
+        </section>
+
+        <section id="section6" class="section">
+            <h2>6. 预防措施与最佳实践</h2>
+
+            <h3>6.1 合规预防</h3>
+            <ul>
+                <li><strong>定期审计：</strong> 每季度审计薪酬核算结果，检查合规性</li>
+                <li><strong>系统校验：</strong> 在SAP中设置预警规则（如未达最低工资标准时自动告警）</li>
+                <li><strong>政策更新：</strong> 及时跟踪雇佣条例和税法变更，更新系统配置</li>
+                <li><strong>培训HR：</strong> 定期培训HR人员，提高法规意识</li>
+            </ul>
+
+            <h3>6.2 文档管理</h3>
+            <ul>
+                <li><strong>雇佣合约：</strong> 明确工资计算方法、加班政策、通知期等</li>
+                <li><strong>员工手册：</strong> 清楚说明公司政策和员工权利义务</li>
+                <li><strong>薪酬政策：</strong> 制定书面的薪酬政策，解释各项工资和津贴的计算方式</li>
+                <li><strong>沟通记录：</strong> 所有与员工关于薪酬的沟通都要书面记录</li>
+            </ul>
+
+            <h3>6.3 争议管理</h3>
+            <ul>
+                <li><strong>快速响应：</strong> 接到员工投诉后，24小时内响应</li>
+                <li><strong>保持冷静：</strong> 避免情绪化处理，以事实和法律为准</li>
+                <li><strong>寻求和解：</strong> 优先考虑和解，避免诉讼成本</li>
+                <li><strong>学习总结：</strong> 每次争议后，总结教训，优化流程</li>
+            </ul>
+
+            <h3>6.4 SAP最佳实践</h3>
+            <ul>
+                <li><strong>数据一致性：</strong> 确保PA0001、PA0008等数据的一致性</li>
+                <li><strong>Schema验证：</strong> 每次配置变更后，都要进行完整测试</li>
+                <li><strong>备份配置：</strong> 定期备份PCR和Schema，便于回滚</li>
+                <li><strong>日志记录：</strong> 启用SAP审计日志，记录所有数据变更</li>
+            </ul>
+        </section>
+
+        <section id="section7" class="section">
+            <h2>7. 学习心得与总结</h2>
+
+            <h3>今日重点掌握</h3>
+            <ul>
+                <li>✅ 5个典型案例的处理方法和法律依据</li>
+                <li>✅ 争议处理的5步流程（内部沟通 → 书面记录 → 系统核查 → 外部咨询 → 调解/仲裁）</li>
+                <li>✅ 劳工处投诉流程和雇主应对策略</li>
+                <li>✅ SAP系统中争议数据的核查和重新核算方法</li>
+                <li>✅ 预防措施和最佳实践</li>
+            </ul>
+
+            <h3>关键数字</h3>
+            <ul>
+                <li>📊 工资支付争议占比：35%</li>
+                <li>📊 终止雇佣争议占比：25%</li>
+                <li>📊 劳工处调解服务：免费</li>
+                <li>📊 小额薪酬索偿仲裁：≤HKD 75,000</li>
+                <li>📊 不合理解雇补偿：最高HKD 150,000 + 15%按金</li>
+            </ul>
+
+            <h3>疑问记录</h3>
+            <ul>
+                <li>❓ 如何在SAP中配置自动预警规则（如未达最低工资标准）？</li>
+                <li>❓ 疾病津贴累积天数的SAP计算逻辑是什么？</li>
+            </ul>
+
+            <h3>实践需求</h3>
+            <ul>
+                <li>📌 需要获取SAP系统界面截图（PA0007、PC00_M08_HK等）</li>
+                <li>📌 需要实际演练争议数据的核查和重新核算流程</li>
+                <li>📌 需要收集更多实际案例，深化理解</li>
+            </ul>
+
+            <h3>明日计划</h3>
+            <p>Day 11: 雇员补偿保险（ECI） - 法律法规、保单配置、理赔流程</p>
+        </section>
+
+        <footer>
+            <p>📚 学习资源：香港劳工处官网、雇佣条例第57章、SAP Help文档</p>
+            <p>🔄 下次更新：完成Day 11学习后</p>
+        </footer>
+    </div>
+</body>
+</html>
