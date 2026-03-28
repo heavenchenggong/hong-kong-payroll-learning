@@ -1,0 +1,112 @@
+{
+  "status": "active",
+  "totalDays": 30,
+  "currentDay": 11,
+  "startDate": "2026-03-18",
+  "lastUpdate": "2026-03-29T03:00:00+08:00",
+  "nextDay": 12,
+  "nextDayTitle": "终止雇佣与遣散费",
+  "nextDayScheduled": "2026-03-30T03:00:00+08:00",
+  "completedDays": [
+    {
+      "day": 1,
+      "title": "MPF法律法规与特殊场景",
+      "completedDate": "2026-03-18",
+      "status": "completed"
+    },
+    {
+      "day": 2,
+      "title": "MPF信息类型字段详解",
+      "completedDate": "2026-03-20",
+      "status": "completed"
+    },
+    {
+      "day": 3,
+      "title": "MPF计算规则与Schema",
+      "completedDate": "2026-03-20",
+      "status": "completed"
+    },
+    {
+      "day": 4,
+      "title": "MPF系统配置实战",
+      "completedDate": "2026-03-21",
+      "status": "completed"
+    },
+    {
+      "day": 5,
+      "title": "薪俸税基础法规",
+      "completedDate": "2026-03-23",
+      "status": "completed"
+    },
+    {
+      "day": 6,
+      "title": "薪俸税计算规则",
+      "completedDate": "2026-03-24",
+      "status": "completed"
+    },
+    {
+      "day": 7,
+      "title": "薪俸税SAP配置",
+      "completedDate": "2026-03-25",
+      "status": "completed"
+    },
+    {
+      "day": 8,
+      "title": "薪俸税报表与申报",
+      "completedDate": "2026-03-26",
+      "status": "completed"
+    },
+    {
+      "day": 9,
+      "title": "雇佣条例概述",
+      "completedDate": "2026-03-27",
+      "status": "completed"
+    },
+    {
+      "day": 10,
+      "title": "雇佣条例实践应用",
+      "completedDate": "2026-03-27",
+      "status": "completed"
+    },
+    {
+      "day": 11,
+      "title": "雇员补偿保险（ECI）",
+      "completedDate": "2026-03-29",
+      "status": "completed"
+    }
+  ],
+  "upcomingDays": [
+    {
+      "day": 12,
+      "title": "终止雇佣与遣散费",
+      "scheduledDate": "2026-03-30",
+      "status": "pending"
+    },
+    {
+      "day": 13,
+      "title": "ECI法规基础",
+      "scheduledDate": "2026-03-31",
+      "status": "pending"
+    },
+    {
+      "day": 14,
+      "title": "ECI计算与申报实务",
+      "scheduledDate": "2026-04-01",
+      "status": "pending"
+    },
+    {
+      "day": 15,
+      "title": "ECI SAP系统配置实战",
+      "scheduledDate": "2026-04-02",
+      "status": "pending"
+    }
+  ],
+  "statistics": {
+    "completionPercentage": 36.67,
+    "completedCount": 11,
+    "pendingCount": 19,
+    "totalDocuments": 11,
+    "totalWords": 50000
+  },
+  "notes": "Day 11 从原计划的'休假与福利'调整为'雇员补偿保险（ECI）'，因为ECI是重要的合规要求，需要更深入的学习。"
+}
