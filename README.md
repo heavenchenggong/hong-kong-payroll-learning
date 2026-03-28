@@ -1,6 +1,6 @@
 # 香港 Payroll 学习网站
 
-![学习进度](https://img.shields.io/badge/进度-Day%201%2F30-blue)
+![学习进度](https://img.shields.io/badge/进度-Day%2011%2F30-green)
 ![技术栈](https://img.shields.io/badge/技术栈-HTML%2BCSS%2BJS-yellow)
 ![部署](https://img.shields.io/badge/部署-GitHub%20Pages-success)
 
@@ -25,9 +25,9 @@
 - ⏳ Day 8: 薪俸税报表与申报
 
 ### Week 3: 雇佣条例与其他合规要求
-- ⏳ Day 9: 雇佣条例概述
-- ⏳ Day 10: 工资与工时规定
-- ⏳ Day 11: 休假与福利
+- ✅ Day 9: 雇佣条例概述
+- ✅ Day 10: 雇佣条例实践应用
+- ✅ Day 11: 雇员补偿保险（ECI）
 - ⏳ Day 12: 终止雇佣与遣散费
 
 ### Week 4: 雇员补偿保险（ECI）
@@ -72,9 +72,9 @@ npx serve
 | 指标 | 数值 |
 |------|------|
 | 总学习天数 | 30天 |
-| 已完成 | 2天 (7%) |
-| 文档数量 | 7个 |
-| 总字数 | ~25,000字 |
+| 已完成 | 11天 (37%) |
+| 文档数量 | 11个 |
+| 总字数 | ~50,000字 |
 
 ## 🤝 贡献
 
