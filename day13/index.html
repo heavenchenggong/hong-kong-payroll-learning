@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 13: MPF高级配置与特殊场景 - 香港Payroll深度学习</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .case-study {
+            background: #f8f9fa;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .case-study h3 {
+            color: #dc3545;
+            margin-top: 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .important-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .flow-steps {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .flow-steps ol {
+            margin-left: 20px;
+        }
+        .flow-steps li {
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+        .coverage-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .coverage-table th,
+        .coverage-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .coverage-table th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        .coverage-table tr:nth-child(even) {
+            background: #fafafa;
+        }
+        .calculation-box {
+            background: #e7f3ff;
+            border: 2px solid #007bff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .scenario-box {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="day-header">
+        <div class="container">
+            <h1>Day 13: MPF高级配置与特殊场景</h1>
+            <p class="meta">📅 学习日期: 2026年3月31日 | ⏱️ 学习时长: 120分钟 | ✅ 完成度: 100% | 🔄 修订日期: 2026年3月31日</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 核心数据速查 -->
+        <section class="content-block">
+            <h3>📊 核心数据速查（记住这5个关键点）</h3>
+            <div class="progress-stats">
+                <div class="stat-item">
+                    <span class="stat-label">法例依据</span>
+                    <span class="stat-value">第485章</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">最低供款</span>
+                    <span class="stat-value">5%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">供款上限</span>
+                    <span class="stat-value">HKD 1,500/月</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">免除年龄</span>
+                    <span class="stat-value">18-65岁</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">豁免收入</span>
+                    <span class="stat-value">HKD 7,100/月</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 特殊雇佣形态 -->
+        <section class="content-block">
+            <h3>👥 一、特殊雇佣形态的MPF处理</h3>
+
+            <h4>1.1 兼职员工（Part-time Employees）</h4>
+            <div class="important-box">
+                <h4>✅ 兼职员工MPF要求</h4>
+                <ul>
+                    <li><strong>适用性</strong>：连续受雇60天或以上的兼职员工必须参加MPF</li>
+                    <li><strong>供款计算</strong>：与全职员工相同，基于实际收入</li>
+                    <li><strong>雇主责任</strong>：雇主和雇员各供款5%</li>
+                    <li><strong>收入上限</strong>：月入HKD 30,000（最高供款HKD 1,500）</li>
+                    <li><strong>收入下限</strong>：月入HKD 7,100以下无需供款</li>
+                </ul>
+            </div>
+
+            <h4>1.2 临时工（Casual Employees）</h4>
+            <div class="scenario-box">
+                <h4>⚠️ 临时工的MPF处理</h4>
+                <ul>
+                    <li><strong>连续性定义</strong>：连续受雇60天（含休息日和假期）</li>
+                    <li><strong>供款起始</strong>：受雇第60天开始供款</li>
+                    <li><strong>收入计算</strong>：按实际收入计算供款</li>
+                    <li><strong>雇主责任</strong>：雇主必须为符合条件的临时工安排MPF计划</li>
+                    <li><strong>转全职</strong>：临时工转为全职员工，MPF资格立即生效</li>
+                </ul>
+            </div>
+
+            <h4>1.3 派遣员工（Seconded Employees）</h4>
+            <div class="highlight-box">
+                <h4>🔄 派遣员工的MPF处理</h4>
+                <ul>
+                    <li><strong>雇主责任</strong>：派遣公司（而非接收方）是MPF雇主</li>
+                    <li><strong>供款计算</strong>：由派遣公司计算和扣除MPF供款</li>
+                    <li><strong>跨境派遣</strong>：香港员工派遣到海外，仍需缴纳香港MPF</li>
+                    <li><strong>双重供款</strong>：如同时需缴纳海外强积金，可申请豁免部分香港MPF</li>
+                    <li><strong>计划选择</strong>：派遣公司为派遣员工选择MPF计划</li>
+                </ul>
+            </div>
+
+            <h4>1.4 董事/高管（Directors/Executives）</h4>
+            <table class="coverage-table">
+                <tr>
+                    <th>类别</th>
+                    <th>MPF适用</th>
+                    <th>供款计算</th>
+                    <th>注意事项</th>
+                </tr>
+                <tr>
+                    <td>执行董事</td>
+                    <td>✅ 是</td>
+                    <td>基于实际收入</td>
+                    <td>通常收入较高，经常达到上限</td>
+                </tr>
+                <tr>
+                    <td>非执行董事</td>
+                    <td>✅ 是</td>
+                    <td>基于董事酬金</td>
+                    <td>如连续受雇60天或以上</td>
+                </tr>
+                <tr>
+                    <td>独立董事</td>
+                    <td>✅ 是</td>
+                    <td>基于董事酬金</td>
+                    <td>定期受领酬金，符合资格</td>
+                </tr>
+                <tr>
+                    <td>外籍董事</td>
+                    <td>✅ 是</td>
+                    <td>基于香港收入</td>
+                    <td>只计算香港来源收入</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- 特殊收入场景 -->
+        <section class="content-block">
+            <h3>💰 二、特殊收入场景的MPF处理</h3>
+
+            <h4>2.1 超时工作费（Overtime Pay）</h4>
+            <div class="important-box">
+                <h4>✅ 超时工作费的MPF处理</h4>
+                <ul>
+                    <li><strong>供款计算</strong>：超时工作费应计入MPF供款收入</li>
+                    <li><strong>月收入计算</strong>：月收入 = 基本工资 + 津贴 + 超时工作费</li>
+                    <li><strong>供款上限</strong>：月收入上限仍为HKD 30,000</li>
+                    <li><strong>注意事项</strong>：超时工作费波动较大，需按月计算</li>
+                    <li><strong>税务处理</strong>：超时工作费不免税，计入应税收入</li>
+                </ul>
+            </div>
+
+            <h4>2.2 奖金和佣金（Bonuses & Commissions）</h4>
+            <div class="calculation-box">
+                <h4>💰 奖金和佣金的MPF计算</h4>
+                <ul>
+                    <li><strong>奖金</strong>：年度奖金、季度奖金应计入MPF收入</li>
+                    <li><strong>佣金</strong>：销售佣金应计入MPF收入</li>
+                    <li><strong>计算方法</strong>：按月平均计算或按实际月计算</li>
+                    <li><strong>供款计算</strong>：基于月收入计算供款</li>
+                    <li><strong>注意事项</strong>：奖金和佣金波动较大，需准确记录</li>
+                </ul>
+            </div>
+
+            <h4>2.3 房屋津贴（Housing Allowance）</h4>
+            <div class="highlight-box">
+                <h4>🏠 房屋津贴的MPF处理</h4>
+                <ul>
+                    <li><strong>供款计算</strong>：房屋津贴应计入MPF供款收入</li>
+                    <li><strong>收入定义</strong>：雇主提供的房屋津贴为应计收入</li>
+                    <li><strong>税务处理</strong>：房屋津贴（扣除最高10%）计入应税收入</li>
+                    <li><strong>供款上限</strong>：房屋津贴计入月收入上限</li>
+                    <li><strong>注意事项</strong>：实际房屋和房屋津贴的MPF处理不同</li>
+                </ul>
+            </div>
+
+            <h4>2.4 股票期权（Stock Options）</h4>
+            <div class="warning-box">
+                <h4>⚠️ 股票期权的MPF处理</h4>
+                <ul>
+                    <li><strong>供款计算</strong>：股票期权收益不直接计入MPF供款收入</li>
+                    <li><strong>税务处理</strong>：股票期权收益需缴税（资本利得除外）</li>
+                    <li><strong>收入定义</strong>：股票期权通常不计入月收入</li>
+                    <li><strong>注意事项</strong>：股票期权收益作为资本利得处理</li>
+                    <li><strong>其他福利</strong>：现金形式的股权激励可能计入MPF</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 特殊就业场景 -->
+        <section class="content-block">
+            <h3>🔍 三、特殊就业场景的MPF处理</h3>
+
+            <h4>3.1 试用期员工（Probationary Employees）</h4>
+            <div class="scenario-box">
+                <h4>⚠️ 试用期员工的MPF处理</h4>
+                <ul>
+                    <li><strong>供款起始</strong>：受雇第60天开始供款</li>
+                    <li><strong>雇主责任</strong>：雇主必须为试用期员工安排MPF</li>
+                    <li><strong>试用期长度</strong>：试用期长短不影响MPF资格</li>
+                    <li><strong>转正处理</strong>：试用期通过后，继续正常供款</li>
+                    <li><strong>试用期解雇</strong>：试用期解雇仍需供款至解雇日</li>
+                </ul>
+            </div>
+
+            <h4>3.2 跨境工作员工（Cross-border Employees）</h4>
+            <table class="coverage-table">
+                <tr>
+                    <th>场景</th>
+                    <th>香港MPF</th>
+                    <th>海外强积金</th>
+                    <th>处理方式</th>
+                </tr>
+                <tr>
+                    <td>香港员工派驻内地</td>
+                    <td>✅ 需供款</td>
+                    <td>❌ 不适用</td>
+                    <td>继续香港MPF供款</td>
+                </tr>
+                <tr>
+                    <td>内地员工派驻香港</td>
+                    <td>✅ 需供款</td>
+                    <td>❌ 不适用</td>
+                    <td>参加香港MPF</td>
+                </tr>
+                <tr>
+                    <td>双重供款情况</td>
+                    <td>✅ 需供款</td>
+                    <td>✅ 需供款</td>
+                    <td>申请豁免部分MPF</td>
+                </tr>
+                <tr>
+                    <td>短期外派（&lt;60天）</td>
+                    <td>✅ 需供款</td>
+                    <td>❌ 不适用</td>
+                    <td>继续香港MPF供款</td>
+                </tr>
+            </table>
+
+            <h4>3.3 退休后再雇佣（Re-employment after Retirement）</h4>
+            <div class="important-box">
+                <h4>✅ 退休后再雇佣的MPF处理</h4>
+                <ul>
+                    <li><strong>年龄限制</strong>：65岁以下再雇佣，仍需参加MPF</li>
+                    <li><strong>65岁以上</strong>：65岁或以上再雇佣，无需参加MPF</li>
+                    <li><strong>雇员选择</strong>：65岁以下雇员可选择是否参加MPF</li>
+                    <li><strong>雇主责任</strong>：雇主必须为符合条件的雇员安排MPF</li>
+                    <li><strong>注意事项</strong>：退休金和MPF是不同的退休保障</li>
+                </ul>
+            </div>
+
+            <h4>3.4 怀孕员工（Pregnant Employees）</h4>
+            <div class="highlight-box">
+                <h4>🤰 怀孕员工的MPF处理</h4>
+                <ul>
+                    <li><strong>供款继续</strong>：怀孕期间，MPF供款继续</li>
+                    <li><strong>产假期间</strong>：产假期间，雇主继续供款</li>
+                    <li><strong>产假工资</strong>：产假工资计入MPF收入</li>
+                    <li><strong>雇员供款</strong>：雇员产假期间无需供款（如无工资）</li>
+                    <li><strong>产假后</strong>：产假后恢复正常供款</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- MPF与终止雇佣 -->
+        <section class="content-block">
+            <h3>🔚 四、MPF与终止雇佣的关系</h3>
+
+            <h4>4.1 终止雇佣时的MPF处理</h4>
+            <div class="calculation-box">
+                <h4>💰 终止雇佣时的MPF操作</h4>
+                <ul>
+                    <li><strong>供款停止</strong>：雇佣终止当月，供款至最后工作日</li>
+                    <li><strong>最后供款</strong>：最后工作日的供款必须计算并支付</li>
+                    <li><strong>账户冻结</strong>：雇佣终止后，MPF账户不再有新供款</li>
+                    <li><strong>账户保留</strong>：账户保留，可转至新雇主或个人账户</li>
+                    <li><strong>遣散费扣减</strong>：遣散费可扣减雇主已支付的MPF供款</li>
+                </ul>
+            </div>
+
+            <h4>4.2 遣散费与MPF的关系</h4>
+            <div class="important-box">
+                <h4>✅ 遣散费中的MPF扣减</h4>
+                <ul>
+                    <li><strong>扣减规则</strong>：遣散费可扣减雇主在雇员离职前已支付的MPF供款</li>
+                    <li><strong>扣减上限</strong>：扣减金额不能超过遣散费总额</li>
+                    <li><strong>计算方法</strong>：扣减金额 = 离职前已支付的雇主MPF供款</li>
+                    <li><strong>长期服务金</strong>：同样适用MPF扣减规则</li>
+                    <li><strong>注意事项</strong>：雇主应准确计算和扣减MPF供款</li>
+                </ul>
+            </div>
+
+            <h4>4.3 长期服务金与MPF的关系</h4>
+            <table class="coverage-table">
+                <tr>
+                    <th>项目</th>
+                    <th>遣散费</th>
+                    <th>长期服务金</th>
+                </tr>
+                <tr>
+                    <td>MPF扣减</td>
+                    <td>✅ 可扣减</td>
+                    <td>✅ 可扣减</td>
+                </tr>
+                <tr>
+                    <td>扣减依据</td>
+                    <td>雇主已付MPF</td>
+                    <td>雇主已付MPF</td>
+                </tr>
+                <tr>
+                    <td>扣减上限</td>
+                    <td>不超过补偿总额</td>
+                    <td>不超过补偿总额</td>
+                </tr>
+                <tr>
+                    <td>计算公式</td>
+                    <td>相同</td>
+                    <td>相同</td>
+                </tr>
+            </table>
+
+            <h4>4.4 离职后的MPF账户处理</h4>
+            <div class="flow-steps">
+                <h4>📝 离职后的MPF账户处理流程</h4>
+                <ol>
+                    <li><strong>通知MPF受托人</strong>：向MPF受托人通知雇员离职</li>
+                    <li><strong>冻结账户</strong>：MPF账户冻结，不再有新供款</li>
+                    <li><strong>选择处理方式</strong>：雇员可选择保留账户或转移账户</li>
+                    <li><strong>转移至新雇主</strong>：如雇员有新工作，可将账户转移至新雇主</li>
+                    <li><strong>保留个人账户</strong>：如无新工作，可保留个人账户</li>
+                    <li><strong>提取强积金</strong>：达到条件后可提取强积金</li>
+                    <li><strong>税务影响</strong>：提取强积金可能涉及税务影响</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- SAP系统配置 -->
+        <section class="content-block">
+            <h3>⚙️ 五、SAP系统中的MPF高级配置</h3>
+
+            <h4>5.1 特殊雇佣形态的SAP配置</h4>
+            <div class="highlight-box">
+                <h4>🔧 关键配置步骤</h4>
+                <ol>
+                    <li><strong>雇佣类别维护</strong>：维护兼职、临时工等雇佣类别</li>
+                    <li><strong>供款规则配置</strong>：为不同雇佣类别配置供款规则</li>
+                    <li><strong>收入项目配置</strong>：配置超时工作费、佣金等收入项目</li>
+                    <li><strong>供款计算规则</strong>：配置MPF供款计算规则</li>
+                    <li><strong>上限控制</strong>：设置供款上限（HKD 1,500）</li>
+                    <li><strong>豁免规则</strong>：配置收入豁免规则（HKD 7,100）</li>
+                </ol>
+            </div>
+
+            <h4>5.2 关键信息类型配置</h4>
+            <table class="coverage-table">
+                <tr>
+                    <th>信息类型</th>
+                    <th>用途</th>
+                    <th>关键字段</th>
+                </tr>
+                <tr>
+                    <td>IT0000</td>
+                    <td>人事事件</td>
+                    <td>雇佣类别、雇佣日期、终止日期</td>
+                </tr>
+                <tr>
+                    <td>IT0008</td>
+                    <td>基本工资</td>
+                    <td>基本工资、工资组</td>
+                </tr>
+                <tr>
+                    <td>IT0014</td>
+                    <td>经常性支付/扣除</td>
+                    <td>MPF雇主供款、MPF雇员供款</td>
+                </tr>
+                <tr>
+                    <td>IT0015</td>
+                    <td>额外支付</td>
+                    <td>奖金、佣金、超时工作费</td>
+                </tr>
+                <tr>
+                    <td>IT0052</td>
+                    <td>工资日期</td>
+                    <td>工资核算周期</td>
+                </tr>
+            </table>
+
+            <h4>5.3 工资核算规则配置</h4>
+            <div class="important-box">
+                <h4>🇭🇰 香港MPF工资核算规则</h4>
+                <ul>
+                    <li><strong>供款计算规则</strong>：配置5%供款计算规则</li>
+                    <li><strong>上限控制规则</strong>：设置HKD 1,500上限</li>
+                    <li><strong>豁免规则</strong>：配置收入豁免规则（HKD 7,100）</li>
+                    <li><strong>特殊收入处理</strong>：配置奖金、佣金等特殊收入的处理</li>
+                    <li><strong>终止雇佣处理</strong>：配置离职时的MPF处理</li>
+                    <li><strong>遣散费扣减</strong>：配置遣散费的MPF扣减规则</li>
+                </ul>
+            </div>
+
+            <h4>5.4 特殊场景的SAP处理</h4>
+            <div class="key-points">
+                <h4>💻 特殊场景的系统处理</h4>
+                <ul>
+                    <li><strong>兼职员工</strong>：系统自动识别兼职类别，计算MPF</li>
+                    <li><strong>临时工</strong>：系统追踪雇佣天数，达到60天后自动供款</li>
+                    <li><strong>派遣员工</strong>：系统正确识别雇主，计算供款</li>
+                    <li><strong>跨境工作</strong>：系统配置供款规则，处理双重供款</li>
+                    <li><strong>终止雇佣</strong>：系统自动停止供款，计算遣散费扣减</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 案例分析 -->
+        <section class="content-block">
+            <h3>📊 六、实践案例分析</h3>
+
+            <div class="case-study">
+                <h3>案例1：兼职员工MPF计算</h3>
+                <p><strong>背景</strong>：一名兼职员工在公司工作。</p>
+                <p><strong>员工信息</strong>：</p>
+                <ul>
+                    <li>工作形式：每周工作3天，每天4小时</li>
+                    <li>连续受雇：3个月（90天）</li>
+                    <li>月收入：HKD 6,000</li>
+                    <li>雇佣类别：兼职员工</li>
+                </ul>
+                <p><strong>MPF计算</strong>：</p>
+                <ul>
+                    <li>受雇60天，符合MPF资格</li>
+                    <li>月收入HKD 6,000低于豁免额HKD 7,100</li>
+                    <li>雇主供款：无需供款</li>
+                    <li>雇员供款：无需供款</li>
+                    <li>供款总额：HKD 0</li>
+                </ul>
+                <p><strong>关键点</strong>：兼职员工符合资格后，收入低于豁免额无需供款。</p>
+            </div>
+
+            <div class="case-study">
+                <h3>案例2：奖金的MPF计算</h3>
+                <p><strong>背景</strong>：一名员工获得季度奖金。</p>
+                <p><strong>员工信息</strong>：</p>
+                <ul>
+                    <li>基本工资：HKD 25,000</li>
+                    <li>季度奖金：HKD 15,000</li>
+                    <li>其他收入：HKD 2,000</li>
+                    <li>MPF供款计算</li>
+                </ul>
+                <p><strong>MPF计算</strong>：</p>
+                <ul>
+                    <li>月收入 = 基本工资 + 奖金 + 其他收入 = 25,000 + 15,000 + 2,000 = HKD 42,000</li>
+                    <li>供款上限收入：HKD 30,000</li>
+                    <li>雇主供款 = 30,000 x 5% = HKD 1,500（达到上限）</li>
+                    <li>雇员供款 = 30,000 x 5% = HKD 1,500（达到上限）</li>
+                    <li>总供款：HKD 3,000</li>
+                </ul>
+                <p><strong>关键点</strong>：奖金计入MPF收入，但供款上限为HKD 1,500。</p>
+            </div>
+
+            <div class="case-study">
+                <h3>案例3：遣散费与MPF扣减</h3>
+                <p><strong>背景</strong>：一名员工因裁员被解雇。</p>
+                <p><strong>员工信息</strong>：</p>
+                <ul>
+                    <li>服务年资：10年</li>
+                    <li>月收入：HKD 20,000</li>
+                    <li>终止原因：裁员</li>
+                    <li>雇主已付MPF供款总额：HKD 18,000</li>
+                </ul>
+                <p><strong>遣散费计算</strong>：</p>
+                <ul>
+                    <li>遣散费 = 2/3 x 20,000 x 10 = HKD 133,333</li>
+                    <li>MPF扣减 = 雇主已付MPF = HKD 18,000</li>
+                    <li>实际遣散费 = 133,333 - 18,000 = HKD 115,333</li>
+                    <li>代通知金：雇主提前1个月通知，无需支付</li>
+                </ul>
+                <p><strong>关键点</strong>：遣散费可扣减雇主已支付的MPF供款总额。</p>
+            </div>
+
+            <div class="case-study">
+                <h3>案例4：跨境工作员工的MPF处理</h3>
+                <p><strong>背景</strong>：一名香港员工被派驻到内地工作。</p>
+                <p><strong>员工信息</strong>：</p>
+                <ul>
+                    <li>月收入（香港）：HKD 30,000</li>
+                    <li>派驻地点：上海</li>
+                    <li>派驻期限：2年</li>
+                    <li>内地社会保险：缴纳</li>
+                </ul>
+                <p><strong>MPF处理</strong>：</p>
+                <ul>
+                    <li>继续参加香港MPF</li>
+                    <li>雇主供款 = 30,000 x 5% = HKD 1,500（达到上限）</li>
+                    <li>雇员供款 = 30,000 x 5% = HKD 1,500（达到上限）</li>
+                    <li>内地社会保险：按内地规定缴纳</li>
+                    <li>双重供款：可申请豁免部分香港MPF（如符合条件）</li>
+                </ul>
+                <p><strong>关键点</strong>：跨境工作员工需同时考虑香港MPF和海外强制供款。</p>
+            </div>
+        </section>
+
+        <!-- 最佳实践 -->
+        <section class="content-block">
+            <h3>✨ 七、MPF高级配置最佳实践</h3>
+
+            <h4>7.1 系统配置建议</h4>
+            <div class="important-box">
+                <h4>🛡️ SAP配置最佳实践</h4>
+                <ul>
+                    <li><strong>准确维护雇佣类别</strong>：确保兼职、临时工等雇佣类别准确</li>
+                    <li><strong>配置供款规则</strong>：为不同雇佣类别配置正确的供款规则</li>
+                    <li><strong>收入项目维护</strong>：准确维护各种收入项目的MPF处理</li>
+                    <li><strong>定期审核</strong>：定期审核MPF配置，确保符合法规</li>
+                    <li><strong>员工沟通</strong>：向员工清晰解释MPF政策和计算方法</li>
+                </ul>
+            </div>
+
+            <h4>7.2 合规管理</h4>
+            <div class="key-points">
+                <h4>📋 合规管理要点</h4>
+                <ul>
+                    <li><strong>及时供款</strong>：按时向MPF受托人缴纳供款</li>
+                    <li><strong>准确计算</strong>：准确计算雇主和雇员供款</li>
+                    <li><strong>记录保存</strong>：保存完整的MPF供款记录</li>
+                    <li><strong>员工通知</strong>：及时通知员工MPF账户信息</li>
+                    <li><strong>法规更新</strong>：关注MPF法规更新，及时调整配置</li>
+                </ul>
+            </div>
+
+            <h4>7.3 风险防范</h4>
+            <div class="warning-box">
+                <h4>⚠️ 常见风险与防范</h4>
+                <ul>
+                    <li><strong>供款不足</strong>：确保供款计算准确，避免供款不足</li>
+                    <li><strong>漏报员工</strong>：确保所有符合条件的员工都参加了MPF</li>
+                    <li><strong>违规操作</strong>：避免不合规的MPF操作</li>
+                    <li><strong>系统错误</strong>：定期检查系统配置，避免计算错误</li>
+                    <li><strong>员工纠纷</strong>：清晰解释MPF政策，避免员工纠纷</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习总结 -->
+        <section class="content-block">
+            <h3>📝 八、学习总结</h3>
+
+            <div class="highlight-box">
+                <h4>🎯 今日核心要点</h4>
+                <ul>
+                    <li>兼职、临时工等特殊雇佣形态的MPF处理</li>
+                    <li>连续受雇60天是MPF资格的关键标准</li>
+                    <li>奖金、佣金等特殊收入需计入MPF</li>
+                    <li>跨境工作员工需考虑双重供款问题</li>
+                    <li>遣散费可扣减雇主已支付的MPF供款</li>
+                    <li>SAP系统需正确配置特殊雇佣形态的MPF处理</li>
+                    <li>终止雇佣时，MPF供款至最后工作日</li>
+                    <li>准确的MPF管理对合规至关重要</li>
+                </ul>
+            </div>
+
+            <h4>下一步学习</h4>
+            <p>完成Day 13后，建议继续学习：</p>
+            <ul>
+                <li><strong>Day 14</strong>：雇员补偿保险（ECI）法规基础</li>
+                <li><strong>Day 15</strong>：ECI计算与申报实务</li>
+                <li><strong>Day 16</strong>：ECI SAP系统配置实战</li>
+            </ul>
+        </section>
+
+        <!-- 完成标记 -->
+        <section class="content-block">
+            <div style="text-align: center; margin-top: 40px; padding: 30px; background: #d4edda; border-radius: 8px;">
+                <h2 style="color: #155724; margin: 0;">✅ Day 13 学习完成！</h2>
+                <p style="color: #155724; margin: 10px 0 0 0;">
+                    MPF高级配置与特殊场景已掌握<br>
+                    下一步：深入学习雇员补偿保险
+                </p>
+                <button onclick="window.location.href='../index.html'" style="margin-top: 20px; padding: 12px 30px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                    返回学习主页
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="day-footer">
+        <div class="container">
+            <p>香港Payroll深度学习计划 | Day 13 | MPF高级配置与特殊场景</p>
+            <p>学习网站：https://heavenchenggong.github.io/hong-kong-payroll-learning/</p>
+        </div>
+    </footer>
+
+    <script>
+        // 添加完成标记功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const completionDate = localStorage.getItem('day13_completed');
+            if (completionDate) {
+                console.log('Day 13 已完成于: ' + completionDate);
+            }
+
+            // 记录学习完成时间
+            localStorage.setItem('day13_completed', new Date().toISOString());
+        });
+    </script>
+</body>
+</html>
