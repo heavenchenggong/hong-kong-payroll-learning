@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 15: ECI计算与申报实务 - 香港Payroll深度学习</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .case-study {
+            background: #f8f9fa;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .case-study h3 {
+            color: #dc3545;
+            margin-top: 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .important-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .flow-steps {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .flow-steps ol {
+            margin-left: 20px;
+        }
+        .flow-steps li {
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+        .calculation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .calculation-table th,
+        .calculation-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .calculation-table th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        .calculation-table tr:nth-child(even) {
+            background: #fafafa;
+        }
+        .calculation-box {
+            background: #e7f3ff;
+            border: 2px solid #007bff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .scenario-box {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .highlight-box {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .key-points {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .screenshot-placeholder {
+            background: #e9ecef;
+            border: 2px dashed #6c757d;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .formula-box {
+            background: #fff9e6;
+            border: 2px solid #ff9800;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <header class="day-header">
+        <div class="container">
+            <h1>Day 15: ECI计算与申报实务</h1>
+            <p class="meta">📅 学习日期: 2026年4月2日 | ⏱️ 学习时长: 120分钟 | ✅ 完成度: 100% | 🔄 修订日期: 2026年4月2日</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 核心数据速查 -->
+        <section class="content-block">
+            <h3>📊 核心数据速查（记住这5个关键公式）</h3>
+            <div class="progress-stats">
+                <div class="stat-item">
+                    <span class="stat-label">暂时丧失</span>
+                    <span class="stat-value">月薪 × 80%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">永久完全丧失</span>
+                    <span class="stat-value">月薪 × 96倍</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">永久部分丧失</span>
+                    <span class="stat-value">按比例计算</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">死亡赔偿</span>
+                    <span class="stat-value">月薪 × 36倍</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">医疗费用</span>
+                    <span class="stat-value">实际报销</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ECI计算基础 -->
+        <section class="content-block">
+            <h3>📖 一、ECI计算基础</h3>
+
+            <h4>1.1 计算基准：月收入</h4>
+            <div class="important-box">
+                <h4>✅ 月收入定义</h4>
+                <ul>
+                    <li><strong>基本工资</strong>：雇员的基本月薪</li>
+                    <li><strong>固定津贴</strong>：固定的月度津贴（如房屋津贴）</li>
+                    <li><strong>佣金提成</strong>：如果按月支付，包含在内</li>
+                    <li><strong>不包含</strong>：加班费、奖金、年终奖等</li>
+                </ul>
+            </div>
+
+            <h4>1.2 计算原则</h4>
+            <div class="highlight-box">
+                <h4>📜 ECI计算核心原则</h4>
+                <ul>
+                    <li><strong>无过错赔偿</strong>：不论雇主是否有过错</li>
+                    <li><strong>全额保障</strong>：不设保障金额上限</li>
+                    <li><strong>按月计算</strong>：以月收入为计算基准</li>
+                    <li><strong>实际损失</strong>：按实际丧失程度计算</li>
+                    <li><strong>定期调整</strong>：赔偿金额随通胀调整</li>
+                </ul>
+            </div>
+
+            <h4>1.3 赔偿类型</h4>
+            <table class="calculation-table">
+                <tr>
+                    <th>赔偿类型</th>
+                    <th>计算公式</th>
+                    <th>支付方式</th>
+                    <th>支付期限</th>
+                </tr>
+                <tr>
+                    <td>暂时丧失工作能力</td>
+                    <td>月收入 × 80%</td>
+                    <td>按月支付</td>
+                    <td>最高12个月</td>
+                </tr>
+                <tr>
+                    <td>永久完全丧失</td>
+                    <td>月收入 × 96倍</td>
+                    <td>一次性支付</td>
+                    <td>一次性</td>
+                </tr>
+                <tr>
+                    <td>永久部分丧失</td>
+                    <td>按丧失比例计算</td>
+                    <td>一次性支付</td>
+                    <td>一次性</td>
+                </tr>
+                <tr>
+                    <td>死亡赔偿</td>
+                    <td>月收入 × 36倍</td>
+                    <td>一次性支付</td>
+                    <td>一次性</td>
+                </tr>
+                <tr>
+                    <td>医疗费用</td>
+                    <td>实际发生费用</td>
+                    <td>报销</td>
+                    <td>按实际发生</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- 暂时丧失工作能力计算 -->
+        <section class="content-block">
+            <h3>🏥 二、暂时丧失工作能力计算</h3>
+
+            <h4>2.1 计算公式</h4>
+            <div class="formula-box">
+                <p><strong>暂时丧失工作能力赔偿 = 月收入 × 80% × 丧失月数</strong></p>
+            </div>
+
+            <h4>2.2 计算示例</h4>
+            <div class="calculation-box">
+                <h4>💰 计算示例 1：腿部骨折</h4>
+                <p><strong>案例情况</strong>：</p>
+                <ul>
+                    <li>雇员月薪：HKD 18,000</li>
+                    <li>受伤原因：工作中摔倒导致腿部骨折</li>
+                    <li>治疗期：3个月（90天）</li>
+                    <li>病假类型：带薪病假</li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>月赔偿金额：18,000 × 80% = HKD 14,400/月</li>
+                    <li>赔偿总额：14,400 × 3 = HKD 43,200</li>
+                </ul>
+                <p><strong>注意事项</strong>：</p>
+                <ul>
+                    <li>赔偿最高支付12个月</li>
+                    <li>治疗期超过12个月需转为永久丧失评估</li>
+                    <li>医疗费用另外全额报销</li>
+                </ul>
+            </div>
+
+            <div class="calculation-box">
+                <h4>💰 计算示例 2：手臂骨折</h4>
+                <p><strong>案例情况</strong>：</p>
+                <ul>
+                    <li>雇员月薪：HKD 25,000</li>
+                    <li>受伤原因：操作机器时手臂受伤</li>
+                    <li>治疗期：6周（1.5个月）</li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>月赔偿金额：25,000 × 80% = HKD 20,000/月</li>
+                    <li>赔偿总额：20,000 × 1.5 = HKD 30,000</li>
+                </ul>
+            </div>
+
+            <h4>2.3 特殊情况处理</h4>
+            <div class="scenario-box">
+                <h4>⚠️ 特殊情况</h4>
+                <ul>
+                    <li><strong>部分复工</strong>：如雇员部分时间复工，赔偿按比例调整</li>
+                    <li><strong>病假天数不足</strong>：按实际带薪病假天数计算</li>
+                    <li><strong>收入变化</strong>：治疗期间收入变化，按受伤前收入计算</li>
+                    <li><strong>转永久丧失</strong>：治疗超过12个月，需重新评估</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 永久丧失工作能力计算 -->
+        <section class="content-block">
+            <h3>♿ 三、永久丧失工作能力计算</h3>
+
+            <h4>3.1 永久完全丧失计算</h4>
+            <div class="formula-box">
+                <p><strong>永久完全丧失赔偿 = 月收入 × 96倍</strong></p>
+            </div>
+
+            <div class="calculation-box">
+                <h4>💰 计算示例 1：双目失明</h4>
+                <p><strong>案例情况</strong>：</p>
+                <ul>
+                    <li>雇员月薪：HKD 30,000</li>
+                    <li>受伤原因：化学品溅入双眼，永久失明</li>
+                    <li>丧失程度：永久完全丧失</li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>赔偿金额：30,000 × 96 = HKD 2,880,000</li>
+                    <li>支付方式：一次性支付</li>
+                </ul>
+            </div>
+
+            <h4>3.2 永久部分丧失计算</h4>
+            <div class="important-box">
+                <h4>✅ 永久部分丧失评估标准</h4>
+                <p>永久部分丧失按丧失程度比例计算，丧失程度由医生评估确定。</p>
+            </div>
+
+            <table class="calculation-table">
+                <tr>
+                    <th>丧失类型</th>
+                    <th>丧失比例</th>
+                    <th>计算公式</th>
+                </tr>
+                <tr>
+                    <td>单眼失明</td>
+                    <td>30%</td>
+                    <td>月收入 × 96 × 30%</td>
+                </tr>
+                <tr>
+                    <td>单手丧失</td>
+                    <td>50%</td>
+                    <td>月收入 × 96 × 50%</td>
+                </tr>
+                <tr>
+                    <td>单脚丧失</td>
+                    <td>40%</td>
+                    <td>月收入 × 96 × 40%</td>
+                </tr>
+                <tr>
+                    <td>听力完全丧失（单耳）</td>
+                    <td>20%</td>
+                    <td>月收入 × 96 × 20%</td>
+                </tr>
+                <tr>
+                    <td>听力完全丧失（双耳）</td>
+                    <td>60%</td>
+                    <td>月收入 × 96 × 60%</td>
+                </tr>
+            </table>
+
+            <div class="calculation-box">
+                <h4>💰 计算示例 2：单眼失明</h4>
+                <p><strong>案例情况</strong>：</p>
+                <ul>
+                    <li>雇员月薪：HKD 22,000</li>
+                    <li>受伤原因：工作时眼睛受伤，单眼永久失明</li>
+                    <li>丧失程度：永久部分丧失（单眼，30%）</li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>完全丧失赔偿：22,000 × 96 = HKD 2,112,000</li>
+                    <li>部分丧失赔偿：2,112,000 × 30% = HKD 633,600</li>
+                    <li>支付方式：一次性支付</li>
+                </ul>
+            </div>
+
+            <div class="calculation-box">
+                <h4>💰 计算示例 3：右手丧失</h4>
+                <p><strong>案例情况</strong>：</p>
+                <ul>
+                    <li>雇员月薪：HKD 28,000</li>
+                    <li>受伤原因：机器事故，右手截肢</li>
+                    <li>丧失程度：永久部分丧失（右手，50%）</li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>完全丧失赔偿：28,000 × 96 = HKD 2,688,000</li>
+                    <li>部分丧失赔偿：2,688,000 × 50% = HKD 1,344,000</li>
+                    <li>支付方式：一次性支付</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 死亡赔偿计算 -->
+        <section class="content-block">
+            <h3>⚰️ 四、死亡赔偿计算</h3>
+
+            <h4>4.1 计算公式</h4>
+            <div class="formula-box">
+                <p><strong>死亡赔偿 = 月收入 × 36倍</strong></p>
+                <p><strong>最低赔偿额：HKD 307,300</strong></p>
+            </div>
+
+            <h4>4.2 丧葬费</h4>
+            <div class="important-box">
+                <h4>✅ 丧葬费标准</h4>
+                <ul>
+                    <li><strong>金额</strong>：由劳工处定期调整（2026年：HKD 35,800）</li>
+                    <li><strong>支付对象</strong>：死者家属</li>
+                    <li><strong>支付方式</strong>：一次性支付</li>
+                </ul>
+            </div>
+
+            <div class="calculation-box">
+                <h4>💰 计算示例 1：普通员工</h4>
+                <p><strong>案例情况</strong>：</p>
+                <ul>
+                    <li>雇员月薪：HKD 20,000</li>
+                    <li>受伤原因：工作中因事故死亡</li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>死亡赔偿：20,000 × 36 = HKD 720,000</li>
+                    <li>丧葬费：HKD 35,800</li>
+                    <li><strong>赔偿总额：720,000 + 35,800 = HKD 755,800</strong></li>
+                </ul>
+            </div>
+
+            <div class="calculation-box">
+                <h4>💰 计算示例 2：低收入员工</h4>
+                <p><strong>案例情况</strong>：</p>
+                <ul>
+                    <li>雇员月薪：HKD 8,000</li>
+                    <li>受伤原因：工作中因事故死亡</li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>死亡赔偿：8,000 × 36 = HKD 288,000</li>
+                    <li>最低赔偿额：HKD 307,300</li>
+                    <li><strong>实际死亡赔偿：HKD 307,300</strong>（采用最低额）</li>
+                    <li>丧葬费：HKD 35,800</li>
+                    <li><strong>赔偿总额：307,300 + 35,800 = HKD 343,100</strong></li>
+                </ul>
+            </div>
+
+            <h4>4.3 死亡赔偿受益人</h4>
+            <div class="highlight-box">
+                <h4>👥 死亡赔偿受益人</h4>
+                <ul>
+                    <li><strong>法定受益人</strong>：死者配偶、子女、父母</li>
+                    <li><strong>分配原则</strong>：按法定继承顺序分配</li>
+                    <li><strong>特殊处理</strong>：如有遗嘱，按遗嘱分配（不得违反法律）</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 医疗费用计算 -->
+        <section class="content-block">
+            <h3>💊 五、医疗费用计算</h3>
+
+            <h4>5.1 医疗费用范围</h4>
+            <div class="important-box">
+                <h4>✅ 医疗费用包括</h4>
+                <ul>
+                    <li><strong>医疗费用</strong>：门诊、住院、手术费用</li>
+                    <li><strong>复康费用</strong>：物理治疗、职业治疗</li>
+                    <li><strong>护理费用</strong>：专业护理人员费用</li>
+                    <li><strong>药品费用</strong>：医生处方的药品费用</li>
+                    <li><strong>辅助设备</strong>：轮椅、义肢等</li>
+                    <li><strong>交通费用</strong>：就医交通费用</li>
+                </ul>
+            </div>
+
+            <h4>5.2 医疗费用报销</h4>
+            <div class="key-points">
+                <h4>💡 医疗费用报销原则</h4>
+                <ul>
+                    <li><strong>全额报销</strong>：实际发生费用全额报销</li>
+                    <li><strong>合理性原则</strong>：必须与工伤相关且合理</li>
+                    <li><strong>医生证明</strong>：需医生处方或证明</li>
+                    <li><strong>事先批准</strong>：大额费用需事先批准</li>
+                </ul>
+            </div>
+
+            <div class="calculation-box">
+                <h4>💰 计算示例：综合医疗费用</h4>
+                <p><strong>案例情况</strong>：</p>
+                <ul>
+                    <li>受伤类型：腿部骨折</li>
+                </ul>
+                <p><strong>医疗费用明细</strong>：</p>
+                <ul>
+                    <li>急诊费用：HKD 2,000</li>
+                    <li>住院费用（7天）：HKD 35,000</li>
+                    <li>手术费用：HKD 50,000</li>
+                    <li>药物费用：HKD 5,000</li>
+                    <li>物理治疗（10次）：HKD 8,000</li>
+                    <li>交通费用：HKD 1,000</li>
+                    <li><strong>医疗费用总额：2,000 + 35,000 + 50,000 + 5,000 + 8,000 + 1,000 = HKD 101,000</strong></li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>暂时丧失工作能力：HKD 43,200（参见前面示例）</li>
+                    <li>医疗费用：HKD 101,000（全额报销）</li>
+                    <li><strong>赔偿总额：43,200 + 101,000 = HKD 144,200</strong></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ECI申报流程 -->
+        <section class="content-block">
+            <h3>📝 六、ECI申报流程</h3>
+
+            <h4>6.1 工伤报告流程</h4>
+            <div class="flow-steps">
+                <h4>📋 工伤报告步骤</h4>
+                <ol>
+                    <li><strong>工伤发生</strong>：雇员在工作期间或因工受伤</li>
+                    <li><strong>立即报告</strong>：雇员立即通知雇主</li>
+                    <li><strong>医疗救治</strong>：雇主安排雇员就医</li>
+                    <li><strong>记录详情</strong>：雇主记录工伤详情（时间、地点、原因、伤情）</li>
+                    <li><strong>24小时内通知</strong>：雇主在24小时内通知劳工处</li>
+                    <li><strong>填写表格2</strong>：填写工伤报告表（表格2）</li>
+                    <li><strong>提交劳工处</strong>：将表格2提交劳工处</li>
+                    <li><strong>通知保险公司</strong>：通知保险公司并启动索赔流程</li>
+                </ol>
+            </div>
+
+            <h4>6.2 索赔申请流程</h4>
+            <div class="flow-steps">
+                <h4>💼 索赔申请步骤</h4>
+                <ol>
+                    <li><strong>准备文件</strong>：准备所有必需文件</li>
+                    <li><strong>填写申请表</strong>：填写赔偿申请表（表格5）</li>
+                    <li><strong>收集证明</strong>：收集医疗证明、事故证明、收入证明等</li>
+                    <li><strong>提交申请</strong>：向保险公司提交申请</li>
+                    <li><strong>保险公司审核</strong>：保险公司审核申请和文件</li>
+                    <li><strong>赔偿评估</strong>：评估赔偿金额和项目</li>
+                    <li><strong>赔偿支付</strong>：批准后支付赔偿金</li>
+                    <li><strong>记录存档</strong>：记录整个索赔过程</li>
+                </ol>
+            </div>
+
+            <h4>6.3 申报所需文件清单</h4>
+            <table class="calculation-table">
+                <tr>
+                    <th>文件类型</th>
+                    <th>用途</th>
+                    <th>提交方</th>
+                    <th>关键要点</th>
+                </tr>
+                <tr>
+                    <td>工伤报告表（表格2）</td>
+                    <td>报告工伤详情</td>
+                    <td>雇主</td>
+                    <td>24小时内提交</td>
+                </tr>
+                <tr>
+                    <td>医疗证明</td>
+                    <td>证明伤情和治疗</td>
+                    <td>医生/医院</td>
+                    <td>需详细诊断和治疗计划</td>
+                </tr>
+                <tr>
+                    <td>赔偿申请表（表格5）</td>
+                    <td>申请赔偿</td>
+                    <td>雇员</td>
+                    <td>6个月内提交</td>
+                </tr>
+                <tr>
+                    <td>收入证明</td>
+                    <td>证明收入水平</td>
+                    <td>雇主</td>
+                    <td>需提供过去3个月收入记录</td>
+                </tr>
+                <tr>
+                    <td>事故证明</td>
+                    <td>证明事故发生</td>
+                    <td>雇主/雇员</td>
+                    <td>需详细描述事故经过</td>
+                </tr>
+                <tr>
+                    <td>病假证明</td>
+                    <td>证明请假天数</td>
+                    <td>医生</td>
+                    <td>需标明休假天数</td>
+                </tr>
+                <tr>
+                    <td>医疗费用收据</td>
+                    <td>报销医疗费用</td>
+                    <td>雇员</td>
+                    <td>需提供原始收据</td>
+                </tr>
+            </table>
+
+            <h4>6.4 申报时限要求</h4>
+            <div class="warning-box">
+                <h4>⚠️ 严格时限要求</h4>
+                <ul>
+                    <li><strong>工伤通知</strong>：受伤后24小时内通知劳工处</li>
+                    <li><strong>索赔申请</strong>：受伤后6个月内申请</li>
+                    <li><strong>保险审核</strong>：保险公司通常在14天内审核</li>
+                    <li><strong>赔偿支付</strong>：审核通过后通常30天内支付</li>
+                    <li><strong>争议处理</strong>：争议可在劳工处调解，时限6个月</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- SAP系统中的ECI管理 -->
+        <section class="content-block">
+            <h3>💻 七、SAP系统中的ECI管理</h3>
+
+            <h4>7.1 ECI基本信息配置</h4>
+            <div class="important-box">
+                <h4>✅ SAP ECI配置关键步骤</h4>
+                <ul>
+                    <li><strong>创建保险类型</strong>：在SAP中创建ECI保险类型</li>
+                    <li><strong>配置保险公司</strong>：维护保险公司信息</li>
+                    <li><strong>设置保险计划</strong>：创建ECI保险计划</li>
+                    <li><strong>维护费率表</strong>：设置行业保费率</li>
+                    <li><strong>关联雇员</strong>：将雇员关联到ECI保险计划</li>
+                </ul>
+            </div>
+
+            <h4>7.2 ECI在SAP中的事务代码</h4>
+            <table class="calculation-table">
+                <tr>
+                    <th>事务代码</th>
+                    <th>功能</th>
+                    <th>说明</th>
+                </tr>
+                <tr>
+                    <td>PA30</td>
+                    <td>维护雇员信息</td>
+                    <td>更新ECI相关信息</td>
+                </tr>
+                <tr>
+                    <td>PU01</td>
+                    <td>配置工资类型</td>
+                    <td>设置ECI赔偿工资类型</td>
+                </tr>
+                <tr>
+                    <td>PE01</td>
+                    <td>创建工资类型</td>
+                    <td>创建ECI相关工资类型</td>
+                </tr>
+                <tr>
+                    <td>PPOSE</td>
+                    <td>组织架构管理</td>
+                    <td>维护ECI责任方</td>
+                </tr>
+                <tr>
+                    <td>PC00_Mxx</td>
+                    <td>工资核算</td>
+                    <td>计算ECI赔偿</td>
+                </tr>
+            </table>
+
+            <h4>7.3 ECI工资类型配置</h4>
+            <div class="highlight-box">
+                <h4>🔧 ECI相关工资类型</h4>
+                <ul>
+                    <li><strong>/101</strong>：基本工资（计算基准）</li>
+                    <li><strong>/ECI</strong>：ECI赔偿金额</li>
+                    <li><strong>/ECIM</strong>：ECI医疗费用</li>
+                    <li><strong>/ECIP</strong>：ECI暂时丧失赔偿</li>
+                    <li><strong>/ECIF</strong>：ECI永久丧失赔偿</li>
+                    <li><strong>/ECID</strong>：ECI死亡赔偿</li>
+                </ul>
+            </div>
+
+            <h4>7.4 SAP ECI管理流程</h4>
+            <div class="flow-steps">
+                <h4>📋 SAP ECI管理流程</h4>
+                <ol>
+                    <li><strong>记录工伤</strong>：在SAP中记录工伤信息</li>
+                    <li><strong>更新雇员信息</strong>：使用PA30更新雇员状态</li>
+                    <li><strong>录入医疗信息</strong>：录入医疗证明和治疗信息</li>
+                    <li><strong>计算赔偿</strong>：使用工资核算模块计算ECI赔偿</li>
+                    <li><strong>生成报表</strong>：生成ECI报表和申报文件</li>
+                    <li><strong>存档记录</strong>：将记录存档以备审计</li>
+                </ol>
+            </div>
+
+            <h4>7.5 ECI报表生成</h4>
+            <div class="scenario-box">
+                <h4>📊 ECI关键报表</h4>
+                <ul>
+                    <li><strong>ECI事故统计表</strong>：记录所有工伤事故</li>
+                    <li><strong>ECI赔偿汇总表</strong>：汇总所有赔偿金额</li>
+                    <li><strong>ECI保费分析表</strong>：分析保费成本</li>
+                    <li><strong>ECI合规报告</strong>：合规性检查报告</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 综合案例分析 -->
+        <section class="content-block">
+            <h3>📊 八、综合案例分析</h3>
+
+            <div class="case-study">
+                <h3>案例1：建筑工人严重工伤综合案例</h3>
+                <p><strong>案例背景</strong>：一名建筑工人在工地施工时从高处坠落，导致多处受伤。</p>
+                <p><strong>雇员信息</strong>：</p>
+                <ul>
+                    <li>职位：建筑工人</li>
+                    <li>月薪：HKD 22,000</li>
+                    <li>受伤原因：从5米高处坠落</li>
+                    <li>受伤日期：2026年1月15日</li>
+                </ul>
+                <p><strong>伤情与治疗</strong>：</p>
+                <ul>
+                    <li>伤情：腿部骨折、肋骨骨折、轻微脑震荡</li>
+                    <li>治疗期：4个月（120天）</li>
+                    <li>后遗症：腿部永久部分功能丧失（10%）</li>
+                </ul>
+                <p><strong>医疗费用明细</strong>：</p>
+                <ul>
+                    <li>急诊和住院：HKD 45,000</li>
+                    <li>手术费用：HKD 60,000</li>
+                    <li>康复治疗：HKD 25,000</li>
+                    <li>药物和护理：HKD 15,000</li>
+                    <li><strong>医疗费用总额：HKD 145,000</strong></li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>暂时丧失工作能力：22,000 × 80% × 4 = HKD 70,400</li>
+                    <li>永久部分丧失：22,000 × 96 × 10% = HKD 211,200</li>
+                    <li>医疗费用：HKD 145,000</li>
+                    <li><strong>赔偿总额：70,400 + 211,200 + 145,000 = HKD 426,600</strong></li>
+                </ul>
+                <p><strong>申报流程</strong>：</p>
+                <ul>
+                    <li>1月15日：工伤发生，立即通知雇主</li>
+                    <li>1月15日：雇主安排就医，24小时内通知劳工处</li>
+                    <li>1月16日：提交表格2到劳工处</li>
+                    <li>1月-5月：治疗期，按月支付暂时丧失赔偿</li>
+                    <li>5月15日：治疗结束，医生评估永久丧失程度</li>
+                    <li>5月30日：提交表格5申请永久丧失赔偿</li>
+                    <li>6月15日：保险公司批准并支付永久丧失赔偿</li>
+                </ul>
+                <p><strong>关键点</strong>：</p>
+                <ul>
+                    <li>雇主及时通知，确保合规</li>
+                    <li>医疗费用全额报销</li>
+                    <li>暂时和永久赔偿分别计算</li>
+                    <li>完整记录整个流程</li>
+                </ul>
+            </div>
+
+            <div class="case-study">
+                <h3>案例2：办公室员工职业病案例</h3>
+                <p><strong>案例背景</strong>：一名会计长期使用电脑，导致严重颈肩综合征，被认定为职业病。</p>
+                <p><strong>雇员信息</strong>：</p>
+                <ul>
+                    <li>职位：会计</li>
+                    <li>月薪：HKD 28,000</li>
+                    <li>工作年限：8年</li>
+                    <li>职业病：颈肩综合征</li>
+                    <li>治疗期：3个月</li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>暂时丧失工作能力：28,000 × 80% × 3 = HKD 67,200</li>
+                    <li>医疗费用：HKD 45,000</li>
+                    <li><strong>赔偿总额：67,200 + 45,000 = HKD 112,200</strong></li>
+                </ul>
+                <p><strong>关键点</strong>：</p>
+                <ul>
+                    <li>职业病属于ECI保障范围</li>
+                    <li>需医生出具职业病证明</li>
+                    <li>雇主需改善工作环境，预防职业病</li>
+                </ul>
+            </div>
+
+            <div class="case-study">
+                <h3>案例3：通勤途中意外死亡案例</h3>
+                <p><strong>案例背景</strong>：一名销售代表在上班途中遭遇交通事故不幸身亡。</p>
+                <p><strong>雇员信息</strong>：</p>
+                <ul>
+                    <li>职位：销售代表</li>
+                    <li>月薪：HKD 18,000</li>
+                    <li>通勤方式：驾驶私家车</li>
+                    <li>事故地点：合理的上班途径</li>
+                </ul>
+                <p><strong>赔偿计算</strong>：</p>
+                <ul>
+                    <li>死亡赔偿：18,000 × 36 = HKD 648,000</li>
+                    <li>丧葬费：HKD 35,800</li>
+                    <li><strong>赔偿总额：648,000 + 35,800 = HKD 683,800</strong></li>
+                </ul>
+                <p><strong>关键点</strong>：</p>
+                <ul>
+                    <li>合理上下班途中受伤可获得保障</li>
+                    <li>需证明事故发生在合理途径</li>
+                    <li>死亡赔偿按固定倍数计算</li>
+                    <li>赔偿支付给法定受益人</li>
+                </ul>
+            </div>
+
+            <div class="case-study">
+                <h3>案例4：SAP系统ECI管理案例</h3>
+                <p><strong>案例背景</strong>：一家制造公司使用SAP管理ECI，需要处理一起工伤事故。</p>
+                <p><strong>公司信息</strong>：</p>
+                <ul>
+                    <li>行业：制造业</li>
+                    <li>雇员人数：200人</li>
+                    <li>使用系统：SAP ERP HCM</li>
+                </ul>
+                <p><strong>工伤情况</strong>：</p>
+                <ul>
+                    <li>雇员ID：0012345</li>
+                    <li>受伤日期：2026年2月1日</li>
+                    <li>伤情：手臂骨折</li>
+                    <li>治疗期：2个月</li>
+                    <li>雇员月薪：HKD 20,000</li>
+                </ul>
+                <p><strong>SAP处理流程</strong>：</p>
+                <ul>
+                    <li><strong>步骤1</strong>：使用PA30更新雇员信息，记录工伤</li>
+                    <li><strong>步骤2</strong>：录入医疗证明和治疗信息</li>
+                    <li><strong>步骤3</strong>：设置ECI工资类型（/ECIP）</li>
+                    <li><strong>步骤4</strong>：运行工资核算，计算ECI赔偿：20,000 × 80% × 2 = HKD 32,000</li>
+                    <li><strong>步骤5</strong>：生成ECI报表，记录赔偿明细</li>
+                    <li><strong>步骤6</strong>：导出数据用于申报</li>
+                </ul>
+                <p><strong>关键点</strong>：</p>
+                <ul>
+                    <li>SAP系统可以自动化ECI管理</li>
+                    <li>准确的工资类型配置至关重要</li>
+                    <li>完整的记录存档便于审计</li>
+                    <li>报表生成提高申报效率</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 最佳实践 -->
+        <section class="content-block">
+            <h3>✨ 九、ECI计算与申报最佳实践</h3>
+
+            <h4>9.1 计算准确性保障</h4>
+            <div class="important-box">
+                <h4>🛡️ 确保计算准确的方法</h4>
+                <ul>
+                    <li><strong>准确记录收入</strong>：确保月收入计算准确</li>
+                    <li><strong>使用计算工具</strong>：使用SAP或专业工具计算</li>
+                    <li><strong>双人复核</strong>：重要赔偿需双人复核</li>
+                    <li><strong>及时更新标准</strong>：关注赔偿标准的调整</li>
+                    <li><strong>保存计算过程</strong>：保存详细的计算过程记录</li>
+                </ul>
+            </div>
+
+            <h4>9.2 申报效率优化</h4>
+            <div class="key-points">
+                <h4>⚡ 优化申报流程</h4>
+                <ul>
+                    <li><strong>及时响应</strong>：接到工伤报告后立即处理</li>
+                    <li><strong>准备文件模板</strong>：预先准备申报文件模板</li>
+                    <li><strong>使用SAP系统</strong>：利用SAP系统自动化管理</li>
+                    <li><strong>保持沟通</strong>：与雇员、保险公司保持沟通</li>
+                    <li><strong>跟踪进度</strong>：建立跟踪机制，确保按时完成</li>
+                </ul>
+            </div>
+
+            <h4>9.3 风险防范</h4>
+            <div class="warning-box">
+                <h4>⚠️ 常见错误及防范</h4>
+                <ul>
+                    <li><strong>计算错误</strong>：使用正确公式和最新标准</li>
+                    <li><strong>逾期申报</strong>：严格遵守24小时和6个月时限</li>
+                    <li><strong>文件不全</strong>：确保所有必需文件齐全</li>
+                    <li><strong>信息错误</strong>：核实所有信息的准确性</li>
+                    <li><strong>记录丢失</strong>：完整保存所有记录</li>
+                </ul>
+            </div>
+
+            <h4>9.4 合规管理</h4>
+            <div class="highlight-box">
+                <h4>✅ 合规管理要点</h4>
+                <ul>
+                    <li><strong>了解法规</strong>：持续关注ECI法规更新</li>
+                    <li><strong>定期培训</strong>：对HR和管理层进行培训</li>
+                    <li><strong>内部审计</strong>：定期内部审计ECI管理流程</li>
+                    <li><strong>咨询专家</strong>：复杂情况咨询专业意见</li>
+                    <li><strong>记录保存</strong>：保存完整的记录（至少7年）</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习总结 -->
+        <section class="content-block">
+            <h3>📝 十、学习总结</h3>
+
+            <div class="highlight-box">
+                <h4>🎯 今日核心要点</h4>
+                <ul>
+                    <li><strong>暂时丧失工作能力</strong>：月收入 × 80% × 丧失月数（最高12个月）</li>
+                    <li><strong>永久完全丧失</strong>：月收入 × 96倍</li>
+                    <li><strong>永久部分丧失</strong>：按丧失比例计算</li>
+                    <li><strong>死亡赔偿</strong>：月收入 × 36倍（最低HKD 307,300）</li>
+                    <li><strong>医疗费用</strong>：实际发生费用全额报销</li>
+                    <li><strong>申报时限</strong>：24小时内通知劳工处，6个月内申请赔偿</li>
+                    <li><strong>SAP系统</strong>：可以自动化ECI管理和计算</li>
+                    <li><strong>准确性</strong>：准确的计算和申报对合规至关重要</li>
+                </ul>
+            </div>
+
+            <h4>关键公式速记</h4>
+            <div class="formula-box">
+                <p>• 暂时丧失 = 月薪 × 80% × 月数</p>
+                <p>• 永久完全丧失 = 月薪 × 96</p>
+                <p>• 永久部分丧失 = 月薪 × 96 × 比例%</p>
+                <p>• 死亡赔偿 = 月薪 × 36（最低HKD 307,300）</p>
+                <p>• 医疗费用 = 实际发生费用</p>
+            </div>
+
+            <h4>下一步学习</h4>
+            <p>完成Day 15后，建议继续学习：</p>
+            <ul>
+                <li><strong>Day 16</strong>：ECI SAP系统配置实战</li>
+                <li><strong>Day 17</strong>：ECI报表生成与分析</li>
+            </ul>
+        </section>
+
+        <!-- 完成标记 -->
+        <section class="content-block">
+            <div style="text-align: center; margin-top: 40px; padding: 30px; background: #d4edda; border-radius: 8px;">
+                <h2 style="color: #155724; margin: 0;">✅ Day 15 学习完成！</h2>
+                <p style="color: #155724; margin: 10px 0 0 0;">
+                    ECI计算与申报实务已掌握<br>
+                    下一步：深入学习ECI SAP系统配置实战
+                </p>
+                <button onclick="window.location.href='../index.html'" style="margin-top: 20px; padding: 12px 30px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                    返回学习主页
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="day-footer">
+        <div class="container">
+            <p>香港Payroll深度学习计划 | Day 15 | ECI计算与申报实务</p>
+            <p>学习网站：https://heavenchenggong.github.io/hong-kong-payroll-learning/</p>
+        </div>
+    </footer>
+
+    <script>
+        // 添加完成标记功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const completionDate = localStorage.getItem('day15_completed');
+            if (completionDate) {
+                console.log('Day 15 已完成于: ' + completionDate);
+            }
+
+            // 记录学习完成时间
+            localStorage.setItem('day15_completed', new Date().toISOString());
+        });
+    </script>
+</body>
+</html>

@@ -19,8 +19,8 @@
         <section class="progress-card">
             <h2>📊 学习进度</h2>
             <div class="progress-bar">
-                <div class="progress-fill" style="width: 46.67%;">
-                    <span class="progress-text">14/30 (46.67%)</span>
+                <div class="progress-fill" style="width: 50%;">
+                    <span class="progress-text">15/30 (50%)</span>
                 </div>
             </div>
             <div class="progress-stats">
@@ -30,11 +30,11 @@
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">已完成</span>
-                    <span class="stat-value">14天</span>
+                    <span class="stat-value">15天</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">待完成</span>
-                    <span class="stat-value">16天</span>
+                    <span class="stat-value">15天</span>
                 </div>
             </div>
         </section>
@@ -134,11 +134,11 @@
                     <span class="day-title">ECI法规基础</span>
                     <span class="day-status">📖 可学习</span>
                 </a>
-                <div class="day-card locked">
+                <a href="day15/" class="day-card">
                     <span class="day-number">Day 15</span>
                     <span class="day-title">ECI计算与申报实务</span>
-                    <span class="day-status">⏳ 待学习</span>
-                </div>
+                    <span class="day-status">📖 可学习</span>
+                </a>
                 <div class="day-card locked">
                     <span class="day-number">Day 16</span>
                     <span class="day-title">ECI SAP系统配置实战</span>
@@ -364,6 +364,26 @@
                         if (card.tagName === 'DIV') {
                             const link = document.createElement('a');
                             link.href = 'day08/';
+                            link.className = card.className;
+                            link.innerHTML = card.innerHTML;
+                            card.parentNode.replaceChild(link, card);
+                        }
+                    }
+                });
+            }
+
+            // 如果Day 14完成，解锁Day 15
+            if (completedDays.includes(14)) {
+                const day15Cards = document.querySelectorAll('.day-card');
+                day15Cards.forEach(card => {
+                    if (card.textContent.includes('Day 15') && !card.classList.contains('completed')) {
+                        card.classList.remove('locked');
+                        card.classList.add('unlocked');
+                        card.querySelector('.day-status').textContent = '📖 可学习';
+                        // 将div改为a标签（通过DOM操作）
+                        if (card.tagName === 'DIV') {
+                            const link = document.createElement('a');
+                            link.href = 'day15/';
                             link.className = card.className;
                             link.innerHTML = card.innerHTML;
                             card.parentNode.replaceChild(link, card);
