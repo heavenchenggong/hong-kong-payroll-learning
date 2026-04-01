@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 14: ECI法规基础 - 香港Payroll深度学习</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .case-study {
+            background: #f8f9fa;
+            border-left: 4px solid #dc3545;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .case-study h3 {
+            color: #dc3545;
+            margin-top: 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .important-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .flow-steps {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .flow-steps ol {
+            margin-left: 20px;
+        }
+        .flow-steps li {
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+        .coverage-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .coverage-table th,
+        .coverage-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .coverage-table th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        .coverage-table tr:nth-child(even) {
+            background: #fafafa;
+        }
+        .calculation-box {
+            background: #e7f3ff;
+            border: 2px solid #007bff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .scenario-box {
+            background: #fff3e0;
+            border: 2px solid #ff9800;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .highlight-box {
+            background: #f3e5f5;
+            border: 2px solid #9c27b0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .key-points {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="day-header">
+        <div class="container">
+            <h1>Day 14: ECI法规基础</h1>
+            <p class="meta">📅 学习日期: 2026年4月1日 | ⏱️ 学习时长: 120分钟 | ✅ 完成度: 100% | 🔄 修订日期: 2026年4月1日</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 核心数据速查 -->
+        <section class="content-block">
+            <h3>📊 核心数据速查（记住这5个关键点）</h3>
+            <div class="progress-stats">
+                <div class="stat-item">
+                    <span class="stat-label">法例依据</span>
+                    <span class="stat-value">第282章</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">强制保险</span>
+                    <span class="stat-value">所有雇员</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">保险期限</span>
+                    <span class="stat-value">全程雇佣期</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">雇主责任</span>
+                    <span class="stat-value">100%雇主承担</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">法定最低额</span>
+                    <span class="stat-value">不设上限</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ECI概述 -->
+        <section class="content-block">
+            <h3>📖 一、雇员补偿保险（ECI）概述</h3>
+
+            <h4>1.1 什么是雇员补偿保险</h4>
+            <div class="important-box">
+                <h4>✅ ECI定义</h4>
+                <ul>
+                    <li><strong>全称</strong>：雇员补偿保险（Employees' Compensation Insurance）</li>
+                    <li><strong>法例依据</strong>：《雇员补偿条例》（第282章）</li>
+                    <li><strong>性质</strong>：强制性雇主责任保险</li>
+                    <li><strong>目的</strong>：保障雇员在工作期间因工受伤或患职业病的权益</li>
+                    <li><strong>责任方</strong>：雇主必须为所有雇员购买</li>
+                </ul>
+            </div>
+
+            <h4>1.2 ECI的历史与演变</h4>
+            <div class="highlight-box">
+                <h4>📜 ECI法规演变</h4>
+                <ul>
+                    <li><strong>1953年</strong>：《雇员补偿条例》首次制定</li>
+                    <li><strong>1970年代</strong>：多次修订，扩大保障范围</li>
+                    <li><strong>1980年代</strong>：引入雇主必须投保的强制要求</li>
+                    <li><strong>2000年代</strong>：简化索赔程序，提高保障水平</li>
+                    <li><strong>近年</strong>：持续优化，提高雇员保障</li>
+                </ul>
+            </div>
+
+            <h4>1.3 ECI与其他保险的区别</h4>
+            <table class="coverage-table">
+                <tr>
+                    <th>保险类型</th>
+                    <th>性质</th>
+                    <th>责任方</th>
+                    <th>保障范围</th>
+                </tr>
+                <tr>
+                    <td>雇员补偿保险（ECI）</td>
+                    <td>强制</td>
+                    <td>雇主</td>
+                    <td>工作相关受伤/职业病</td>
+                </tr>
+                <tr>
+                    <td>医疗保险</td>
+                    <td>自愿</td>
+                    <td>雇主/雇员</td>
+                    <td>疾病、非工作受伤</td>
+                </tr>
+                <tr>
+                    <td>意外保险</td>
+                    <td>自愿</td>
+                    <td>个人</td>
+                    <td>各种意外事故</td>
+                </tr>
+                <tr>
+                    <td>团体保险</td>
+                    <td>自愿</td>
+                    <td>雇主</td>
+                    <td>雇员福利保障</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- 法规框架 -->
+        <section class="content-block">
+            <h3>⚖️ 二、ECI法规框架</h3>
+
+            <h4>2.1 主要法例</h4>
+            <div class="important-box">
+                <h4>📚 核心法例</h4>
+                <ul>
+                    <li><strong>第282章</strong>：《雇员补偿条例》</li>
+                    <li><strong>第282A章</strong>：《雇员补偿（修订）条例》</li>
+                    <li><strong>第282B章</strong>：《雇员补偿（特别规定）条例》</li>
+                    <li><strong>第282C章</strong>：《雇员补偿（规则）规例》</li>
+                </ul>
+            </div>
+
+            <h4>2.2 法规核心原则</h4>
+            <div class="key-points">
+                <h4>🎯 五大核心原则</h4>
+                <ul>
+                    <li><strong>强制投保</strong>：所有雇主必须为雇员购买ECI</li>
+                    <li><strong>雇主责任</strong>：雇主承担全部保险费用</li>
+                    <li><strong>全额保障</strong>：不设保障金额上限</li>
+                    <li><strong>无过错赔偿</strong>：不论雇主是否有过错，雇员都可获赔偿</li>
+                    <li><strong>及时申报</strong>：受伤后需按规定时间申报</li>
+                </ul>
+            </div>
+
+            <h4>2.3 监管机构</h4>
+            <div class="highlight-box">
+                <h4>🏢 监管与执行</h4>
+                <ul>
+                    <li><strong>劳工处</strong>：负责ECI的监管和执行</li>
+                    <li><strong>保险业监管局</strong>：监管保险公司</li>
+                    <li><strong>香港海关</strong>：查处违规雇主</li>
+                    <li><strong>法院</strong>：处理ECI纠纷案件</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 适用范围 -->
+        <section class="content-block">
+            <h3>👥 三、ECI适用范围</h3>
+
+            <h4>3.1 适用雇员</h4>
+            <div class="important-box">
+                <h4>✅ 必须覆盖的雇员</h4>
+                <ul>
+                    <li><strong>全职员工</strong>：所有全职雇员必须购买ECI</li>
+                    <li><strong>兼职员工</strong>：兼职雇员同样需要保障</li>
+                    <li><strong>临时工</strong>：短期雇佣的临时工必须覆盖</li>
+                    <li><strong>实习生</strong>：受薪实习生需要ECI保障</li>
+                    <li><strong>本地雇员</strong>：香港本地雇员必须覆盖</li>
+                    <li><strong>外地雇员</strong>：在港工作的外地雇员也需覆盖</li>
+                </ul>
+            </div>
+
+            <h4>3.2 特殊雇佣形态</h4>
+            <table class="coverage-table">
+                <tr>
+                    <th>雇佣形态</th>
+                    <th>ECI适用</th>
+                    <th>特殊要求</th>
+                </tr>
+                <tr>
+                    <td>全职员工</td>
+                    <td>✅ 必须</td>
+                    <td>无特殊要求</td>
+                </tr>
+                <tr>
+                    <td>兼职员工</td>
+                    <td>✅ 必须</td>
+                    <td>按实际工作时间计算</td>
+                </tr>
+                <tr>
+                    <td>临时工</td>
+                    <td>✅ 必须</td>
+                    <td>短期雇佣也需保障</td>
+                </tr>
+                <tr>
+                    <td>派遣员工</td>
+                    <td>✅ 必须</td>
+                    <td>派遣公司购买</td>
+                </tr>
+                <tr>
+                    <td>家佣</td>
+                    <td>✅ 必须</td>
+                    <td>雇主需单独购买</td>
+                </tr>
+                <tr>
+                    <td>自雇人士</td>
+                    <td>❌ 不适用</td>
+                    <td>可选择自愿购买</td>
+                </tr>
+            </table>
+
+            <h4>3.3 不适用情况</h4>
+            <div class="warning-box">
+                <h4>⚠️ 不需要ECI的情况</h4>
+                <ul>
+                    <li><strong>自雇人士</strong>：自雇人士不属于雇员，无需雇主购买</li>
+                    <li><strong>非受薪实习生</strong>：不获薪酬的实习生无保障要求</li>
+                    <li><strong>义工</strong>：无薪酬的义工不适用</li>
+                    <li><strong>家庭佣工</strong>：外籍家庭佣工有单独保险要求</li>
+                    <li><strong>非香港工作</strong>：在港注册但完全在海外工作的员工</li>
+                </ul>
+            </div>
+
+            <h4>3.4 特殊行业要求</h4>
+            <div class="scenario-box">
+                <h4>🏗️ 高风险行业的ECI要求</h4>
+                <ul>
+                    <li><strong>建筑行业</strong>：必须确保保单覆盖高风险工作</li>
+                    <li><strong>制造业</strong>：注意机器操作的风险</li>
+                    <li><strong>运输业</strong>：需覆盖驾驶相关风险</li>
+                    <li><strong>装修业</strong>：高空作业需特别保障</li>
+                    <li><strong>清洁业</strong>：化学品使用需纳入考虑</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 保险责任 -->
+        <section class="content-block">
+            <h3>💰 四、ECI保险责任</h3>
+
+            <h4>4.1 承保范围</h4>
+            <div class="important-box">
+                <h4>✅ ECI承保范围</h4>
+                <ul>
+                    <li><strong>工作期间受伤</strong>：受雇期间因工受伤</li>
+                    <li><strong>职业病</strong>：因工作环境导致的职业病</li>
+                    <li><strong>工作相关事故</strong>：与工作相关的意外事故</li>
+                    <li><strong>通勤事故</strong>：在合理上下班途中受伤</li>
+                    <li><strong>工作地点事故</strong>：在工作地点发生的事故</li>
+                </ul>
+            </div>
+
+            <h4>4.2 赔偿项目</h4>
+            <table class="coverage-table">
+                <tr>
+                    <th>赔偿项目</th>
+                    <th>赔偿标准</th>
+                    <th>说明</th>
+                </tr>
+                <tr>
+                    <td>医疗费用</td>
+                    <td>全额报销</td>
+                    <td>医疗、复康、护理等费用</td>
+                </tr>
+                <tr>
+                    <td>暂时丧失工作能力</td>
+                    <td>每月收入80%</td>
+                    <td>按月支付，最高12个月</td>
+                </tr>
+                <tr>
+                    <td>永久丧失工作能力</td>
+                    <td>评估后一次性支付</td>
+                    <td>根据丧失程度计算</td>
+                </tr>
+                <tr>
+                    <td>死亡赔偿</td>
+                    <td>36倍月薪</td>
+                    <td>最低HKD 307,300</td>
+                </tr>
+                <tr>
+                    <td>丧葬费</td>
+                    <td>固定金额</td>
+                    <td>由劳工处定期调整</td>
+                </tr>
+            </table>
+
+            <h4>4.3 赔偿计算标准</h4>
+            <div class="calculation-box">
+                <h4>💰 赔偿计算方法</h4>
+                <ul>
+                    <li><strong>暂时丧失工作能力</strong>：每月收入 × 80%</li>
+                    <li><strong>永久完全丧失</strong>：每月收入 × 96倍</li>
+                    <li><strong>永久部分丧失</strong>：按丧失比例计算</li>
+                    <li><strong>死亡赔偿</strong>：每月收入 × 36倍（最低HKD 307,300）</li>
+                    <li><strong>医疗费用</strong>：实际发生费用全额报销</li>
+                </ul>
+            </div>
+
+            <h4>4.4 保障期限</h4>
+            <div class="highlight-box">
+                <h4>⏰ 保障期限</h4>
+                <ul>
+                    <li><strong>保险期间</strong>：全程雇佣期间</li>
+                    <li><strong>工伤申报</strong>：受伤后24小时内通知雇主</li>
+                    <li><strong>索赔期限</strong>：受伤后6个月内申报</li>
+                    <li><strong>赔偿期限</strong>：根据伤情和治疗情况确定</li>
+                    <li><strong>长期赔偿</strong>：永久丧失工作能力需长期赔偿</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 雇主义务 -->
+        <section class="content-block">
+            <h3>🏢 五、雇主义务与责任</h3>
+
+            <h4>5.1 强制投保义务</h4>
+            <div class="important-box">
+                <h4>✅ 雇主的投保义务</h4>
+                <ul>
+                    <li><strong>必须投保</strong>：所有雇主必须为雇员购买ECI</li>
+                    <li><strong>保险额度</strong>：不设保障金额上限，全额保障</li>
+                    <li><strong>保险期限</strong>：全程雇佣期间持续有效</li>
+                    <li><strong>及时续保</strong>：保险到期前必须续保</li>
+                    <li><strong>费用承担</strong>：雇主承担全部保险费用</li>
+                </ul>
+            </div>
+
+            <h4>5.2 投保流程</h4>
+            <div class="flow-steps">
+                <h4>📝 ECI投保流程</h4>
+                <ol>
+                    <li><strong>选择保险公司</strong>：选择合适的保险公司和产品</li>
+                    <li><strong>提供资料</strong>：提供公司信息和雇员数据</li>
+                    <li><strong>计算保费</strong>：保险公司根据风险评估计算保费</li>
+                    <li><strong>签订保单</strong>：签订保险合同，支付保费</li>
+                    <li><strong>领取保单</strong>：获得保险单和保险证明文件</li>
+                    <li><strong>告知雇员</strong>：向雇员提供保险信息</li>
+                    <li><strong>定期续保</strong>：保险到期前及时续保</li>
+                </ol>
+            </div>
+
+            <h4>5.3 申报义务</h4>
+            <div class="key-points">
+                <h4>📋 雇主申报义务</h4>
+                <ul>
+                    <li><strong>工伤通知</strong>：接到雇员工伤报告后24小时内通知劳工处</li>
+                    <li><strong>表格填写</strong>：填写工伤报告表（表格2）</li>
+                    <li><strong>保险索赔</strong>：协助雇员向保险公司索赔</li>
+                    <li><strong>资料提供</strong>：提供工伤相关资料和证明</li>
+                    <li><strong>定期报告</strong>：重大工伤需定期报告进展</li>
+                </ul>
+            </div>
+
+            <h4>5.4 违规处罚</h4>
+            <div class="warning-box">
+                <h4>⚠️ 未投保的法律后果</h4>
+                <ul>
+                    <li><strong>刑事检控</strong>：最高罚款HKD 100,000及监禁2年</li>
+                    <li><strong>民事赔偿</strong>：需自行承担工伤赔偿责任</li>
+                    <li><strong>经济处罚</strong>：罚款金额最高达10倍</li>
+                    <li><strong>声誉损失</strong>：公司声誉受损</li>
+                    <li><strong>额外费用</strong>：需承担法律费用和赔偿金</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 索赔流程 -->
+        <section class="content-block">
+            <h3>📝 六、ECI索赔流程</h3>
+
+            <h4>6.1 工伤报告</h4>
+            <div class="important-box">
+                <h4>✅ 工伤报告步骤</h4>
+                <ul>
+                    <li><strong>雇员报告</strong>：受伤后立即通知雇主</li>
+                    <li><strong>雇主记录</strong>：雇主记录工伤详情</li>
+                    <li><strong>医疗救治</strong>：安排雇员就医</li>
+                    <li><strong>24小时内通知</strong>：雇主在24小时内通知劳工处</li>
+                    <li><strong>填写表格</strong>：填写工伤报告表（表格2）</li>
+                </ul>
+            </div>
+
+            <h4>6.2 索赔申请</h4>
+            <div class="flow-steps">
+                <h4>📋 索赔申请流程</h4>
+                <ol>
+                    <li><strong>提交申请</strong>：填写索赔申请表</li>
+                    <li><strong>提供证明</strong>：提供医疗证明和事故报告</li>
+                    <li><strong>保险公司审核</strong>：保险公司审核索赔申请</li>
+                    <li><strong>赔偿评估</strong>：评估赔偿金额和项目</li>
+                    <li><strong>赔偿支付</strong>：批准后支付赔偿金</li>
+                    <li><strong>争议处理</strong>：如有争议，可通过劳工处解决</li>
+                </ol>
+            </div>
+
+            <h4>6.3 索赔所需文件</h4>
+            <table class="coverage-table">
+                <tr>
+                    <th>文件类型</th>
+                    <th>用途</th>
+                    <th>提交方</th>
+                </tr>
+                <tr>
+                    <td>工伤报告表（表格2）</td>
+                    <td>报告工伤详情</td>
+                    <td>雇主</td>
+                </tr>
+                <tr>
+                    <td>医疗证明</td>
+                    <td>证明伤情和治疗</td>
+                    <td>医生/医院</td>
+                </tr>
+                <tr>
+                    <td>赔偿申请表（表格5）</td>
+                    <td>申请赔偿</td>
+                    <td>雇员</td>
+                </tr>
+                <tr>
+                    <td>收入证明</td>
+                    <td>证明收入水平</td>
+                    <td>雇主</td>
+                </tr>
+                <tr>
+                    <td>事故证明</td>
+                    <td>证明事故发生</td>
+                    <td>雇主/雇员</td>
+                </tr>
+            </table>
+
+            <h4>6.4 索赔处理时限</h4>
+            <div class="highlight-box">
+                <h4>⏰ 索赔时间要求</h4>
+                <ul>
+                    <li><strong>工伤申报</strong>：受伤后24小时内通知劳工处</li>
+                    <li><strong>索赔申请</strong>：受伤后6个月内申请</li>
+                    <li><strong>保险审核</strong>：保险公司通常在14天内审核</li>
+                    <li><strong>赔偿支付</strong>：审核通过后通常30天内支付</li>
+                    <li><strong>争议处理</strong>：争议可在劳工处调解</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 保费计算 -->
+        <section class="content-block">
+            <h3>💲 七、ECI保费计算</h3>
+
+            <h4>7.1 保费影响因素</h4>
+            <div class="important-box">
+                <h4>✅ 影响保费的因素</h4>
+                <ul>
+                    <li><strong>行业风险</strong>：高风险行业保费更高</li>
+                    <li><strong>雇员人数</strong>：雇员人数越多保费越高</li>
+                    <li><strong>历史索赔</strong>：历史索赔记录影响保费</li>
+                    <li><strong>工作性质</strong>：危险工作保费更高</li>
+                    <li><strong>公司规模</strong>：大公司可能有规模优惠</li>
+                </ul>
+            </div>
+
+            <h4>7.2 常见行业保费率</h4>
+            <table class="coverage-table">
+                <tr>
+                    <th>行业</th>
+                    <th>风险等级</th>
+                    <th>保费率（估算）</th>
+                </tr>
+                <tr>
+                    <td>办公室</td>
+                    <td>低</td>
+                    <td>0.2% - 0.5%</td>
+                </tr>
+                <tr>
+                    <td>零售业</td>
+                    <td>中低</td>
+                    <td>0.5% - 1.0%</td>
+                </tr>
+                <tr>
+                    <td>制造业</td>
+                    <td>中</td>
+                    <td>1.0% - 2.0%</td>
+                </tr>
+                <tr>
+                    <td>建筑业</td>
+                    <td>高</td>
+                    <td>2.0% - 5.0%</td>
+                </tr>
+                <tr>
+                    <td>装修业</td>
+                    <td>很高</td>
+                    <td>3.0% - 7.0%</td>
+                </tr>
+            </table>
+
+            <h4>7.3 保费计算示例</h4>
+            <div class="calculation-box">
+                <h4>💰 保费计算示例</h4>
+                <p><strong>案例：一家制造公司</strong></p>
+                <ul>
+                    <li>雇员人数：50人</li>
+                    <li>平均月薪：HKD 15,000</li>
+                    <li>年工资总额：HKD 9,000,000</li>
+                    <li>行业保费率：1.5%</li>
+                    <li><strong>年保费</strong>：9,000,000 × 1.5% = HKD 135,000</li>
+                    <li><strong>平均每人保费</strong>：135,000 ÷ 50 = HKD 2,700/年</li>
+                </ul>
+            </div>
+
+            <h4>7.4 节省保费的方法</h4>
+            <div class="key-points">
+                <h4>💡 优化保费建议</h4>
+                <ul>
+                    <li><strong>改善安全管理</strong>：降低工伤事故率</li>
+                    <li><strong>提供培训</strong>：提高员工安全意识</li>
+                    <li><strong>购买综合保险</strong>：部分保险公司提供组合优惠</li>
+                    <li><strong>比较报价</strong>：向多家保险公司询价</li>
+                    <li><strong>保持良好记录</strong>：保持低索赔记录</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 与其他法规的关系 -->
+        <section class="content-block">
+            <h3>🔗 八、ECI与其他法规的关系</h3>
+
+            <h4>8.1 ECI与雇佣条例</h4>
+            <div class="important-box">
+                <h4>✅ 与雇佣条例的关系</h4>
+                <ul>
+                    <li><strong>并行适用</strong>：ECI与雇佣条例并行适用</li>
+                    <li><strong>不同保障</strong>：ECI保障工伤，雇佣条例保障基本权益</li>
+                    <li><strong>赔偿叠加</strong>：工伤可同时申请ECI和雇佣条例赔偿</li>
+                    <li><strong>不重复</strong>：相同项目不可重复索赔</li>
+                </ul>
+            </div>
+
+            <h4>8.2 ECI与MPF</h4>
+            <div class="highlight-box">
+                <h4>🔄 与MPF的关系</h4>
+                <ul>
+                    <li><strong>独立系统</strong>：ECI和MPF是独立的保障系统</li>
+                    <li><strong>不同目的</strong>：ECI保障工伤，MPF保障退休</li>
+                    <li><strong>互不影响</strong>：两者互不影响，独立运作</li>
+                </ul>
+            </div>
+
+            <h4>8.3 ECI与职业安全</h4>
+            <div class="scenario-box">
+                <h4>⚠️ 与职业安全的关系</h4>
+                <ul>
+                    <li><strong>预防为主</strong>：职业安全法例重在预防</li>
+                    <li><strong>保障为辅</strong>：ECI重在事故后保障</li>
+                    <li><strong>相互补充</strong>：两者相互补充，共同保障雇员</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 案例分析 -->
+        <section class="content-block">
+            <h3>📊 九、实践案例分析</h3>
+
+            <div class="case-study">
+                <h3>案例1：建筑工人工伤</h3>
+                <p><strong>背景</strong>：一名建筑工人在工地上因脚手架倒塌受伤。</p>
+                <p><strong>员工信息</strong>：</p>
+                <ul>
+                    <li>职位：建筑工人</li>
+                    <li>月薪：HKD 18,000</li>
+                    <li>工伤原因：脚手架倒塌</li>
+                    <li>伤情：腿部骨折</li>
+                    <li>治疗期：3个月</li>
+                </ul>
+                <p><strong>ECI处理</strong>：</p>
+                <ul>
+                    <li>雇主24小时内通知劳工处</li>
+                    <li>协助雇员就医和填写工伤报告</li>
+                    <li>向保险公司申请索赔</li>
+                    <li>医疗费用全额报销</li>
+                    <li>暂时丧失工作能力赔偿：18,000 × 80% = HKD 14,400/月</li>
+                    <li>3个月赔偿总额：14,400 × 3 = HKD 43,200</li>
+                </ul>
+                <p><strong>关键点</strong>：雇主及时通知，协助索赔，雇员获得完整保障。</p>
+            </div>
+
+            <div class="case-study">
+                <h3>案例2：办公室员工职业病</h3>
+                <p><strong>背景</strong>：一名办公室员工长期使用电脑导致颈肩疼痛，诊断为职业病。</p>
+                <p><strong>员工信息</strong>：</p>
+                <ul>
+                    <li>职位：会计</li>
+                    <li>月薪：HKD 25,000</li>
+                    <li>工作年限：5年</li>
+                    <li>职业病：颈肩综合征</li>
+                    <li>治疗期：2个月</li>
+                </ul>
+                <p><strong>ECI处理</strong>：</p>
+                <ul>
+                    <li>雇员向雇主报告病情</li>
+                    <li>雇主安排医疗检查</li>
+                    <li>医生出具职业病证明</li>
+                    <li>向保险公司和劳工处申报</li>
+                    <li>医疗费用报销</li>
+                    <li>暂时丧失工作能力赔偿：25,000 × 80% = HKD 20,000/月</li>
+                    <li>2个月赔偿总额：20,000 × 2 = HKD 40,000</li>
+                </ul>
+                <p><strong>关键点</strong>：职业病也属于ECI保障范围，雇主需及时处理。</p>
+            </div>
+
+            <div class="case-study">
+                <h3>案例3：通勤途中事故</h3>
+                <p><strong>背景</strong>：一名员工在上班途中遭遇交通事故受伤。</p>
+                <p><strong>员工信息</strong>：</p>
+                <ul>
+                    <li>职位：销售代表</li>
+                    <li>月薪：HKD 20,000</li>
+                    <li>通勤方式：公共交通</li>
+                    <li>受伤情况：手臂骨折</li>
+                    <li>治疗期：6周</li>
+                </ul>
+                <p><strong>ECI处理</strong>：</p>
+                <ul>
+                    <li>判断是否属于合理上下班途径</li>
+                    <li>如属合理途径，ECI可保障</li>
+                    <li>医疗费用报销</li>
+                    <li>暂时丧失工作能力赔偿：20,000 × 80% = HKD 16,000/月</li>
+                    <li>1.5个月赔偿总额：16,000 × 1.5 = HKD 24,000</li>
+                    <li>如属非合理途径，可能不获ECI保障</li>
+                </ul>
+                <p><strong>关键点</strong>：通勤途中受伤是否获得保障取决于具体情况。</p>
+            </div>
+
+            <div class="case-study">
+                <h3>案例4：雇主未投保</h3>
+                <p><strong>背景</strong>：一家小公司未为员工购买ECI，一名员工因工受伤。</p>
+                <p><strong>公司信息</strong>：</p>
+                <ul>
+                    <li>行业：装修业</li>
+                    <li>雇员人数：8人</li>
+                    <li>是否投保：否</li>
+                    <li>员工受伤情况：严重受伤，需长期治疗</li>
+                </ul>
+                <p><strong>后果处理</strong>：</p>
+                <ul>
+                    <li>劳工处接到举报后调查</li>
+                    <li>证实公司未购买ECI</li>
+                    <li>雇主需承担所有赔偿责任</li>
+                    <li>雇主被检控，罚款HKD 50,000</li>
+                    <li>雇主需支付医疗费用和赔偿金</li>
+                    <li>公司声誉受损，可能影响业务</li>
+                </ul>
+                <p><strong>关键点</strong>：未购买ECI的后果严重，雇主必须按时投保。</p>
+            </div>
+        </section>
+
+        <!-- 最佳实践 -->
+        <section class="content-block">
+            <h3>✨ 十、ECI管理最佳实践</h3>
+
+            <h4>10.1 雇主管理建议</h4>
+            <div class="important-box">
+                <h4>🛡️ ECI管理要点</h4>
+                <ul>
+                    <li><strong>及时投保</strong>：雇佣开始前必须购买ECI</li>
+                    <li><strong>保持保单有效</strong>：定期检查保单到期时间，及时续保</li>
+                    <li><strong>准确记录</strong>：保持完整的工伤记录</li>
+                    <li><strong>员工培训</strong>：定期进行安全培训</li>
+                    <li><strong>购买合适保单</strong>：根据公司情况选择合适的保险产品</li>
+                </ul>
+            </div>
+
+            <h4>10.2 安全管理</h4>
+            <div class="key-points">
+                <h4>📋 安全管理要点</h4>
+                <ul>
+                    <li><strong>风险评估</strong>：定期进行工作场所风险评估</li>
+                    <li><strong>安全设施</strong>：提供必要的安全设施和设备</li>
+                    <li><strong>安全流程</strong>：制定和执行安全工作流程</li>
+                    <li><strong>安全培训</strong>：定期进行安全培训</li>
+                    <li><strong>事故报告</strong>：建立事故报告机制</li>
+                </ul>
+            </div>
+
+            <h4>10.3 索赔处理</h4>
+            <div class="warning-box">
+                <h4>⚠️ 索赔处理要点</h4>
+                <ul>
+                    <li><strong>及时响应</strong>：接到工伤报告后及时处理</li>
+                    <li><strong>准确填写</strong>：准确填写工伤报告表</li>
+                    <li><strong>协助索赔</strong>：积极协助雇员索赔</li>
+                    <li><strong>保持沟通</strong>：与雇员、保险公司保持沟通</li>
+                    <li><strong>跟踪进展</strong>：跟踪索赔进展情况</li>
+                </ul>
+            </div>
+
+            <h4>10.4 合规管理</h4>
+            <div class="highlight-box">
+                <h4>✅ 合规管理要点</h4>
+                <ul>
+                    <li><strong>了解法规</strong>：持续关注ECI法规更新</li>
+                    <li><strong>定期审核</strong>：定期审核ECI管理流程</li>
+                    <li><strong>咨询专家</strong>：复杂情况咨询专业意见</li>
+                    <li><strong>记录保存</strong>：保存完整的记录和文件</li>
+                    <li><strong>内部培训</strong>：对HR和管理层进行ECI培训</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 学习总结 -->
+        <section class="content-block">
+            <h3>📝 十一、学习总结</h3>
+
+            <div class="highlight-box">
+                <h4>🎯 今日核心要点</h4>
+                <ul>
+                    <li>ECI是强制性雇主责任保险，雇主必须为所有雇员购买</li>
+                    <li>ECI保障工作期间受伤和职业病</li>
+                    <li>法例依据是《雇员补偿条例》（第282章）</li>
+                    <li>不设保障金额上限，全额保障</li>
+                    <li>雇主承担全部保险费用</li>
+                    <li>工伤后24小时内必须通知劳工处</li>
+                    <li>未购买ECI将面临严重的法律后果</li>
+                    <li>准确的ECI管理对合规至关重要</li>
+                </ul>
+            </div>
+
+            <h4>下一步学习</h4>
+            <p>完成Day 14后，建议继续学习：</p>
+            <ul>
+                <li><strong>Day 15</strong>：ECI计算与申报实务</li>
+                <li><strong>Day 16</strong>：ECI SAP系统配置实战</li>
+                <li><strong>Day 17</strong>：ECI报表生成与分析</li>
+            </ul>
+        </section>
+
+        <!-- 完成标记 -->
+        <section class="content-block">
+            <div style="text-align: center; margin-top: 40px; padding: 30px; background: #d4edda; border-radius: 8px;">
+                <h2 style="color: #155724; margin: 0;">✅ Day 14 学习完成！</h2>
+                <p style="color: #155724; margin: 10px 0 0 0;">
+                    ECI法规基础已掌握<br>
+                    下一步：深入学习ECI计算与申报实务
+                </p>
+                <button onclick="window.location.href='../index.html'" style="margin-top: 20px; padding: 12px 30px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                    返回学习主页
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="day-footer">
+        <div class="container">
+            <p>香港Payroll深度学习计划 | Day 14 | ECI法规基础</p>
+            <p>学习网站：https://heavenchenggong.github.io/hong-kong-payroll-learning/</p>
+        </div>
+    </footer>
+
+    <script>
+        // 添加完成标记功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const completionDate = localStorage.getItem('day14_completed');
+            if (completionDate) {
+                console.log('Day 14 已完成于: ' + completionDate);
+            }
+
+            // 记录学习完成时间
+            localStorage.setItem('day14_completed', new Date().toISOString());
+        });
+    </script>
+</body>
+</html>
