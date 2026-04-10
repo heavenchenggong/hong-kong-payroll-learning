@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day 19: ECI高级主题（多公司、跨地区、特殊行业） - 香港Payroll深度学习</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .company-structure {
+            background: #f0f8ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .company-structure ol {
+            margin-left: 20px;
+        }
+        .company-structure li {
+            margin-bottom: 15px;
+            padding-left: 10px;
+        }
+        .scenario-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .scenario-table th,
+        .scenario-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .scenario-table th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        .scenario-table tr:nth-child(even) {
+            background: #fafafa;
+        }
+        .config-box {
+            background: #e7f3ff;
+            border: 2px solid #007bff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .integration-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .cross-region-box {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .industry-box {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .t-code-box {
+            background: #f8f9fa;
+            border: 2px solid #6c757d;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .best-practice-box {
+            background: #d1ecf1;
+            border: 2px solid #0d6efd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .key-points {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .comparison-table th {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+        .comparison-table .header-row {
+            background: #e3f2fd;
+        }
+        .process-flow {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .process-flow ol {
+            margin-left: 20px;
+        }
+        .process-flow li {
+            margin-bottom: 10px;
+        }
+        .diagram-box {
+            background: #fff;
+            border: 2px solid #dee2e6;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: monospace;
+            white-space: pre;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navigation">
+            <a href="../index.html">首页</a>
+            <a href="day18/index.html" class="prev">Day 18</a>
+            <a href="day20/index.html" class="next">Day 20</a>
+        </nav>
+
+        <header>
+            <h1>Day 19: ECI高级主题</h1>
+            <p class="subtitle">多公司、跨地区、特殊行业ECI管理</p>
+            <div class="meta">
+                <span class="date">学习日期：2026年4月7日</span>
+                <span class="duration">预计学习时间：4小时</span>
+            </div>
+        </header>
+
+        <section class="progress-tracker">
+            <h2>学习进度</h2>
+            <div class="progress-bar">
+                <div class="progress" style="width: 63.33%;">19/30</div>
+            </div>
+            <p>当前进度：19/30天 (63.33%)</p>
+            <button id="markComplete" onclick="markAsComplete()">标记为已完成</button>
+            <p id="completionStatus"></p>
+        </section>
+
+        <section>
+            <h2>学习目标</h2>
+            <div class="key-points">
+                <ul>
+                    <li>掌握多公司环境下ECI的配置和管理</li>
+                    <li>了解跨地区ECI（香港+内地）的差异化配置</li>
+                    <li>熟悉特殊行业ECI的特点和配置要点</li>
+                    <li>学会处理复杂的ECI场景</li>
+                    <li>了解ECI的集团级管理和报告</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>一、多公司ECI管理</h2>
+
+            <h3>1.1 多公司架构概述</h3>
+            <p>在集团企业中，通常存在多个法律实体，每个实体都需要独立的ECI管理。SAP系统支持通过公司代码（Company Code）实现多公司ECI管理。</p>
+
+            <div class="company-structure">
+                <h4>典型集团架构示例：</h4>
+                <ol>
+                    <li><strong>香港控股公司（HK_HOLD）</strong> - 负责集团整体ECI管理和报告</li>
+                    <li><strong>香港运营公司（HK_OP）</strong> - 主营业务运营，大量雇员</li>
+                    <li><strong>香港贸易公司（HK_TRADE）</strong> - 贸易业务，少量雇员</li>
+                    <li><strong>深圳子公司（SZ_SUB）</strong> - 跨境子公司，特殊ECI要求</li>
+                </ol>
+            </div>
+
+            <h3>1.2 SAP多公司ECI配置</h3>
+
+            <div class="config-box">
+                <h4>配置路径：</h4>
+                <p><strong>SPRO → SAP Reference IMG → Personnel Management → Personnel Administration → Employee Insurance → Configure Company-Specific Insurance Settings</strong></p>
+            </div>
+
+            <h4>关键配置步骤：</h4>
+
+            <div class="t-code-box">
+                <h4>步骤1：创建公司代码特定保险方案</h4>
+                <p><strong>T-Code: PE02</strong> (View V_T5E00 - Company Insurance Schemes)</p>
+                <table class="scenario-table">
+                    <tr>
+                        <th>字段</th>
+                        <th>值</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>PERSA (Personnel Area)</td>
+                        <td>HK01 (香港总部)</td>
+                        <td>人事范围</td>
+                    </tr>
+                    <tr>
+                        <td>BUKRS (Company Code)</td>
+                        <td>HK_HOLD</td>
+                        <td>公司代码</td>
+                    </tr>
+                    <tr>
+                        <td>INS_SCHEME (Insurance Scheme)</td>
+                        <td>HK_ECI_STD</td>
+                        <td>ECI标准方案</td>
+                    </tr>
+                    <tr>
+                        <td>EFF_DATE</td>
+                        <td>2026-01-01</td>
+                        <td>生效日期</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="t-code-box">
+                <h4>步骤2：配置公司级别保险参数</h4>
+                <p><strong>T-Code: PE02</strong> (View V_T5E01 - Company Insurance Parameters)</p>
+                <table class="scenario-table">
+                    <tr>
+                        <th>字段</th>
+                        <th>值</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>BUKRS</td>
+                        <td>HK_HOLD</td>
+                        <td>公司代码</td>
+                    </tr>
+                    <tr>
+                        <td>INS_TYPE</td>
+                        <td>ECI</td>
+                        <td>保险类型</td>
+                    </tr>
+                    <tr>
+                        <td>INS_PROVIDER</td>
+                        <td>AXA_HK</td>
+                        <td>保险公司</td>
+                    </tr>
+                    <tr>
+                        <td>POLICY_NO</td>
+                        <td>ECI-2026-HK001</td>
+                        <td>保单号码</td>
+                    </tr>
+                    <tr>
+                        <td>EFFECTIVE_DATE</td>
+                        <td>2026-01-01</td>
+                        <td>保单生效日期</td>
+                    </tr>
+                    <tr>
+                        <td>POLICY_LIMIT</td>
+                        <td>500,000,000 HKD</td>
+                        <td>保单限额</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>1.3 多公司ECI管理策略</h3>
+
+            <div class="best-practice-box">
+                <h4>管理策略对比：</h4>
+                <table class="comparison-table">
+                    <tr class="header-row">
+                        <th>策略类型</th>
+                        <th>优点</th>
+                        <th>缺点</th>
+                        <th>适用场景</th>
+                    </tr>
+                    <tr>
+                        <td><strong>统一管理</strong></td>
+                        <td>集中化、效率高、成本低</td>
+                        <td>灵活性低、统一风险</td>
+                        <td>集团统一政策、业务相似</td>
+                    </tr>
+                    <tr>
+                        <td><strong>分散管理</strong></td>
+                        <td>灵活性强、风险分散</td>
+                        <td>管理成本高、协调复杂</td>
+                        <td>业务差异大、风险特征不同</td>
+                    </tr>
+                    <tr>
+                        <td><strong>混合管理</strong></td>
+                        <td>兼顾效率与灵活性</td>
+                        <td>配置复杂、需要协调</td>
+                        <td>大型集团、多地区运营</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>1.4 集团级ECI报告</h3>
+
+            <div class="integration-box">
+                <h4>集团ECI汇总报告配置：</h4>
+                <p><strong>T-Code: PE03</strong> (Insurance Reporting)</p>
+                <table class="scenario-table">
+                    <tr>
+                        <th>报告类型</th>
+                        <th>内容</th>
+                        <th>频率</th>
+                        <th>报告对象</th>
+                    </tr>
+                    <tr>
+                        <td>集团ECI概览</td>
+                        <td>全集团ECI总保费、理赔、风险评级</td>
+                        <td>季度</td>
+                        <td>集团管理层</td>
+                    </tr>
+                    <tr>
+                        <td>公司对比分析</td>
+                        <td>各公司ECI成本、事故率对比</td>
+                        <td>月度</td>
+                        <td>HR总监</td>
+                    </tr>
+                    <tr>
+                        <td>集团理赔跟踪</td>
+                        <td>跨公司理赔案例汇总和分析</td>
+                        <td>实时</td>
+                        <td>安全总监</td>
+                    </tr>
+                    <tr>
+                        <td>合规审计报告</td>
+                        <td>全集团ECI法规符合性检查</td>
+                        <td>年度</td>
+                        <td>法务部</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>1.5 实战案例：集团ECI管理</h3>
+
+            <div class="scenario-box">
+                <h4>案例背景：</h4>
+                <p>某跨国制造集团在香港有3家公司，需要实现ECI的集中管理：</p>
+                <ul>
+                    <li><strong>问题1</strong>：各公司ECI保费不同，保险公司不一致</li>
+                    <li><strong>问题2</strong>：事故报告分散，无法进行集团层面分析</li>
+                    <li><strong>问题3</strong>：ECI成本无法准确分摊到各业务单元</li>
+                </ul>
+
+                <h4>解决方案：</h4>
+                <div class="process-flow">
+                    <ol>
+                        <li><strong>统一保险公司</strong>：通过集团采购谈判，统一使用AIG香港</li>
+                        <li><strong>集中保单管理</strong>：在SAP中创建集团主保单，各公司关联</li>
+                        <li><strong>事故报告标准化</strong>：统一事故报告表单和流程</li>
+                        <li><strong>成本分摊机制</strong>：按公司实际员工数和风险等级分摊</li>
+                        <li><strong>集团级仪表板</strong>：创建集团ECI管理仪表板，实时监控</li>
+                    </ol>
+                </div>
+
+                <h4>实施效果：</h4>
+                <ul>
+                    <li>✅ ECI保费降低15%（集团议价）</li>
+                    <li>✅ 事故报告处理时间缩短40%</li>
+                    <li>✅ ECI成本透明化，准确分摊到各业务单元</li>
+                    <li>✅ 集团安全绩效提升30%</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>二、跨地区ECI管理</h2>
+
+            <h3>2.1 跨地区ECI的挑战</h3>
+            <p>对于在内地和香港都有业务的企业，需要同时处理两地的ECI要求。主要挑战包括：</p>
+
+            <div class="warning-box">
+                <h4>核心差异：</h4>
+                <ul>
+                    <li><strong>法规体系</strong>：香港《雇员补偿条例》 vs 内地《工伤保险条例》</li>
+                    <li><strong>管理机构</strong>：香港劳工处 vs 内地社保局</li>
+                    <li><strong>申报流程</strong>：电子申报（香港） vs 人工+系统（内地）</li>
+                    <li><strong>赔偿标准</strong>：香港按收入比例 vs 内地固定标准</li>
+                    <li><strong>数据格式</strong>：香港ECI格式 vs 内地社保格式</li>
+                </ul>
+            </div>
+
+            <h3>2.2 跨地区ECI对比</h3>
+
+            <div class="comparison-table">
+                <table class="comparison-table">
+                    <tr class="header-row">
+                        <th>对比维度</th>
+                        <th>香港ECI</th>
+                        <th>内地工伤保险</th>
+                    </tr>
+                    <tr>
+                        <td>法规依据</td>
+                        <td>《雇员补偿条例》（第282章）</td>
+                        <td>《工伤保险条例》（国务院令第586号）</td>
+                    </tr>
+                    <tr>
+                        <td>管理机构</td>
+                        <td>香港劳工处</td>
+                        <td>各地社保局</td>
+                    </tr>
+                    <tr>
+                        <td>强制范围</td>
+                        <td>所有雇员（全职+兼职）</td>
+                        <td>企业职工（部分地区包含灵活就业）</td>
+                    </tr>
+                    <tr>
+                        <td>费率结构</td>
+                        <td>行业风险等级（0.2%-2.5%）</td>
+                        <td>行业基准费率（0.2%-1.9%）</td>
+                    </tr>
+                    <tr>
+                        <td>申报方式</td>
+                        <td>电子申报（ECIS系统）</td>
+                        <td>人工+系统申报</td>
+                    </tr>
+                    <tr>
+                        <td>赔偿计算</td>
+                        <td>按月入息80%（上限60,000 HKD/月）</td>
+                        <td>按本人工资60%（有上下限）</td>
+                    </tr>
+                    <tr>
+                        <td>最高赔偿</td>
+                        <td>36个月 × 月入息</td>
+                        <td>60个月 × 本人工资</td>
+                    </tr>
+                    <tr>
+                        <td>时效要求</td>
+                        <td>事故后21天内申报</td>
+                        <td>事故后30日内申报</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>2.3 SAP跨地区ECI配置</h3>
+
+            <div class="config-box">
+                <h4>配置策略：</h4>
+                <p><strong>方案：双轨制配置</strong></p>
+                <ul>
+                    <li>香港员工 → 使用香港ECI方案</li>
+                    <li>内地员工 → 使用内地工伤保险方案</li>
+                    <li>跨境员工 → 主方案+补充方案</li>
+                </ul>
+            </div>
+
+            <div class="t-code-box">
+                <h4>香港ECI配置（沿用Day 16配置）：</h4>
+                <p><strong>T-Code: PE02</strong> (View V_T5E00 - Insurance Schemes)</p>
+                <table class="scenario-table">
+                    <tr>
+                        <th>字段</th>
+                        <th>值</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>MOLGA</td>
+                        <td>08 (Hong Kong)</td>
+                        <td>国家分组</td>
+                    </tr>
+                    <tr>
+                        <td>INS_SCHEME</td>
+                        <td>HK_ECI_2026</td>
+                        <td>ECI方案</td>
+                    </tr>
+                    <tr>
+                        <td>INS_PROVIDER</td>
+                        <td>AIG_HK</td>
+                        <td>保险公司</td>
+                    </tr>
+                    <tr>
+                        <td>LEG_PERIOD</td>
+                        <td>2026</td>
+                        <td>立法期</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="t-code-box">
+                <h4>内地工伤保险配置（新增）：</h4>
+                <p><strong>T-Code: PE02</strong> (View V_T5E00 - Insurance Schemes)</p>
+                <table class="scenario-table">
+                    <tr>
+                        <th>字段</th>
+                        <th>值</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>MOLGA</td>
+                        <td>28 (China)</td>
+                        <td>国家分组</td>
+                    </tr>
+                    <tr>
+                        <td>INS_SCHEME</td>
+                        <td>CN_GS_2026</td>
+                        <td>工伤保险方案</td>
+                    </tr>
+                    <tr>
+                        <td>INS_PROVIDER</td>
+                        <td>SH_SOCIAL_SECURITY</td>
+                        <td>社保局</td>
+                    </tr>
+                    <tr>
+                        <td>LEG_PERIOD</td>
+                        <td>2026</td>
+                        <td>立法期</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>2.4 跨境员工ECI处理</h3>
+
+            <div class="cross-region-box">
+                <h4>场景：香港公司派员工到内地工作</h4>
+
+                <p><strong>适用规则：</strong></p>
+                <ul>
+                    <li>根据《香港雇佣条例》，香港雇主必须为雇员投保ECI</li>
+                    <li>内地用人单位也需为员工购买工伤保险</li>
+                    <li>双重保险情况下，按照"补充原则"处理</li>
+                </ul>
+
+                <p><strong>SAP配置策略：</strong></p>
+                <ol>
+                    <li><strong>主方案</strong>：香港ECI方案（主要）</li>
+                    <li><strong>补充方案</strong>：内地工伤保险（附加）</li>
+                    <li><strong>优先级</strong>：香港ECI优先，内地工伤保险补充</li>
+                    <li><strong>赔付规则</strong>：按事故发生地优先</li>
+                </ol>
+
+                <p><strong>T-Code: PE02</strong> (View V_T5E02 - Employee Insurance Assignment)</p>
+                <table class="scenario-table">
+                    <tr>
+                        <th>字段</th>
+                        <th>值</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>PERNR</td>
+                        <td>00012345</td>
+                        <td>员工编号</td>
+                    </tr>
+                    <tr>
+                        <td>INS_SCHEME_1</td>
+                        <td>HK_ECI_2026</td>
+                        <td>主方案：香港ECI</td>
+                    </tr>
+                    <tr>
+                        <td>PRIORITY_1</td>
+                        <td>1 (Primary)</td>
+                        <td>优先级</td>
+                    </tr>
+                    <tr>
+                        <td>INS_SCHEME_2</td>
+                        <td>CN_GS_2026</td>
+                        <td>补充方案：内地工伤保险</td>
+                    </tr>
+                    <tr>
+                        <td>PRIORITY_2</td>
+                        <td>2 (Secondary)</td>
+                        <td>优先级</td>
+                    </tr>
+                    <tr>
+                        <td>EFFECTIVE_DATE</td>
+                        <td>2026-04-01</td>
+                        <td>生效日期</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>2.5 跨地区ECI数据同步</h3>
+
+            <div class="integration-box">
+                <h4>数据同步挑战：</h4>
+                <ul>
+                    <li>事故报告需要同时报送香港劳工处和内地社保局</li>
+                    <li>理赔数据需要在两个系统之间同步</li>
+                    <li>汇率波动对跨境赔偿的影响</li>
+                    <li>双重保险避免重复赔付</li>
+                </ul>
+
+                <h4>SAP集成方案：</h4>
+                <div class="diagram-box">
+事故发生 → SAP创建事故记录
+    ↓
+[判断事故地点]
+    ↓
+    ├─ 香港事故 → 生成香港ECI表格 → ECIS系统申报
+    │
+    └─ 内地事故 → 生成内地工伤表格 → 内地社保系统申报
+    ↓
+[理赔处理]
+    ↓
+    ├─ 香港ECI理赔 → 记录香港赔付 → SAP核算
+    │
+    └─ 内地工伤理赔 → 记录内地赔付 → 汇率转换 → SAP核算
+    ↓
+[避免重复赔付]
+    ↓
+系统自动对比 → 重复部分自动扣除 → 生成最终赔付金额
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>三、特殊行业ECI</h2>
+
+            <h3>3.1 建筑行业ECI</h3>
+
+            <div class="industry-box">
+                <h4>行业特点：</h4>
+                <ul>
+                    <li><strong>高风险</strong>：高空作业、机械伤害、坍塌</li>
+                    <li><strong>高事故率</strong>：事故率是普通行业的3-5倍</li>
+                    <li><strong>临时工多</strong>：分包商、临时工比例高</li>
+                    <li><strong>环境复杂</strong>：工地环境多变，风险因素多</li>
+                </ul>
+
+                <h4>ECI配置要点：</h4>
+
+                <p><strong>T-Code: PE02</strong> (View V_T5E03 - Industry Risk Classification)</p>
+                <table class="scenario-table">
+                    <tr>
+                        <th>字段</th>
+                        <th>值</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>INDUSTRY_CODE</td>
+                        <td>CONSTRUCTION</td>
+                        <td>行业代码</td>
+                    </tr>
+                    <tr>
+                        <td>INDUSTRY_NAME</td>
+                        <td>建筑业</td>
+                        <td>行业名称</td>
+                    </tr>
+                    <tr>
+                        <td>RISK_LEVEL</td>
+                        <td>HIGH (Level 5)</td>
+                        <td>风险等级</td>
+                    </tr>
+                    <tr>
+                        <td>BASE_RATE</td>
+                        <td>2.5%</td>
+                        <td>基准费率</td>
+                    </tr>
+                    <tr>
+                        <td>MIN_RATE</td>
+                        <td>2.0%</td>
+                        <td>最低费率</td>
+                    </tr>
+                    <tr>
+                        <td>MAX_RATE</td>
+                        <td>4.0%</td>
+                        <td>最高费率</td>
+                    </tr>
+                    <tr>
+                        <td>ADJUSTMENT_FACTOR</td>
+                        <td>1.5</td>
+                        <td>调整系数</td>
+                    </tr>
+                </table>
+
+                <h4>特殊配置：</h4>
+                <ul>
+                    <li><strong>强制安全培训</strong>：上岗前必须完成安全培训</li>
+                    <li><strong>安全设备要求</strong>：必须配备安全帽、安全带等</li>
+                    <li><strong>事故报告加速</strong>：事故后7天内必须申报</li>
+                    <li><strong>高频检查</strong>：每季度进行安全检查</li>
+                </ul>
+            </div>
+
+            <h3>3.2 制造业ECI</h3>
+
+            <div class="industry-box">
+                <h4>行业特点：</h4>
+                <ul>
+                    <li><strong>机械伤害</strong>：切割、冲压、焊接等作业风险</li>
+                    <li><strong>化学品风险</strong>：有毒化学品、火灾爆炸</li>
+                    <li><strong>流水线作业</strong>：重复性伤害、职业疾病</li>
+                    <li><strong>倒班制度</strong>：疲劳工作增加事故风险</li>
+                </ul>
+
+                <h4>ECI配置要点：</h4>
+
+                <p><strong>T-Code: PE02</strong> (View V_T5E03 - Industry Risk Classification)</p>
+                <table class="scenario-table">
+                    <tr>
+                        <th>字段</th>
+                        <th>值</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>INDUSTRY_CODE</td>
+                        <td>MANUFACTURING</td>
+                        <td>行业代码</td>
+                    </tr>
+                    <tr>
+                        <td>INDUSTRY_NAME</td>
+                        <td>制造业</td>
+                        <td>行业名称</td>
+                    </tr>
+                    <tr>
+                        <td>RISK_LEVEL</td>
+                        <td>MEDIUM-HIGH (Level 4)</td>
+                        <td>风险等级</td>
+                    </tr>
+                    <tr>
+                        <td>BASE_RATE</td>
+                        <td>1.5%</td>
+                        <td>基准费率</td>
+                    </tr>
+                    <tr>
+                        <td>ADJUSTMENT_FACTOR</td>
+                        <td>1.2</td>
+                        <td>调整系数</td>
+                    </tr>
+                </table>
+
+                <h4>职业疾病附加保险：</h4>
+                <p>制造业员工容易患职业病，需要配置额外的职业疾病保险：</p>
+                <ul>
+                    <li><strong>尘肺病</strong>：粉尘作业员工</li>
+                    <li><strong>噪声性耳聋</strong>：高噪音环境员工</li>
+                    <li><strong>化学中毒</strong>：接触化学品员工</li>
+                    <li><strong>重复性劳损</strong>：流水线作业员工</li>
+                </ul>
+            </div>
+
+            <h3>3.3 服务业ECI</h3>
+
+            <div class="industry-box">
+                <h4>行业特点：</h4>
+                <ul>
+                    <li><strong>相对低风险</strong>：办公室、零售、餐饮等</li>
+                    <li><strong>人员流动大</strong>：离职率高，新人多</li>
+                    <li><strong>客户互动</strong>：客户相关事故（如滑倒）</li>
+                    <li><strong>工作压力</strong>：心理压力、情绪问题</li>
+                </ul>
+
+                <h4>ECI配置要点：</h4>
+
+                <p><strong>T-Code: PE02</strong> (View V_T5E03 - Industry Risk Classification)</p>
+                <table class="scenario-table">
+                    <tr>
+                        <th>字段</th>
+                        <th>值</th>
+                        <th>说明</th>
+                    </tr>
+                    <tr>
+                        <td>INDUSTRY_CODE</td>
+                        <td>SERVICE</td>
+                        <td>行业代码</td>
+                    </tr>
+                    <tr>
+                        <td>INDUSTRY_NAME</td>
+                        <td>服务业</td>
+                        <td>行业名称</td>
+                    </tr>
+                    <tr>
+                        <td>RISK_LEVEL</td>
+                        <td>LOW (Level 2)</td>
+                        <td>风险等级</td>
+                    </tr>
+                    <tr>
+                        <td>BASE_RATE</td>
+                        <td>0.8%</td>
+                        <td>基准费率</td>
+                    </tr>
+                    <tr>
+                        <td>ADJUSTMENT_FACTOR</td>
+                        <td>1.0</td>
+                        <td>调整系数</td>
+                    </tr>
+                </table>
+
+                <h4>特殊关注：</h4>
+                <ul>
+                    <li><strong>客户安全</strong>：确保工作环境对客户安全</li>
+                    <li><strong>心理健康</strong>：关注员工心理健康</li>
+                    <li><strong>培训及时</strong>：新员工快速上岗培训</li>
+                </ul>
+            </div>
+
+            <h3>3.4 特殊行业ECI管理最佳实践</h3>
+
+            <div class="best-practice-box">
+                <h4>行业风险管理对比：</h4>
+                <table class="comparison-table">
+                    <tr class="header-row">
+                        <th>管理措施</th>
+                        <th>建筑业</th>
+                        <th>制造业</th>
+                        <th>服务业</th>
+                    </tr>
+                    <tr>
+                        <td>安全培训频率</td>
+                        <td>每周1次</td>
+                        <td>每月1次</td>
+                        <td>每季度1次</td>
+                    </tr>
+                    <tr>
+                        <td>安全检查频率</td>
+                        <td>每日</td>
+                        <td>每周</td>
+                        <td>每月</td>
+                    </tr>
+                    <tr>
+                        <td>ECI费率</td>
+                        <td>2.0%-4.0%</td>
+                        <td>1.0%-2.0%</td>
+                        <td>0.5%-1.0%</td>
+                    </tr>
+                    <tr>
+                        <td>事故申报时效</td>
+                        <td>7天</td>
+                        <td>21天</td>
+                        <td>21天</td>
+                    </tr>
+                    <tr>
+                        <td>专项检查</td>
+                        <td>高空作业、机械</td>
+                        <td>化学品、设备</td>
+                        <td>消防安全</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>3.5 实战案例：建筑公司ECI优化</h3>
+
+            <div class="scenario-box">
+                <h4>案例背景：</h4>
+                <p>香港某建筑公司ECI成本过高，事故率高：</p>
+                <ul>
+                    <li><strong>问题1</strong>：ECI费率达到4.0%（最高档）</li>
+                    <li><strong>问题2</strong>：年事故率8%（行业平均3%）</li>
+                    <li><strong>问题3</strong>：ECI成本占人力成本的6%</li>
+                </ul>
+
+                <h4>优化方案：</h4>
+                <div class="process-flow">
+                    <ol>
+                        <li><strong>加强安全培训</strong>：每周安全培训，100%覆盖</li>
+                        <li><strong>安全设备升级</strong>：采购先进安全设备</li>
+                        <li><strong>事故管理优化</strong>：建立事故快速响应机制</li>
+                        <li><strong>SAP系统对接</strong>：实时监控ECI成本和事故</li>
+                        <li><strong>供应商优化</strong>：通过谈判降低ECI保费</li>
+                    </ol>
+                </div>
+
+                <h4>SAP配置优化：</h4>
+                <ul>
+                    <li>实时事故监控和预警</li>
+                    <li>自动事故报告生成</li>
+                    <li>ECI成本跟踪和分析</li>
+                    <li>安全培训记录管理</li>
+                </ul>
+
+                <h4>实施效果：</h4>
+                <ul>
+                    <li>✅ ECI费率降至2.5%（降低37.5%）</li>
+                    <li>✅ 事故率降至2%（降低75%）</li>
+                    <li>✅ ECI成本占比降至2.5%</li>
+                    <li>✅ 安全绩效显著提升</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>四、ECI高级管理技巧</h2>
+
+            <h3>4.1 ECI成本优化</h3>
+
+            <div class="key-points">
+                <h4>优化策略：</h4>
+                <ul>
+                    <li><strong>风险管理</strong>：降低事故率，从而降低ECI费率</li>
+                    <li><strong>集团采购</strong>：通过集团采购谈判获得优惠费率</li>
+                    <li><strong>安全投入</strong>：增加安全投入，长期降低ECI成本</li>
+                    <li><strong>数据分析</strong>：分析事故数据，预防高风险场景</li>
+                    <li><strong>供应商选择</strong>：定期评估ECI供应商，选择最优方案</li>
+                </ul>
+            </div>
+
+            <h3>4.2 ECI风险预警</h3>
+
+            <div class="warning-box">
+                <h4>预警指标：</h4>
+                <ul>
+                    <li><strong>事故率上升</strong>：连续3个月事故率上升</li>
+                    <li><strong>高风险部门</strong>：某部门事故率超过行业平均</li>
+                    <li><strong>新员工事故</strong>：新入职员工事故率高</li>
+                    <li><strong>重复事故</strong>：同类事故重复发生</li>
+                    <li><strong>ECI成本飙升</strong>：ECI成本同比增长超过20%</li>
+                </ul>
+            </div>
+
+            <h3>4.3 ECI与安全管理集成</h3>
+
+            <div class="integration-box">
+                <h4>集成方案：</h4>
+                <p>将ECI管理与安全管理系统（EHS）集成：</p>
+                <ul>
+                    <li>事故数据共享</li>
+                    <li>安全培训记录同步</li>
+                    <li>风险评估关联</li>
+                    <li>整改措施跟踪</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>五、总结与最佳实践</h2>
+
+            <div class="best-practice-box">
+                <h4>多公司ECI管理最佳实践：</h4>
+                <ul>
+                    <li>✅ 建立集团级ECI管理架构</li>
+                    <li>✅ 统一ECI政策和标准</li>
+                    <li>✅ 集中采购降低成本</li>
+                    <li>✅ 建立集团级ECI报告体系</li>
+                </ul>
+            </div>
+
+            <div class="best-practice-box">
+                <h4>跨地区ECI管理最佳实践：</h4>
+                <ul>
+                    <li>✅ 了解两地法规差异</li>
+                    <li>✅ 配置双轨制ECI方案</li>
+                    <li>✅ 建立数据同步机制</li>
+                    <li>✅ 避免重复赔付</li>
+                </ul>
+            </div>
+
+            <div class="best-practice-box">
+                <h4>特殊行业ECI管理最佳实践：</h4>
+                <ul>
+                    <li>✅ 了解行业风险特点</li>
+                    <li>✅ 配置行业特定ECI参数</li>
+                    <li>✅ 加强安全培训和管理</li>
+                    <li>✅ 建立行业事故案例库</li>
+                </ul>
+            </div>
+
+            <div class="key-points">
+                <h4>关键知识点回顾：</h4>
+                <ul>
+                    <li>多公司ECI：通过公司代码实现多公司管理</li>
+                    <li>跨地区ECI：香港ECI vs 内地工伤保险的差异</li>
+                    <li>特殊行业：建筑业、制造业、服务业的ECI配置差异</li>
+                    <li>SAP配置：V_T5E00、V_T5E01、V_T5E02、V_T5E03等关键表</li>
+                    <li>ECI成本优化：风险管理、集团采购、安全投入</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>六、课后作业</h2>
+
+            <div class="warning-box">
+                <h4>实践任务：</h4>
+                <ol>
+                    <li>设计一个集团ECI管理架构，包含3个公司代码</li>
+                    <li>对比香港ECI与内地工伤保险的差异，制作对比表</li>
+                    <li>为建筑公司设计ECI配置方案，包括风险等级和费率</li>
+                    <li>创建一个集团级ECI报告模板</li>
+                    <li>编写ECI成本优化建议书</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="resources">
+            <h2>学习资源</h2>
+            <ul>
+                <li><a href="https://www.labour.gov.hk/eng/faq/whole/eci.htm" target="_blank">香港劳工处 - 雇员补偿</a></li>
+                <li><a href="https://www.gov.cn/zhengce/content/2010-12/24/content_2157.htm" target="_blank">国务院 - 工伤保险条例</a></li>
+                <li><a href="https://help.sap.com/viewer/product/SAP_ERP" target="_blank">SAP官方文档 - Employee Insurance</a></li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>学习进度：19/30天 (63.33%)</p>
+            <p>下一课：Day 20 - ECI审计与合规管理</p>
+            <p class="last-updated">最后更新：2026年4月7日</p>
+        </footer>
+    </div>
+
+    <script src="../assets/js/progress-tracker.js"></script>
+    <script>
+        function markAsComplete() {
+            localStorage.setItem('day19_complete', 'true');
+            document.getElementById('completionStatus').textContent = '✅ Day 19 已标记为完成！';
+            document.getElementById('completionStatus').style.color = 'green';
+        }
+
+        // 检查是否已完成
+        if (localStorage.getItem('day19_complete') === 'true') {
+            document.getElementById('completionStatus').textContent = '✅ Day 19 已完成';
+            document.getElementById('completionStatus').style.color = 'green';
+        }
+    </script>
+</body>
+</html>
